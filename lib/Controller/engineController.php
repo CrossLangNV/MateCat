@@ -255,6 +255,22 @@ class engineController extends ajaxController {
 
                 break;
 
+            case strtolower( Constants_Engines::JUDICIO ):
+
+                /**
+                 * Create a record of type Judicio
+                 */
+                $newEngineStruct = EnginesModel_JudicioStruct::getStruct();
+
+                $newEngineStruct->name                                = $this->name;
+                $newEngineStruct->uid                                 = $this->user->uid;
+                $newEngineStruct->type                                = Constants_Engines::MT;
+                $newEngineStruct->extra_parameters[ 'engine' ] = $this->engineData[ 'engine' ];
+                $newEngineStruct->extra_parameters[ 'wso2app' ] = $this->engineData[ 'wso2app' ];
+                $newEngineStruct->extra_parameters[ 'projectname' ] = $this->engineData[ 'projectname' ];
+
+                break;
+
             default:
 
                 $validEngine = $newEngineStruct = $this->featureSet->filter( 'buildNewEngineStruct', false, (object)[

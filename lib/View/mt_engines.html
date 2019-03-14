@@ -446,3 +446,29 @@
         <a href="https://cloud.google.com/translate/" target="_blank" class="continuebtn btn-ok">Find out more</a>
     </template>
 </div>
+
+<div metal:define-macro="template-judicio">
+    <template id="mt-provider-judicio-fields">
+        <p class="required pull-left"><sup>*</sup> Required fields.</p>
+        <div class="mt-error-key">Error message</div>
+        <label for="new-engine-name">Engine name<sup>*</sup></label>
+        <input class="required" id="new-engine-name" placeholder="here" />
+        <div class="provider-data">
+            <div class="provider-field">
+                <label>Engine<sup>*</sup></label>
+                <input class="required" data-field-name="engine" placeholder="here" />
+            </div>
+            <div class="provider-field">
+                <label>WSO2 app<sup>*</sup></label>
+                <input class="required" data-field-name="wso2app" placeholder="here" />
+            </div>
+            <div class="provider-field">
+                <label>Project name<sup>*</sup></label>
+                <input class="required" data-field-name="projectname" placeholder="here" />
+            </div>
+        </div>
+    </template>
+    <template id="mt-provider-judicio-msg">
+        <p>Judicio.</p>
+    </template>
+</div>
