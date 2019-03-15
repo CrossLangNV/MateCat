@@ -37,33 +37,38 @@ class Engines_Judicio extends Engines_AbstractEngine {
      * @return array
      */
     protected function _decode($rawValue, $parameters = null, $function = null) {
-
-        $all_args =  func_get_args();
-        $all_args[ 1 ][ 'text' ] = $all_args[ 1 ][ 'text' ];
-
         if ( is_string( $rawValue ) ) {
-            $decoded = json_decode( $rawValue, true );
-            if ( isset( $decoded[ "data" ] ) ) {
-                return $this->_composeResponseAsMatch( $all_args, $decoded );
-            } else {
-                $decoded = [
-                        'error' => [
-                                'code'    => $decoded[ "code" ],
-                                'message' => $decoded[ "message" ]
-                        ]
-                ];
-            }
+            $decoded = array(
+                    'data' => array(
+                            "translations" => array(
+                                    array( 'translatedText' => $this->_resetSpecialStrings( $rawValue ) )
+                            )
+                    )
+            );
         } else {
-            $resp = json_decode( $rawValue[ "error" ][ "response" ], true );
-            if ( isset( $resp[ "error" ][ "code" ] ) && isset( $resp[ "error" ][ "message" ] ) ) {
-                $rawValue[ "error" ][ "code" ]    = $resp[ "error" ][ "code" ];
-                $rawValue[ "error" ][ "message" ] = $resp[ "error" ][ "message" ];
-            }
-            $decoded = $rawValue; // already decoded in case of error
+            $decoded = array(
+                'error' => array(
+                    'code' => '-1',
+                    'message' => ''
+                )
+            );
         }
 
-        return $decoded;
-
+        $mt_result = new Engines_Results_MT($decoded);
+        if ($mt_result->error->code < 0) {
+            $mt_result = $mt_result->get_as_array();
+            $mt_result['error'] = (array)$mt_result['error'];
+            return $mt_result;
+        }
+        $mt_match_res = new Engines_Results_MyMemory_Matches(
+            $this->_preserveSpecialStrings($parameters['text']),
+            $mt_result->translatedText,
+            100 - $this->getPenalty() . "%",
+            "MT-" . $this->getName(),
+            date("Y-m-d")
+        );
+        $mt_res = $mt_match_res->getMatches();
+        return $mt_res;
     }
 
     public function get($_config) {
@@ -93,7 +98,6 @@ class Engines_Judicio extends Engines_AbstractEngine {
         $this->call("translate_relative_url", $parameters, true);
 
         return $this->result;
-
     }
 
     public function set($_config) {
