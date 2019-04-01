@@ -33,7 +33,6 @@ class ManageDecorator {
         $this->template->globalMessage = Utils::getGlobalMessage()[ 'messages' ];
 
         $this->template->split_enabled    = true;
-        $this->template->enable_outsource = true;
 
     }
 
