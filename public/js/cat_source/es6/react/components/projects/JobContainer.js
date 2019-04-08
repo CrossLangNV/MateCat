@@ -464,6 +464,9 @@ class JobContainer extends React.Component {
             }
         } else if (this.props.job.get('translator')) {
             let email = this.props.job.get('translator').get('email');
+            if (!email) {
+                email = this.props.job.get('translator').get('service_url');
+            }
 
             outsourceJobLabel = <div className="job-to-translator" data-variation="tiny"
                                      ref={(tooltip) => this.emailTooltip = tooltip}

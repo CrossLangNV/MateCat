@@ -21,6 +21,10 @@ let OutsourceActions = {
 
     sendJobToTranslator: function (email, date, timezone, job, project) {
         UI.sendJobToTranslator(email, date, timezone, job, project);
+    },
+
+    sendJobToService: function(service_url, date, timezone, job, project) {
+        UI.sendJobToService(service_url, date, timezone, job, project);
     }
 
 };

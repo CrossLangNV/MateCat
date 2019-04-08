@@ -18,6 +18,7 @@ class JobTranslator {
 
         $translatorJson = [
                 'email'                 => $jTranslatorsStruct->email,
+                'service_url'           => $jTranslatorsStruct->service_url,
                 'added_by'              => (int)$jTranslatorsStruct->added_by,
                 'delivery_date'         => $jTranslatorsStruct->delivery_date,
                 'delivery_timestamp'    => strtotime( $jTranslatorsStruct->delivery_date ),

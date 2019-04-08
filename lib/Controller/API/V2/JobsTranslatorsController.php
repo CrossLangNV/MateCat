@@ -30,6 +30,7 @@ class JobsTranslatorsController extends KleinController {
 
         $this->params = filter_var_array( $this->params, [
                 'email'         => [ 'filter' => FILTER_SANITIZE_EMAIL ],
+                'service_url'   => [ 'filter' => FILTER_SANITIZE_URL ],
                 'delivery_date' => [ 'filter' => FILTER_SANITIZE_NUMBER_INT ],
                 'timezone'      => [ 'filter' => FILTER_SANITIZE_NUMBER_FLOAT, 'flags' => FILTER_FLAG_ALLOW_FRACTION ],
                 'id_job'        => [ 'filter' => FILTER_SANITIZE_NUMBER_INT ],
@@ -39,17 +40,25 @@ class JobsTranslatorsController extends KleinController {
                 ]
         ], true );
 
-        if( empty( $this->params[ 'email' ] ) ){
-            throw new InvalidArgumentException( "Wrong parameter :email ", 400 );
-        }
-
         $TranslatorsModel = new TranslatorsModel( $this->jStruct );
-        $TranslatorsModel
-                ->setUserInvite( $this->user )
-                ->setDeliveryDate( $this->params[ 'delivery_date' ] )
-                ->setJobOwnerTimezone( $this->params[ 'timezone' ] )
-                ->setEmail( $this->params[ 'email' ] );
+        if( empty( $this->params[ 'email' ] ) ){
+            if ( empty( $this->params[ 'service_url' ])) {
+                throw new InvalidArgumentException( "Wrong parameter :email ", 400 );
+            } else {
+                $TranslatorsModel
+                        ->setUserInvite( $this->user )
+                        ->setDeliveryDate( $this->params[ 'delivery_date' ] )
+                        ->setJobOwnerTimezone( $this->params[ 'timezone' ] )
+                        ->setServiceUrl( $this->params[ 'service_url' ] );
 
+            }
+        } else {
+                $TranslatorsModel
+                        ->setUserInvite( $this->user )
+                        ->setDeliveryDate( $this->params[ 'delivery_date' ] )
+                        ->setJobOwnerTimezone( $this->params[ 'timezone' ] )
+                        ->setEmail( $this->params[ 'email' ] );
+        }
         $tStruct = $TranslatorsModel->update();
         $this->response->json(
                 [

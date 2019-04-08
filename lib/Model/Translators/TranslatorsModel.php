@@ -49,6 +49,7 @@ class TranslatorsModel {
     protected $job_owner_timezone = 0;
     protected $id_job;
     protected $email;
+    protected $service_url;
     protected $job_password;
 
     /**
@@ -106,6 +107,17 @@ class TranslatorsModel {
         return $this;
     }
 
+    /**
+     * @param mixed $service_url
+     *
+     * @return $this
+     */
+    public function setServiceUrl( $service_url ) {
+        $this->service_url = $service_url;
+
+        return $this;
+    }
+
     public function setUserInvite( Users_UserStruct $user ) {
         $this->callingUser = $user;
 
@@ -149,10 +161,12 @@ class TranslatorsModel {
         //create jobs_translator struct to call inside the dao
         $translatorStruct = new JobsTranslatorsStruct();
 
-        $translatorUser = ( new \Users_UserDao() )->setCacheTTL( 60 * 60 )->getByEmail( $this->email );
-        if ( !empty( $translatorUser ) ) {
-            //associate the translator with an existent user and create a profile if not exists
-            $translatorStruct->id_translator_profile = $this->saveProfile( $translatorUser );
+        if ( !empty( $this->email )) {
+            $translatorUser = ( new \Users_UserDao() )->setCacheTTL( 60 * 60 )->getByEmail( $this->email );
+            if ( !empty( $translatorUser ) ) {
+                //associate the translator with an existent user and create a profile if not exists
+                $translatorStruct->id_translator_profile = $this->saveProfile( $translatorUser );
+            }
         }
 
         $jTranslatorsDao = new JobsTranslatorsDao();
@@ -163,9 +177,10 @@ class TranslatorsModel {
 
         if ( !empty( $this->jobTranslator ) ) { // an associated translator already exists for this chunk
 
-            if ( $this->jobTranslator->email != $this->email ) {
+            if ( empty( $this->jobTranslator->email ) || $this->jobTranslator->email != $this->email ) {
 
-                //if the translator email changed ( differs from the existing one ), change the Job Password and insert a new row
+                //if the translator email changed ( differs from the existing one ), or if it was previously empty ( was service ),
+                //change the Job Password and insert a new row
                 $this->changeJobPassword();
 
                 //send a mail to the new translator
@@ -198,11 +213,12 @@ class TranslatorsModel {
         $translatorStruct->job_owner_timezone = $this->job_owner_timezone;
         $translatorStruct->added_by           = $this->callingUser->uid;
         $translatorStruct->email              = $this->email;
+        $translatorStruct->service_url        = $this->service_url;
         $translatorStruct->source             = $this->jStruct[ 'source' ];
         $translatorStruct->target             = $this->jStruct[ 'target' ];
 
         $jTranslatorsDao->insertStruct( $translatorStruct, [
-                'no_nulls'            => true,
+                'no_nulls'            => false,
                 'on_duplicate_update' => [
                         'delivery_date = VALUES( delivery_date ), job_password = VALUES( job_password ), job_owner_timezone = VALUES( job_owner_timezone )'
                 ]
@@ -214,7 +230,9 @@ class TranslatorsModel {
         //clean cache JobsTranslatorsDao to update the delivery_date in next query
         $jTranslatorsDao->destroyCacheByJobStruct( $this->jStruct );
 
-        $this->sendEmail();
+        if ( !empty( $this->email )) {
+            $this->sendEmail();
+        }
 
         return $translatorStruct;
 

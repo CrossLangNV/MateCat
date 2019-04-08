@@ -14,6 +14,17 @@ $.extend(UI, {
 
     },
 
+    sendJobToService: function(service_url, date, timezone, job, project) {
+        API.JOB.sendServiceRequest(service_url, date, timezone, job).done(function (data) {
+            APP.ModalWindow.onCloseModal();
+            if (!data.job) {
+                UI.showShareTranslatorError();
+            }
+        }).fail(function () {
+            UI.showShareTranslatorError();
+        });
+    },
+
     checkShareToTranslatorResponse: function (response, mail, date, job, project) {
         var message = '';
         if (job.translator) {

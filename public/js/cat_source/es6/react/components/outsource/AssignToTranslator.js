@@ -25,6 +25,20 @@ class AssignToTranslator extends React.Component {
         this.props.closeOutsource();
     }
 
+    // dummy outsource service
+    shareJobService() {
+        let date = $(this.dateInput).calendar('get date');
+        let time = $(this.dropdownTime).dropdown('get value');
+        date.setHours(time);
+        // TODO : Change this line when the time change
+        date.setMinutes(date.getMinutes() + (1 - parseFloat(this.state.timezone)) * 60);
+
+        let service_url = "http://parrot:8080";
+
+        OutsourceActions.sendJobToService(service_url, date, this.state.timezone, this.props.job.toJS(), this.props.project.toJS());
+        this.props.closeOutsource();
+    }
+
     GmtSelectChanged(value) {
         Cookies.get( "matecat_timezone" , value);
         this.checkSendToTranslatorButton();
@@ -36,9 +50,11 @@ class AssignToTranslator extends React.Component {
     checkSendToTranslatorButton() {
         if (this.email.value.length > 0 && APP.checkEmail(this.email.value)) {
             $(this.sendButton).removeClass('disabled');
+            $(this.sendServiceButton).addClass('disabled');
             return true;
         } else {
             $(this.sendButton).addClass('disabled');
+            $(this.sendServiceButton).removeClass('disabled');
         }
     }
 
@@ -155,6 +171,9 @@ class AssignToTranslator extends React.Component {
                                         <button className="send-job ui primary button disabled"
                                         onClick={this.shareJob.bind(this)}
                                         ref={(send) => this.sendButton=send }>Send Job to Translator</button>
+                                        <button className="send-job ui success button"
+                                        onClick={this.shareJobService.bind(this)}
+                                        ref={(send) => this.sendServiceButton=send }>Send Job to Dummy Service</button>
                                     </div>
                                 </div>
                             </div>

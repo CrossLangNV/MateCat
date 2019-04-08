@@ -82,5 +82,32 @@ API.JOB = {
             url : "/api/v2/jobs/" + job.id +"/" + job.password + "/translator"
         });
     },
+    sendServiceRequest: function (service_url, date, timezone, job) {
+        var matecatData = {
+            service_url: service_url,
+            delivery_date: Math.round(date / 1000),
+            timezone: timezone
+        };
+        var serviceData = {
+            id: job.id,
+            password: job.password,
+            delivery_date: Math.round(date / 1000),
+            timezone: timezone
+        };
+        $.ajax({
+            async: true,
+            contentType: "application/json",
+            data: serviceData,
+            dataType: "json",
+            type: "POST",
+            url: service_url + "/job"
+        });
+        return $.ajax({
+            async: true,
+            data: matecatData,
+            type: "POST",
+            url: "/api/v2/jobs/" + job.id + "/" + job.password + "/translator"
+        });
+    }
 
 };

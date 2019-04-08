@@ -450,7 +450,8 @@ CREATE TABLE `jobs_translators` (
   `job_password` varchar(45) NOT NULL,
   `id_translator_profile` int(11) DEFAULT NULL COMMENT 'This value can be NULL because the translator can be anonymous',
   `added_by` int(11) NOT NULL,
-  `email` varchar(45) NOT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `service_url` varchar(45) DEFAULT NULL,
   `delivery_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `job_owner_timezone` decimal(2,1) NOT NULL DEFAULT '0.0',
   `source` varchar(10) NOT NULL,
@@ -1112,6 +1113,7 @@ DROP TABLE IF EXISTS `translators`;
 CREATE TABLE `translators` (
   `username` varchar(100) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
+  `service_url` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,

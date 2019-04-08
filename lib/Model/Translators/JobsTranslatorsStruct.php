@@ -20,6 +20,7 @@ class JobsTranslatorsStruct extends DataAccess_AbstractDaoSilentStruct implement
     public $job_password;
     public $id_translator_profile;
     public $email;
+    public $service_url;
     public $added_by;
     public $delivery_date;
     public $job_owner_timezone = 0;
