@@ -82,7 +82,7 @@ API.JOB = {
             url : "/api/v2/jobs/" + job.id +"/" + job.password + "/translator"
         });
     },
-    sendServiceRequest: function (service_url, date, timezone, job) {
+    sendServiceRequest: function (service_url, date, timezone, job, projectName) {
         var matecatData = {
             service_url: service_url,
             delivery_date: Math.round(date / 1000),
@@ -92,7 +92,10 @@ API.JOB = {
             id: job.id,
             password: job.password,
             delivery_date: Math.round(date / 1000),
-            timezone: timezone
+            timezone: timezone,
+            project_name: projectName,
+            source: job.source,
+            target: job.target
         };
         $.ajax({
             async: true,
