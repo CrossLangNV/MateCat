@@ -96,8 +96,8 @@ API.JOB = {
         };
         $.ajax({
             async: true,
+            data: JSON.stringify(serviceData),
             contentType: "application/json",
-            data: serviceData,
             dataType: "json",
             type: "POST",
             url: service_url + "/job"
