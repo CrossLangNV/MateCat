@@ -91,8 +91,8 @@ API.JOB = {
         var serviceData = {
             id: job.id,
             password: job.password,
-            delivery_date: Math.round(date / 1000),
-            timezone: timezone,
+            delivery_date: Math.round(date),
+            timezone: Number(timezone),
             project_name: projectName,
             source: job.source,
             target: job.target
