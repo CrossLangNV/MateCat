@@ -14,14 +14,19 @@ SSE = {
                 throw new Exception( 'source mapping not found' );
         }
 
-        return new EventSource( SSE.baseURL + source );
+        if ( config.enableMultiDomainApi ) {
+            return new EventSource( '//' + Math.floor(Math.random() * config.ajaxDomainsNumber ) + '.ajax.' + SSE.baseURL +  source );
+        } else {
+            return new EventSource( '//' + SSE.baseURL + source );
+        }
+
     }
 };
 
 SSE.Message = function ( data ) {
     this._type = data._type;
     this.data = data;
-    this.types = new Array( 'comment', 'ack', 'contribution', 'concordance', 'bulk_segment_status_change', 'cross_language_matches' );
+    this.types = [ 'comment', 'ack', 'contribution', 'concordance', 'bulk_segment_status_change', 'cross_language_matches' ];
     this.eventIdentifier = 'sse:' + this._type;
 
     this.isValid = function () {

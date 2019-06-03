@@ -1,5 +1,7 @@
 <?php
 
+use SubFiltering\Filter;
+
 include_once INIT::$MODEL_ROOT . "/queries.php";
 
 define( "LTPLACEHOLDER", "##LESSTHAN##" );
@@ -225,6 +227,8 @@ class CatUtils {
      * @param mixed $job_stats
      *
      * @return mixed $job_stats
+     * @deprecated Formatting strings server-side for javascript rendered pages is deprecated.
+     *
      */
     protected static function _getStatsForJob( $job_stats ) {
 
@@ -302,42 +306,6 @@ class CatUtils {
         $job_stats[ 'DOWNLOAD_STATUS' ] = $t;
 
         return $job_stats;
-
-    }
-
-    /**
-     * Public interface to single Job Stats Info
-     *
-     *
-     * @param int    $jid
-     * @param int    $fid
-     * @param string $jPassword
-     *
-     * @return mixed $job_stats
-     *
-     * <pre>
-     *      $job_stats = array(
-     *          'id'                           => (int),
-     *          'TOTAL'                        => (int),
-     *          'TRANSLATED'                   => (int),
-     *          'APPROVED'                     => (int),
-     *          'REJECTED'                     => (int),
-     *          'DRAFT'                        => (int),
-     *          'ESTIMATED_COMPLETION'         => (int),
-     *          'WORDS_PER_HOUR'               => (int),
-     *      );
-     * </pre>
-     *
-     */
-    public static function getStatsForJob( $jid, $fid = null, $jPassword = null ) {
-
-        $job_stats = getStatsForJob( $jid, $fid, $jPassword );
-        $job_stats = $job_stats[ 0 ];
-
-        $job_stats = self::_getStatsForJob( $job_stats ); //true set estimation check if present
-
-        return self::_performanceEstimationTime( $job_stats );
-
     }
 
     /**
@@ -346,25 +314,10 @@ class CatUtils {
      * @param bool             $performanceEstimation
      *
      * @return array
+     * @deprecated because if the use of pre-formatted values
      */
     public static function getFastStatsForJob( WordCount_Struct $wCount, $performanceEstimation = true ) {
-
-        $job_stats         = [];
-        $job_stats[ 'id' ] = $wCount->getIdJob();
-//        $job_stats[ 'NEW' ]        = $wCount->getNewWords();
-        $job_stats[ 'DRAFT' ]      = $wCount->getNewWords() + $wCount->getDraftWords();
-        $job_stats[ 'TRANSLATED' ] = $wCount->getTranslatedWords();
-        $job_stats[ 'APPROVED' ]   = $wCount->getApprovedWords();
-        $job_stats[ 'REJECTED' ]   = $wCount->getRejectedWords();
-
-        //sometimes new_words + draft_words < 0 (why?). If it happens, set draft words to 0
-        if ( $job_stats[ 'DRAFT' ] < 0 ) {
-            $job_stats[ 'DRAFT' ] = 0;
-        }
-
-        //avoid division by zero warning
-        $total                = $wCount->getTotal();
-        $job_stats[ 'TOTAL' ] = ( $total == 0 ? 1 : $total );
+        $job_stats            = self::getPlainStatsForJobs( $wCount );
         $job_stats            = self::_getStatsForJob( $job_stats ); //true set estimation check if present
 
         if ( !$performanceEstimation ) {
@@ -372,7 +325,6 @@ class CatUtils {
         }
 
         return self::_performanceEstimationTime( $job_stats );
-
     }
 
     /**
@@ -381,8 +333,6 @@ class CatUtils {
      * @return array
      */
     public static function getStatsForFile( $fid ) {
-
-
         $file_stats = getStatsForFile( $fid );
 
         $file_stats                         = $file_stats[ 0 ];
@@ -391,22 +341,26 @@ class CatUtils {
         $file_stats[ 'REJECTED_FORMATTED' ] = number_format( $file_stats[ 'REJECTED' ], 0, ".", "," );
         $file_stats[ 'DRAFT_FORMATTED' ]    = number_format( $file_stats[ 'DRAFT' ], 0, ".", "," );
 
-
         return $file_stats;
     }
 
     /**
      * Remove Tags and treat numbers as one word
      *
-     * @param        $string
-     * @param string $source_lang
+     * @param                 $string
+     * @param string          $source_lang
+     *
+     * @param Filter|null     $Filter
      *
      * @return mixed|string
-     * @throws Exception
+     * @throws \Exception
      */
-    public static function clean_raw_string_4_word_count( $string, $source_lang = 'en-US' ) {
+    public static function clean_raw_string_4_word_count( $string, $source_lang = 'en-US', Filter $Filter = null ) {
 
-        $Filter = SubFiltering\Filter::getInstance();
+        if( $Filter === null ){
+            $Filter = SubFiltering\Filter::getInstance();
+        }
+
         $string = $Filter->fromLayer0ToLayer1( $string );
 
         //return empty on string composed only by spaces
@@ -462,15 +416,17 @@ class CatUtils {
     /**
      * Count words in a string
      *
-     * @param        $string
-     * @param string $source_lang
+     * @param                 $string
+     * @param string          $source_lang
+     *
+     * @param Filter|null     $filter
      *
      * @return float|int
      * @throws Exception
      */
-    public static function segment_raw_word_count( $string, $source_lang = 'en-US' ) {
+    public static function segment_raw_word_count( $string, $source_lang = 'en-US', Filter $filter = null ) {
 
-        $string = self::clean_raw_string_4_word_count( $string, $source_lang );
+        $string = self::clean_raw_string_4_word_count( $string, $source_lang, $filter );
 
         /**
          * Escape dash and underscore and replace them with Macro and Cedilla characters!
@@ -568,7 +524,7 @@ class CatUtils {
         file_put_contents( $tmpOrigFName, $documentContent );
 
         $cmd = "file -i $tmpOrigFName";
-        Log::doLog( $cmd );
+        Log::doJsonLog( $cmd );
 
         $file_info = shell_exec( $cmd );
         list( , $charset ) = explode( "=", $file_info );
@@ -667,7 +623,7 @@ class CatUtils {
         if ( $wStruct->getTotal() == 0 && ( $job[ 'status_analysis' ] == Constants_ProjectStatus::STATUS_DONE || $job[ 'status_analysis' ] == Constants_ProjectStatus::STATUS_NOT_TO_ANALYZE ) ) {
             $wCounter = new WordCount_Counter();
             $wStruct  = $wCounter->initializeJobWordCount( $job[ 'jid' ], $job[ 'jpassword' ] );
-            Log::doLog( "BackWard compatibility set Counter." );
+            Log::doJsonLog( "BackWard compatibility set Counter." );
 
             return $wStruct;
         }
@@ -768,7 +724,7 @@ class CatUtils {
         if ( $wStruct->getTotal() == 0 && ( $analysis_status == Constants_ProjectStatus::STATUS_DONE || $analysis_status == Constants_ProjectStatus::STATUS_NOT_TO_ANALYZE ) ) {
             $wCounter = new WordCount_Counter();
             $wStruct  = $wCounter->initializeJobWordCount( $job->id, $job->password );
-            Log::doLog( "BackWard compatibility set Counter." );
+            Log::doJsonLog( "BackWard compatibility set Counter." );
 
             return $wStruct;
         }
@@ -793,7 +749,32 @@ class CatUtils {
             ];
         }
 
-        return json_encode( [ 'categories' => $categories ] );
+        return $categories ;
+    }
+
+    /**
+     * @param WordCount_Struct $wCount
+     *
+     * @return array
+     */
+    public static function getPlainStatsForJobs( WordCount_Struct $wCount ) {
+        $job_stats         = [];
+        $job_stats[ 'id' ] = $wCount->getIdJob();
+        $job_stats[ 'DRAFT' ]      = $wCount->getNewWords() + $wCount->getDraftWords();
+        $job_stats[ 'TRANSLATED' ] = $wCount->getTranslatedWords();
+        $job_stats[ 'APPROVED' ]   = $wCount->getApprovedWords();
+        $job_stats[ 'REJECTED' ]   = $wCount->getRejectedWords();
+
+        //sometimes new_words + draft_words < 0 (why?). If it happens, set draft words to 0
+        if ( $job_stats[ 'DRAFT' ] < 0 ) {
+            $job_stats[ 'DRAFT' ] = 0;
+        }
+
+        //avoid division by zero warning
+        $total                = $wCount->getTotal();
+        $job_stats[ 'TOTAL' ] = ( $total == 0 ? 1 : $total );
+
+        return $job_stats;
     }
 
 }

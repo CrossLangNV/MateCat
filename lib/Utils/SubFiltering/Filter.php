@@ -11,32 +11,34 @@ namespace SubFiltering;
 
 use FeatureSet;
 use SubFiltering\Commons\Pipeline;
-use SubFiltering\Filters\CtrlCharsPlaceHoldToAscii;
-use SubFiltering\Filters\AmpersandEntityEncode;
-use SubFiltering\Filters\EncodeToRawXML;
 use SubFiltering\Filters\AmpersandEntitiesDecode;
+use SubFiltering\Filters\AmpersandEntityEncode;
+use SubFiltering\Filters\CtrlCharsPlaceHoldToAscii;
+use SubFiltering\Filters\EncodeToRawXML;
+use SubFiltering\Filters\FromLayer2ToRawXML;
 use SubFiltering\Filters\FromViewNBSPToSpaces;
+use SubFiltering\Filters\HtmlToPh;
 use SubFiltering\Filters\HtmlToPhToLayer2;
+use SubFiltering\Filters\LtGtDecode;
 use SubFiltering\Filters\LtGtDoubleDecode;
+use SubFiltering\Filters\LtGtDoubleEncode;
 use SubFiltering\Filters\LtGtEncode;
 use SubFiltering\Filters\MateCatCustomPHToStandardPH;
-use SubFiltering\Filters\NormalizeXMLEntitiesFromLayer2;
-use SubFiltering\Filters\RestoreSubFilteredPhToHtml;
-use SubFiltering\Filters\StandardPHToMateCatCustomPH;
-use SubFiltering\Filters\UnicodeToEntities;
-use SubFiltering\Filters\HtmlToPh;
-use SubFiltering\Filters\LtGtDoubleEncode;
-use SubFiltering\Filters\LtGtDecode;
 use SubFiltering\Filters\PlaceHoldCtrlCharsForView;
 use SubFiltering\Filters\PlaceHoldXliffTags;
+use SubFiltering\Filters\RemoveDangerousChars;
 use SubFiltering\Filters\RestoreEquivTextPhToXliffOriginal;
 use SubFiltering\Filters\RestorePlaceHoldersToXLIFFLtGt;
+use SubFiltering\Filters\RestoreSubFilteredPhToHtml;
 use SubFiltering\Filters\RestoreXliffTagsContent;
 use SubFiltering\Filters\RestoreXliffTagsForView;
-use SubFiltering\Filters\SprintfToPH;
-use SubFiltering\Filters\SubFilteredPhToHtml;
 use SubFiltering\Filters\SpacesToNBSPForView;
+use SubFiltering\Filters\SprintfToPH;
+use SubFiltering\Filters\StandardPHToMateCatCustomPH;
+use SubFiltering\Filters\SubFilteredPhToHtml;
 use SubFiltering\Filters\TwigToPh;
+use SubFiltering\Filters\UnicodeToEntities;
+use SubFiltering\Filters\SplitPlaceholder;
 
 /**
  * Class Filter
@@ -73,14 +75,15 @@ class Filter {
      */
     protected $_featureSet;
 
-    protected function __construct() {}
+    protected function __construct() {
+    }
 
     /**
      * Update/Add featureSet
      *
      * @param FeatureSet|null $featureSet
      */
-    protected function _featureSet( FeatureSet $featureSet = null ){
+    protected function _featureSet( FeatureSet $featureSet = null ) {
         $this->_featureSet = $featureSet;
     }
 
@@ -92,14 +95,15 @@ class Filter {
      */
     public static function getInstance( FeatureSet $featureSet = null ) {
 
-        if( $featureSet === null ){
+        if ( $featureSet === null ) {
             $featureSet = new FeatureSet();
         }
 
-        if( static::$_INSTANCE === null ){
+        if ( static::$_INSTANCE === null ) {
             static::$_INSTANCE = new Filter();
-            static::$_INSTANCE->_featureSet( $featureSet );
         }
+
+        static::$_INSTANCE->_featureSet( $featureSet );
 
         return static::$_INSTANCE;
 
@@ -133,6 +137,7 @@ class Filter {
         $channel->addLast( new LtGtEncode() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer0ToLayer2', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -159,6 +164,7 @@ class Filter {
         $channel->addLast( new LtGtEncode() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer1ToLayer2', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -179,14 +185,14 @@ class Filter {
         $channel = new Pipeline();
         $channel->addLast( new CtrlCharsPlaceHoldToAscii() );
         $channel->addLast( new LtGtDoubleDecode() ); //fix eventually broken HTML
-        $channel->addLast( new LtGtDecode() );
         $channel->addLast( new PlaceHoldXliffTags() );
-        $channel->addLast( new EncodeToRawXML() );
+        $channel->addLast( new FromLayer2TorawXML() );
         $channel->addLast( new FromViewNBSPToSpaces() );
         $channel->addLast( new RestoreXliffTagsContent() );
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer2ToLayer1', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -194,6 +200,9 @@ class Filter {
     /**
      *
      * Used to transform the UI structures ( Layer 2 ) to allow them to be stored in database ( Layer 0 )
+     *
+     * It is assumed that the UI send strings having XLF tags not encoded and HTML in XML encoding representation:
+     * - &lt;b&gt;de <ph id="mtc_1" equiv-text="base64:JTEkcw=="/>, <x id="1" /> &lt;/b&gt;que
      *
      * @param $segment
      *
@@ -214,7 +223,8 @@ class Filter {
         $channel->addLast( new MateCatCustomPHToStandardPH() );
         $channel->addLast( new PlaceHoldXliffTags() );
 
-        $channel->addLast( new EncodeToRawXML() );
+        $channel->addLast( new FromLayer2ToRawXML() );
+
         $channel->addLast( new RestoreXliffTagsContent() );
 
         $channel->addLast( new AmpersandEntityEncode() );
@@ -226,6 +236,7 @@ class Filter {
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer2ToLayer0', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -256,6 +267,7 @@ class Filter {
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer0ToLayer1', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -285,6 +297,7 @@ class Filter {
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer1ToLayer0', $channel );
+
         return $channel->transform( $segment );
     }
 
@@ -309,6 +322,7 @@ class Filter {
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromRawXliffToLayer0', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -329,10 +343,12 @@ class Filter {
 
         $channel = new Pipeline();
         $channel->addLast( new PlaceHoldXliffTags() );
+        $channel->addLast( new RemoveDangerousChars() );
         $channel->addLast( new RestoreXliffTagsContent() );
         $channel->addLast( new RestorePlaceHoldersToXLIFFLtGt() );
         /** @var $channel Pipeline */
         $channel = $this->_featureSet->filter( 'fromLayer0ToRawXliff', $channel );
+
         return $channel->transform( $segment );
 
     }
@@ -350,24 +366,24 @@ class Filter {
      *
      * @return string
      */
-    public function realignIDInLayer1( $source, $target ){
+    public function realignIDInLayer1( $source, $target ) {
 
         $pattern = '|<ph id ?= ?["\'](mtc_[0-9]+)["\'] ?(equiv-text=["\'].+?["\'] ?)/>|ui';
         preg_match_all( $pattern, $source, $src_tags, PREG_PATTERN_ORDER );
         preg_match_all( $pattern, $target, $trg_tags, PREG_PATTERN_ORDER );
 
-        if( count( $src_tags[ 0 ] ) != count( $trg_tags[ 0 ] ) ){
+        if ( count( $src_tags[ 0 ] ) != count( $trg_tags[ 0 ] ) ) {
             return $target; //WRONG NUMBER OF TAGS, in the translation there is a tag mismatch, let the user fix it
         }
 
         $notFoundTargetTags = [];
 
         $start_offset = 0;
-        foreach ( $trg_tags[ 2 ] as $trg_tag_position => $b64 ){
+        foreach ( $trg_tags[ 2 ] as $trg_tag_position => $b64 ) {
 
             $src_tag_position = array_search( $b64, $src_tags[ 2 ], true );
 
-            if( $src_tag_position === false ){
+            if ( $src_tag_position === false ) {
                 //this means that the content of a tag is changed in the translation
                 $notFoundTargetTags[ $trg_tag_position ] = $b64;
                 continue;
@@ -378,12 +394,12 @@ class Filter {
 
             //replace ONLY ONE element AND the EXACT ONE
             $tag_position_in_string = strpos( $target, $trg_tags[ 0 ][ $trg_tag_position ], $start_offset );
-            $target = substr_replace( $target, $src_tags[ 0 ][ $src_tag_position ], $tag_position_in_string, strlen( $trg_tags[ 0 ][ $trg_tag_position ] ) );
-            $start_offset = $tag_position_in_string + strlen( $src_tags[ 0 ][ $src_tag_position ] ); // set the next starting point
+            $target                 = substr_replace( $target, $src_tags[ 0 ][ $src_tag_position ], $tag_position_in_string, strlen( $trg_tags[ 0 ][ $trg_tag_position ] ) );
+            $start_offset           = $tag_position_in_string + strlen( $src_tags[ 0 ][ $src_tag_position ] ); // set the next starting point
 
         }
 
-        if( !empty( $notFoundTargetTags ) ){
+        if ( !empty( $notFoundTargetTags ) ) {
             //do something ?!? how to re-align if they are changed in value and changed in position?
         }
 

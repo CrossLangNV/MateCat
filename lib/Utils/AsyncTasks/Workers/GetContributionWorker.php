@@ -109,6 +109,8 @@ class GetContributionWorker extends AbstractWorker {
      * @param ContributionRequestStruct $contributionStruct
      *
      * @param bool                      $isCrossLang
+     *
+     * @throws \StompException
      */
     protected function _publishPayload( array $content, ContributionRequestStruct $contributionStruct, $isCrossLang = false ) {
 
@@ -127,7 +129,7 @@ class GetContributionWorker extends AbstractWorker {
             $type = 'cross_language_matches' ;
         }
 
-        $message = json_encode( [
+        $_object = [
                 '_type' => $type,
                 'data'  => [
                         'id_job'    => $contributionStruct->getJobStruct()->id,
@@ -135,16 +137,18 @@ class GetContributionWorker extends AbstractWorker {
                         'payload'   => $payload,
                         'id_client' => $contributionStruct->id_client,
                 ]
-        ] );
+        ];
+
+        $message = json_encode( $_object );
 
         $stomp = new Stomp( INIT::$QUEUE_BROKER_ADDRESS );
         $stomp->connect();
         $stomp->send( INIT::$SSE_NOTIFICATIONS_QUEUE_NAME,
                 $message,
-                [ 'persistent' => 'true' ]
+                [ 'persistent' => 'false' ]
         );
 
-        $this->_doLog( $message );
+        $this->_doLog( $_object );
 
     }
 
@@ -181,6 +185,8 @@ class GetContributionWorker extends AbstractWorker {
      * @param FeatureSet                $featureSet
      *
      * @param                           $targetLang
+     *
+     * @throws \Exception
      */
     public function normalizeTMMatches( array &$matches, ContributionRequestStruct $contributionStruct,
                                         FeatureSet $featureSet, $targetLang ) {

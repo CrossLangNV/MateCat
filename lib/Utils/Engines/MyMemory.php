@@ -9,6 +9,8 @@
  */
 class Engines_MyMemory extends Engines_AbstractEngine {
 
+    protected $content_type = 'json';
+
     protected $_config = array(
             'segment'       => null,
             'translation'   => null,
@@ -179,7 +181,6 @@ class Engines_MyMemory extends Engines_AbstractEngine {
             $this->rebuildResult( $segment_file_chr[ 1 ] );
         }
 
-
         return $this->result;
 
     }
@@ -192,15 +193,15 @@ class Engines_MyMemory extends Engines_AbstractEngine {
     public function set( $_config ) {
 
         $parameters               = [];
-        $parameters[ 'seg' ]      = ltrim( $_config[ 'segment' ], "@-" );
-        $parameters[ 'tra' ]      = ltrim( $_config[ 'translation' ], "@-" );
+        $parameters[ 'seg' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'segment' ] );
+        $parameters[ 'tra' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'translation' ] );
         $parameters[ 'tnote' ]    = $_config[ 'tnote' ];
         $parameters[ 'langpair' ] = $_config[ 'source' ] . "|" . $_config[ 'target' ];
         $parameters[ 'de' ]       = $_config[ 'email' ];
         $parameters[ 'prop' ]     = $_config[ 'prop' ];
         if ( !empty( $_config[ 'context_after' ] ) || !empty( $_config[ 'context_before' ] ) ) {
-            $parameters[ 'context_after' ]  = ltrim( @$_config[ 'context_after' ], "@-" );
-            $parameters[ 'context_before' ] = ltrim( @$_config[ 'context_before' ], "@-" );
+            $parameters[ 'context_after' ]  = preg_replace( "/^(-?@-?)/", "", @$_config[ 'context_after' ] );
+            $parameters[ 'context_before' ] = preg_replace( "/^(-?@-?)/", "", @$_config[ 'context_before' ] );
         }
         if ( !empty( $_config[ 'id_user' ] ) ) {
             if ( !is_array( $_config[ 'id_user' ] ) ) {
@@ -224,16 +225,16 @@ class Engines_MyMemory extends Engines_AbstractEngine {
     public function update( $_config ){
 
         $parameters                     = [];
-        $parameters[ 'seg' ]            = $_config[ 'segment' ];
-        $parameters[ 'tra' ]            = $_config[ 'translation' ];
-        $parameters[ 'newseg' ]         = $_config[ 'newsegment' ];
-        $parameters[ 'newtra' ]         = $_config[ 'newtranslation' ];
+        $parameters[ 'seg' ]            = preg_replace( "/^(-?@-?)/", "", $_config[ 'segment' ] );
+        $parameters[ 'tra' ]            = preg_replace( "/^(-?@-?)/", "", $_config[ 'translation' ] );
+        $parameters[ 'newseg' ]         = preg_replace( "/^(-?@-?)/", "", $_config[ 'newsegment' ] );
+        $parameters[ 'newtra' ]         = preg_replace( "/^(-?@-?)/", "", $_config[ 'newtranslation' ] );
         $parameters[ 'langpair' ]       = $_config[ 'source' ] . "|" . $_config[ 'target' ];
         $parameters[ 'de' ]             = $_config[ 'email' ];
 
         if ( !empty( $_config[ 'context_after' ] ) || !empty( $_config[ 'context_before' ] ) ) {
-            $parameters[ 'context_after' ]  = @$_config[ 'context_after' ];
-            $parameters[ 'context_before' ] = @$_config[ 'context_before' ];
+            $parameters[ 'context_after' ]  = preg_replace( "/^(-?@-?)/", "", @$_config[ 'context_after' ] );
+            $parameters[ 'context_before' ] = preg_replace( "/^(-?@-?)/", "", @$_config[ 'context_before' ] );
         }
 
         if ( !empty( $_config[ 'id_user' ] ) ) {
@@ -260,9 +261,9 @@ class Engines_MyMemory extends Engines_AbstractEngine {
      */
     public function delete( $_config ) {
 
-        $parameters               = array();
-        $parameters[ 'seg' ]      = $_config[ 'segment' ];
-        $parameters[ 'tra' ]      = $_config[ 'translation' ];
+        $parameters               = [];
+        $parameters[ 'seg' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'segment' ] );
+        $parameters[ 'tra' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'translation' ] );
         $parameters[ 'langpair' ] = $_config[ 'source' ] . "|" . $_config[ 'target' ];
         $parameters[ 'de' ]       = $_config[ 'email' ];
         $parameters[ 'id' ]       = $_config[ 'id_match' ];
@@ -615,7 +616,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
             throw new Exception( $this->result->error->message, $this->result->responseStatus );
         }
 
-        Log::doLog('TMX exported to E-mail.');
+        Log::doJsonLog('TMX exported to E-mail.');
         return $this->result;
     }
 
@@ -660,7 +661,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
         $this->call( 'api_key_check_auth_url', $postFields );
 
         if ( !$this->result->responseStatus == 200 ) {
-            Log::doLog( "Error: The check for MyMemory private key correctness failed: " . $this->result[ 'error' ][ 'message' ] . " ErrNum: " . $this->result[ 'error' ][ 'code' ] );
+            Log::doJsonLog( "Error: The check for MyMemory private key correctness failed: " . $this->result[ 'error' ][ 'message' ] . " ErrNum: " . $this->result[ 'error' ][ 'code' ] );
             throw new Exception( "Error: The private TM key you entered ( $apiKey ) seems to be invalid. Please, check that the key is correct.", -2 );
         }
 
@@ -782,7 +783,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
 
         $curl_parameters = implode( "&", $segmentsToBeDetected ) . "&of=json";
 
-        Log::doLog( "DETECT LANG :", $segmentsToBeDetected );
+        Log::doJsonLog( "DETECT LANG :", $segmentsToBeDetected );
 
         $options = array(
                 CURLOPT_HEADER         => false,
@@ -800,12 +801,12 @@ class Engines_MyMemory extends Engines_AbstractEngine {
 
         $mh        = new MultiCurlHandler();
         $tokenHash = $mh->createResource( $url, $options );
-        Log::doLog( "DETECT LANG TOKENHASH: $tokenHash" );
+        Log::doJsonLog( "DETECT LANG TOKENHASH: $tokenHash" );
 
         $mh->multiExec();
 
         $res = $mh->getAllContents();
-        Log::doLog( "DETECT LANG RES:", $res );
+        Log::doJsonLog( "DETECT LANG RES:", $res );
 
         return json_decode( $res[ $tokenHash ], true );
     }

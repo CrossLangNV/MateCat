@@ -10,6 +10,7 @@ class UploadHandler {
 
         $this->options = [
                 'script_url'              => $this->getFullUrl() . '/',
+                'upload_token'            => $_COOKIE[ 'upload_session' ],
                 'upload_dir'              => Utils::uploadDirFromSessionCookie( $_COOKIE[ 'upload_session' ] ),
                 'upload_url'              => $this->getFullUrl() . '/files/',
                 'param_name'              => 'files',
@@ -29,7 +30,7 @@ class UploadHandler {
     }
 
     protected function getFullUrl() {
-        $https = !empty( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] !== 'off';
+        $https = INIT::$PROTOCOL === 'https';
         return
                 ( $https ? 'https://' : 'http://' ) .
                 ( !empty( $_SERVER[ 'REMOTE_USER' ] ) ? $_SERVER[ 'REMOTE_USER' ] . '@' : '' ) .
@@ -70,18 +71,41 @@ class UploadHandler {
         ) ) );
     }
 
+    /**
+     * @param $fileName
+     *
+     * @throws Exception
+     */
+    protected static function _validateFileName( $fileName ){
+        if ( !Utils::isValidFileName( $fileName ) ) {
+            throw new Exception( "Invalid File Name" );
+        }
+    }
+
+    /**
+     * @param $token
+     *
+     * @throws Exception
+     */
+    protected static function _validateToken( $token ){
+        if( !Utils::isTokenValid( $token ) ){
+            throw new Exception( "Invalid Upload Token." );
+        }
+    }
+
     protected function validate( $uploaded_file, $file, $error, $index ) {
         //TODO: these errors are shown in the UI but are not user friendly.
 
         if ( $error ) {
             $file->error = $error;
-
             return false;
         }
 
-        if ( !$this->_isValidFileName( $file ) ) {
-            $file->error = "Invalid File Name";
-
+        try {
+            self::_validateFileName( $file->name );
+            self::_validateToken( $this->options[ 'upload_token' ] );
+        } catch( Exception $e ){
+            $file->error = $e->getMessage();
             return false;
         }
 
@@ -196,7 +220,7 @@ class UploadHandler {
     protected function handle_file_upload( $uploaded_file, $name, $size, $type, $error, $index = null ) {
 
         Log::$fileName = "upload.log";
-        Log::doLog( $uploaded_file );
+        Log::doJsonLog( $uploaded_file );
 
         $file       = new stdClass();
         $file->name = $this->trim_file_name( $name );
@@ -216,17 +240,17 @@ class UploadHandler {
                     $res = file_put_contents(
                             $file_path, fopen( $uploaded_file, 'r' ), FILE_APPEND
                     );
-                    Log::doLog( $res );
+                    Log::doJsonLog( $res );
                 } else {
                     $res = move_uploaded_file( $uploaded_file, $file_path );
-                    Log::doLog( $res );
+                    Log::doJsonLog( $res );
                 }
             } else {
                 // Non-multipart uploads (PUT method support)
                 $res = file_put_contents(
                         $file_path, fopen( 'php://input', 'r' ), $append_file ? FILE_APPEND : 0
                 );
-                Log::doLog( $res );
+                Log::doJsonLog( $res );
             }
 
             clearstatcache();
@@ -242,7 +266,7 @@ class UploadHandler {
             $file->size = $file_size;
             $this->set_file_delete_url( $file );
 
-            Log::doLog( "Size on disk: $file_size - Declared size: $file->size" );
+            Log::doJsonLog( "Size on disk: $file_size - Declared size: $file->size" );
 
             //As opposed with isset(), property_exists() returns TRUE even if the property has the value NULL.
             if ( property_exists( $file, 'error' ) ) {
@@ -394,6 +418,15 @@ class UploadHandler {
             $file_name = array_pop( $raw_file );
         }
 
+        try {
+            self::_validateFileName( $file_name );
+            self::_validateToken( $this->options[ 'upload_token' ] );
+        } catch( Exception $e ){
+            header( 'Content-type: application/json' );
+            echo json_encode( [ "code" => -1, "error" => $e->getMessage() ] );
+            return false;
+        }
+
         $file_info = FilesStorage::pathinfo_fix( $file_name );
 
         //if it's a zip file, delete it and all its contained files.
@@ -543,26 +576,6 @@ class UploadHandler {
         }
 
         return false;
-    }
-
-    protected function _isValidFileName( $fileUp ) {
-
-        if (
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '../' ) !== false ||
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '/../' ) !== false ||
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '/..' ) !== false ||
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '%2E%2E%2F' ) !== false ||
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '%2F%2E%2E%2F' ) !== false ||
-                strpos( $this->options[ 'upload_dir' ] . $fileUp->name, '%2F%2E%2E' ) !== false ||
-                strpos( $fileUp->name, '.' ) === 0 ||
-                strpos( $fileUp->name, '%2E' ) === 0
-        ) {
-            //Directory Traversal!
-            return false;
-        }
-
-        return true;
-
     }
 
 }

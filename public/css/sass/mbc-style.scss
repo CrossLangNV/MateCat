@@ -630,9 +630,9 @@ article.mbc-commenting-closed .mbc-comment-balloon-outer {
  ******
  */
 article.mbc-commenting-opened {
-  -webkit-transform: translate3d(0, 0, 0);
+  /*-webkit-transform: translate3d(0, 0, 0);*/
   -webkit-backface-visibility: hidden;
-  -webkit-perspective: 1000;
+  /*-webkit-perspective: 1000;*/
   -webkit-transition: width .2s ease;
   transition: width .2s ease;
   width: 69%;
@@ -948,19 +948,18 @@ Close icon ballon - Right panel
 
 
 .mbc-comment-icon-button {
-    opacity:0;
-    -webkit-transition: opacity 1s ease-in-out;
-    -moz-transition: opacity 1s ease-in-out;
-    -ms-transition: opacity 1s ease-in-out;
-    -o-transition: opacity 1s ease-in-out;
-    transition: opacity 1s ease-in-out;
+    visibility: hidden;
+    display:block;
+}
+.mbc-comment-icon-button.has-object {
+    visibility: visible;
+    display:block;
 }
 
 section:hover .mbc-comment-icon-button,
 .segment-side-buttons:hover .mbc-comment-icon-button,
 .mbc-comment-icon-button:hover
  { 
-    opacity: 1;
-    display:block;
+    visibility: visible;
 }
 

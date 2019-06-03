@@ -4,7 +4,6 @@
  */
 var React = require('react');
 var SegmentSource = require('./SegmentSource').default;
-var SegmentTarget = require('./SegmentTarget').default;
 
 class SegmentBody extends React.Component {
 
@@ -33,6 +32,9 @@ class SegmentBody extends React.Component {
             return false;
         }
 
+        // if ( !this.props.segment.decoded_translation.indexOf('class="locked') > 0 ) {
+        //     return false;
+        // }
         if (UI.noTagsInSegment({area: area, starting: false })) {
             return false;
         }
@@ -65,7 +67,7 @@ class SegmentBody extends React.Component {
     }
 
     beforeRenderOrUpdate(area) {
-        if (this.checkLockTags(area)) {
+        if ( area && area.length > 0 && this.checkLockTags(area) ) {
             var segment = area.closest('section');
             if (LXQ.enabled()) {
                 $.powerTip.destroy($('.tooltipa', segment));
@@ -75,20 +77,16 @@ class SegmentBody extends React.Component {
     }
 
     afterRenderOrUpdate(area) {
-        if (this.checkLockTags(area)) {
+        if ( area && area.length > 0 && this.checkLockTags(area)) {
             var segment = area.closest('section');
-
-            var prevNumTags = $('span.locked', area).length;
 
             if (LXQ.enabled()) {
                 LXQ.reloadPowertip(segment);
             }
-            if ($('span.locked', area).length != prevNumTags){
-                UI.closeTagAutocompletePanel();
-            }
 
             if (UI.hasSourceOrTargetTags(segment)) {
                 segment.addClass('hasTagsToggle');
+                UI.detectTagType(area);
 
             } else {
                 segment.removeClass('hasTagsToggle');
@@ -99,11 +97,57 @@ class SegmentBody extends React.Component {
             } else {
                 segment.removeClass('hasTagsAutofill');
             }
-
-            $('span.locked', area).addClass('monad');
-
-            UI.detectTagType(area);
         }
+    }
+
+    hasSourceOrTargetTags() {
+        var regExp = UI.getXliffRegExpression();
+        var sourceTags = this.props.segment.segment.match( regExp );
+        return sourceTags && sourceTags.length > 0 ;
+    }
+
+    hasMissingTargetTags() {
+        var regExp = UI.getXliffRegExpression();
+        var sourceTags = this.props.segment.segment.match( regExp );
+        if ( !sourceTags || sourceTags.length === 0 ) {
+            return false;
+        }
+        var targetTags = this.props.segment.translation.match( regExp );
+
+        return targetTags && sourceTags.length > targetTags.length || targetTags && !_.isEqual(sourceTags.sort(), targetTags.sort());
+    }
+
+    getStatusMenu() {
+        if ( this.state.showStatusMenu ) {
+            return <ul className="statusmenu" ref={(menu)=>this.statusMenuRef=menu}>
+                    <li className="arrow"><span className="arrow-mcolor"/></li>
+
+                    <li>
+                        <a className="draftStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set draft as status"
+                           onClick={this.changeStatus.bind(this, 'draft')}>
+                            DRAFT
+                        </a>
+                    </li>
+                    <li>
+                        <a className="translatedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set translated as status"
+                           onClick={this.changeStatus.bind(this, 'translated')}>
+                            TRANSLATED
+                        </a>
+                    </li>
+                    <li><a className="approvedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set approved as status"
+                           onClick={this.changeStatus.bind(this, 'approved')}>APPROVED</a></li>
+
+                    <li>
+                        <a className="rejectedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set rejected as status"
+                           onClick={this.changeStatus.bind(this, 'rejected')}>
+                            REJECTED
+                        </a>
+                    </li>
+                </ul>
+            } else {
+                return '';
+
+            }
     }
 
     componentDidMount() {
@@ -138,7 +182,6 @@ class SegmentBody extends React.Component {
                         </div>
                         <SegmentTarget
                             segment={this.props.segment}
-                            isReviewImproved={this.props.isReviewImproved}
                             enableTagProjection={this.props.enableTagProjection}
                             decodeTextFn={this.props.decodeTextFn}
                             tagModesEnabled={this.props.tagModesEnabled}
@@ -159,55 +202,9 @@ class SegmentBody extends React.Component {
                     />
                 </div>
 
-                {this.state.showStatusMenu ? (
-                    <ul className="statusmenu" ref={(menu)=>this.statusMenuRef=menu}>
-                        <li className="arrow"><span className="arrow-mcolor"/></li>
+                {this.getStatusMenu()}
 
-                        <li>
-                            <a className="draftStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set draft as status"
-                               onClick={this.changeStatus.bind(this, 'draft')}>
-                            DRAFT
-                            </a>
-                        </li>
-                        <li>
-                            <a className="translatedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set translated as status"
-                               onClick={this.changeStatus.bind(this, 'translated')}>
-                                TRANSLATED
-                            </a>
-                        </li>
 
-                        {!this.props.isReviewImproved && config.reviewType !== 'improved' ? (
-                            <li><a className="approvedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set approved as status"
-                                   onClick={this.changeStatus.bind(this, 'approved')}>APPROVED</a></li>
-                        ) : (null) }
-                            {!this.props.isReviewImproved && config.reviewType !== 'improved' ? (
-                            <li>
-                                <a className="rejectedStatusMenu" data-sid={"segment-"+ this.props.segment.sid} title="set rejected as status"
-                                   onClick={this.changeStatus.bind(this, 'rejected')}>
-                                    REJECTED
-                                </a>
-                            </li>
-                        ) : (null) }
-
-                        {this.props.isReviewImproved || config.reviewType == 'improved' ? (
-                            <li>
-                                <a className="fx" data-sid={"segment-"+ this.props.segment.sid} title="set fixed as status"
-                                   onClick={this.changeStatus.bind(this, 'fixed')}>
-                                    FIXED
-                                </a>
-                            </li>
-                        ) : (null) }
-                        {this.props.isReviewImproved || config.reviewType == 'improved' ? (
-                            <li>
-                                <a className="rb" data-sid={"segment-"+ this.props.segment.sid} title="set rebutted as status"
-                                   onClick={this.changeStatus.bind(this, 'rebutted')}>
-                                    REBUTTED
-                                </a>
-                            </li>
-                        ) : (null) }
-
-                    </ul>
-                ) : (null)}
 
             </div>
         )

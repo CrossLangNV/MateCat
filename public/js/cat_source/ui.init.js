@@ -38,6 +38,8 @@ $.extend(UI, {
             LXQ.initPopup();
         }
         NOTIFICATIONS.start();
+        UI.checkTagProximity =  _.debounce( UI.checkTagProximityFn, 500);
+        UI.updateSegmentTranslation =  _.debounce( UI.updateSegmentTranslationFn, 500);
     },
 	init: function() {
 

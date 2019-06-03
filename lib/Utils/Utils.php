@@ -109,8 +109,7 @@ class Utils {
                 'userAgent' => $u_agent,
                 'name'      => $bname,
                 'version'   => $version,
-                'platform'  => $platform,
-                'pattern'   => $pattern
+                'platform'  => $platform
         );
     }
 
@@ -274,37 +273,37 @@ class Utils {
 
 		$info = curl_getinfo($ch);
 
-		//Log::doLog($d);
-		//Log::doLog($output);
+		//Log::doJsonLog($d);
+		//Log::doJsonLog($output);
 
 		curl_close($ch);
 
 		return $output;
 	}
 
-	public static function getRealIpAddr() {
+    public static function getRealIpAddr() {
 
-		foreach ( array(
-					'HTTP_CLIENT_IP',
-					'HTTP_X_FORWARDED_FOR',
-					'HTTP_X_FORWARDED',
-					'HTTP_X_CLUSTER_CLIENT_IP',
-					'HTTP_FORWARDED_FOR',
-					'HTTP_FORWARDED',
-					'REMOTE_ADDR'
-			       ) as $key ) {
-			if ( array_key_exists( $key, $_SERVER ) === true) {
-				foreach ( explode(',', $_SERVER[$key]) as $ip ) {
-					if( filter_var( trim($ip), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4|FILTER_FLAG_IPV6 ) !== false ) {
+        foreach ( [
+                      'HTTP_CLIENT_IP',
+                      'HTTP_X_FORWARDED_FOR',
+                      'HTTP_X_FORWARDED',
+                      'HTTP_X_CLUSTER_CLIENT_IP',
+                      'HTTP_FORWARDED_FOR',
+                      'HTTP_FORWARDED',
+                      'REMOTE_ADDR'
+                  ] as $key ) {
+            if ( isset( $_SERVER[ $key ] ) ) {
+                foreach ( explode( ',', $_SERVER[ $key ] ) as $ip ) {
+                    if ( filter_var( trim( $ip ), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 ) !== false ) {
                         return $ip;
                     }
-				}
-			}
-		}
+                }
+            }
+        }
 
-	}
+    }
 
-	public static function sendErrMailReport( $htmlContent, $subject = null ){
+    public static function sendErrMailReport( $htmlContent, $subject = null ){
 
         if ( !INIT::$SEND_ERR_MAIL_REPORT ) {
           return true ;
@@ -325,7 +324,7 @@ class Utils {
 		WorkerClient::init( new AMQHandler() );
 		\WorkerClient::enqueue( 'MAIL', '\AsyncTasks\Workers\ErrMailWorker', $queue_element, array( 'persistent' => WorkerClient::$_HANDLER->persistent ) );
 
-		Log::doLog( 'Message has been sent' );
+		Log::doJsonLog( 'Message has been sent' );
 		return true;
 
 	}
@@ -414,7 +413,7 @@ class Utils {
                 substr( $hash, 20, 12 ) .
                 '}';
 
-        \Log::doLog('created GUID', $guid ); 
+        \Log::doJsonLog( $guid );
 
         return $guid;
     }
@@ -429,6 +428,26 @@ class Utils {
             return false;
         }
         return true;
+    }
+
+    public static function isValidFileName( $fileUpName ) {
+
+        if (
+                stripos( $fileUpName, '../' ) !== false ||
+                stripos( $fileUpName, '/../' ) !== false ||
+                stripos( $fileUpName, '/..' ) !== false ||
+                stripos( $fileUpName, '%2E%2E%2F' ) !== false ||
+                stripos( $fileUpName, '%2F%2E%2E%2F' ) !== false ||
+                stripos( $fileUpName, '%2F%2E%2E' ) !== false ||
+                stripos( $fileUpName, '.' ) === 0 ||
+                stripos( $fileUpName, '%2E' ) === 0
+        ) {
+            //Directory Traversal!
+            return false;
+        }
+
+        return true;
+
     }
 
     public static function filterLangDetectArray( $arr ) {
@@ -452,7 +471,7 @@ class Utils {
                 }
                 $outcome = unlink( $fileInfo->getPathname() );
                 if ( !$outcome ) {
-                    Log::doLog( "fail deleting " . $fileInfo->getPathname() );
+                    Log::doJsonLog( "fail deleting " . $fileInfo->getPathname() );
                 }
             }
         }
@@ -498,7 +517,6 @@ class Utils {
             }
 
             if( $raise && $error != JSON_ERROR_NONE ){
-                Log::doLog( $msg );
                 throw new Exception( $msg, $error );
             }
 
@@ -530,7 +548,7 @@ class Utils {
 
 	// Previously in FileFormatConverter
 	//remove UTF-8 BOM
-	public static function stripBOM( $string, $utf = 8 ) {
+	public static function stripFileBOM( $string, $utf = 8 ) {
 		//depending on encoding, different slices are to be cut
 		switch ( $utf ) {
 			case 16:
@@ -547,6 +565,11 @@ class Utils {
 
 		return $string;
 	}
+
+	public static function stripBOM( $string ){
+        //PATCH TO FIX BOM INSERTIONS
+        return str_replace( "\xEF\xBB\xBF", '', $string );
+    }
 
 	public static function isJobBasedOnMateCatFilters($jobId) {
 
@@ -568,9 +591,9 @@ class Utils {
 
 		} catch (\Exception $e ){
 			$msg = " CRITICAL: " . $jobId . " has no files in storage... " . $e->getMessage();
-			Log::doLog( str_repeat("*", strlen( $msg ) + 10 ) );
-			Log::doLog( "*****$msg*****" );
-			Log::doLog( str_repeat("*", strlen( $msg ) + 10 ) );
+			Log::doJsonLog( str_repeat("*", strlen( $msg ) + 10 ) );
+			Log::doJsonLog( "*****$msg*****" );
+			Log::doJsonLog( str_repeat("*", strlen( $msg ) + 10 ) );
 		}
 
 	}

@@ -28,7 +28,8 @@ class Bootstrap {
         self::$CONFIG       = parse_ini_file( self::$_ROOT . DIRECTORY_SEPARATOR . 'inc/config.ini', true );
         $OAUTH_CONFIG       = @parse_ini_file( self::$_ROOT . DIRECTORY_SEPARATOR . 'inc/oauth_config.ini', true );
 
-        register_shutdown_function( [ 'Bootstrap', 'fatalErrorHandler' ] );
+        register_shutdown_function( [ 'Bootstrap', 'shutdownFunctionHandler' ] );
+        set_exception_handler( [ 'Bootstrap', 'exceptionHandler' ] );
 
         $mv = parse_ini_file( 'version.ini' );
         self::$_INI_VERSION = $mv['version'];
@@ -86,7 +87,7 @@ class Bootstrap {
             WorkerClient::init();
             Database::obtain ( INIT::$DB_SERVER, INIT::$DB_USER, INIT::$DB_PASS, INIT::$DB_DATABASE );
         } catch( \Exception $e ){
-            Log::doLog( $e->getMessage() );
+            Log::doJsonLog( $e->getMessage() );
         }
 
         if ( !is_dir( INIT::$STORAGE_DIR ) ) {
@@ -155,7 +156,66 @@ class Bootstrap {
         $this->autoLoadedFeatureSet->run('bootstrapCompleted');
     }
 
-    public static function fatalErrorHandler() {
+    public static function exceptionHandler( $exception ) {
+
+        Log::$fileName = 'fatal_errors.txt';
+
+        try {
+            /**
+             * @var $exception Exception
+             */
+            throw $exception;
+        } catch ( InvalidArgumentException $e ) {
+            $code = 400;
+            $message = "Bad Request";
+        } catch ( Exceptions\NotFoundException $e ) {
+            $code = 404;
+            $message = "Not Found";
+            \Log::doJsonLog( [ "error" => 'Record Not found error for URI: ' . $_SERVER[ 'REQUEST_URI' ] . " - " . "{$exception->getMessage()} ", "trace" => $exception->getTrace() ] );
+        }  catch ( Exceptions\AuthorizationError $e ) {
+            $code = 403;
+            $message = "Forbidden";
+            \Log::doJsonLog( [ "error" => 'Access not allowed error for URI: ' . $_SERVER[ 'REQUEST_URI' ] . " - " . "{$exception->getMessage()} ", "trace" => $exception->getTrace() ] );
+        } catch ( \PDOException $e ) {
+            $code = 503;
+            $message = "Service Unavailable";
+            \Utils::sendErrMailReport( $exception->getMessage() . "" . $exception->getTraceAsString(), 'Generic error' );
+            \Log::doJsonLog( [ "error" => $exception->getMessage(), "trace" => $exception->getTrace() ] );
+        } catch ( Exception $e ) {
+            $code = 500;
+            $message = "Internal Server Error";
+            \Utils::sendErrMailReport( $exception->getMessage() . "" . $exception->getTraceAsString(), 'Generic error' );
+            \Log::doJsonLog( [ "error" => $exception->getMessage(), "trace" => $exception->getTrace() ] );
+        }
+
+        header( "HTTP/1.1 " . $code . " " . $message );
+
+        if ( ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) == 'xmlhttprequest' ) || @$_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
+
+            //json_rersponse
+            if ( INIT::$PRINT_ERRORS ) {
+                echo json_encode( [
+                        "errors" => [ [ "code" => -1000, "message" => $exception->getMessage() ] ], "data" => []
+                ] );
+            } else {
+                echo json_encode( [
+                        "errors"  => [
+                                [
+                                        "code"    => -1000,
+                                        "message" => "Oops we got an Error. Contact <a href='mailto:" . INIT::$SUPPORT_MAIL . "'>" . INIT::$SUPPORT_MAIL . "</a>"
+                                ]
+                        ], "data" => []
+                ] );
+            }
+
+        } elseif ( INIT::$PRINT_ERRORS ) {
+            echo $exception->getMessage() . "\n";
+            echo $exception->getTraceAsString() . "\n";
+        }
+
+    }
+
+    public static function shutdownFunctionHandler() {
 
         $errorType = array(
                 E_CORE_ERROR        => 'E_CORE_ERROR',
@@ -201,7 +261,7 @@ class Bootstrap {
                 $output .= "</pre>";
 
                 Log::$fileName = 'fatal_errors.txt';
-                Log::doLog( $output );
+                Log::doJsonLog( $output );
                 Utils::sendErrMailReport( $output );
 
                 header( "HTTP/1.1 200 OK" );
@@ -347,24 +407,28 @@ class Bootstrap {
             if ( property_exists( 'INIT', $KEY ) ) {
                 INIT::${$KEY} = $value;
             }
-
         }
 
         if ( stripos( PHP_SAPI, 'cli' ) === false ) {
 
             register_shutdown_function( 'Bootstrap::sessionClose' );
-            // Get HTTPS server status
-            $localProto = isset( $_SERVER[ 'HTTPS' ] ) ? "https" : "http";
-            // Override if header is set from load balancer
-            if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-                $localProto = $_SERVER['HTTP_X_FORWARDED_PROTO'];
-            }
-            INIT::$PROTOCOL = $localProto;
-            INIT::$HTTPHOST = INIT::$PROTOCOL . "://" . $_SERVER[ 'HTTP_HOST' ];
 
-        } else {
-            INIT::$HTTPHOST = $env[ 'CLI_HTTP_HOST' ];
+            // Get HTTPS server status
+            // Override if header is set from load balancer
+            $localProto = 'http';
+            foreach ( [ 'HTTPS', 'HTTP_X_FORWARDED_PROTO' ] as $_key ) {
+                if ( isset( $_SERVER[ $_key ] ) ) {
+                    $localProto = 'https';
+                    break;
+                }
+            }
+
+            INIT::$PROTOCOL = $localProto;
+            ini_set( 'session.cookie_domain', '.' . INIT::$COOKIE_DOMAIN );
+
         }
+
+        INIT::$HTTPHOST = INIT::$CLI_HTTP_HOST;
 
         INIT::obtain(); //load configurations
 

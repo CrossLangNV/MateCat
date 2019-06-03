@@ -10,6 +10,7 @@
 namespace SubFiltering\Filters;
 
 use SubFiltering\Commons\AbstractHandler;
+use SubFiltering\Commons\Constants;
 
 class TwigToPh extends AbstractHandler {
 
@@ -19,15 +20,18 @@ class TwigToPh extends AbstractHandler {
      * @return string
      */
     public function transform( $segment ) {
-        preg_match_all( '/{[{%#].*?[}%#]}/', $segment, $html, PREG_SET_ORDER );
+        preg_match_all( '/{[{%#][^<>]+[}%#]}/', $segment, $html, PREG_SET_ORDER );
         foreach ( $html as $pos => $twig_variable ) {
-            //replace subsequent elements excluding already encoded
-            $segment = preg_replace(
-                    '/' . preg_quote( $twig_variable[0], '/' ) . '/',
-                    '<ph id="__mtc_' . $this->getPipeline()->getNextId() . '" equiv-text="base64:' . base64_encode( $twig_variable[ 0 ] ) . '"/>',
-                    $segment,
-                    1
-            );
+            //check if inside twig variable there is a tag because in this case shouldn't replace the content with PH tag
+            if( !strstr($twig_variable[0], Constants::GTPLACEHOLDER) ){
+                //replace subsequent elements excluding already encoded
+                $segment = preg_replace(
+                        '/' . preg_quote( $twig_variable[0], '/' ) . '/',
+                        '<ph id="__mtc_' . $this->getPipeline()->getNextId() . '" equiv-text="base64:' . base64_encode( $twig_variable[ 0 ] ) . '"/>',
+                        $segment,
+                        1
+                );
+            }
         }
 
         return $segment;

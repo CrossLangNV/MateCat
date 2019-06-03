@@ -19,6 +19,8 @@ class FeatureSet {
      */
     private $features = [] ;
 
+    protected  $_ignoreDependencies = false ;
+
     /**
      * Initializes a new FeatureSet. If $features param is provided, FeaturesSet is populated with the given params.
      * Otherwise it is populated with mandatory features.
@@ -114,7 +116,12 @@ class FeatureSet {
     }
 
     /**
-     * Features are attached to project via project_metadata.
+     * Load features that should be enabled on project scope.
+     *
+     * This fetures include
+     *
+     * 1. the ones explicity defined `project_metadata`;
+     * 2. the ones in autoload array that can be forcedly enabled on project.
      *
      * @param Projects_ProjectStruct $project
      *
@@ -123,8 +130,16 @@ class FeatureSet {
      */
      public function loadForProject( Projects_ProjectStruct $project ) {
          $this->clear();
-         $this->loadAutoActivableAutoloadFeatures();
-         $this->loadFromString( $project->getMetadataValue( Projects_MetadataDao::FEATURES_KEY  ) );
+         $this->_setIgnoreDependencies( true );
+         $this->loadForceableProjectFeatures();
+         $this->loadFromCodes(
+                 FeatureSet::splitString( $project->getMetadataValue( Projects_MetadataDao::FEATURES_KEY  ) )
+         );
+         $this->_setIgnoreDependencies( false ) ;
+    }
+
+    protected function _setIgnoreDependencies(  $value ) {
+         $this->_ignoreDependencies = $value ;
     }
 
     public function clear() {
@@ -161,16 +176,15 @@ class FeatureSet {
     }
 
     /**
-     * Loads features that can be activated automatically on project creation phase, reading from
-     * the list of AUTOLOAD_PLUGINS ( config.ini )
+     * Loads features that can be forced on projects, even if they are not assigned to project explicitly,
+     * reading from AUTOLOAD_PLUGINS.
      *
      * @throws Exception
      */
-    public function loadAutoActivableAutoloadFeatures() {
-
+    public function loadForceableProjectFeatures() {
         $returnable = array_filter( $this->__getAutoloadPlugins(), function ( BasicFeatureStruct $feature ) {
             $concreteClass = $feature->toNewObject();
-            return $concreteClass->isAutoActivableOnProject();
+            return $concreteClass->isForceableOnProject() ;
         } );
 
         $this->merge( $returnable );
@@ -278,7 +292,7 @@ class FeatureSet {
                         throw $e;
                     }
                     catch ( Exception $e ) {
-                        Log::doLog("Exception running filter " . $method . ": " . $e->getMessage() );
+                        Log::doJsonLog("Exception running filter " . $method . ": " . $e->getMessage() );
                     }
                 }
             }
@@ -395,7 +409,9 @@ class FeatureSet {
      */
     private function merge( $new_features ) {
 
-        $this->_loadFeatureDependencies();
+        if ( ! $this->_ignoreDependencies ) {
+            $this->_loadFeatureDependencies();
+        }
 
         $all_features = [] ;
         $conflictingDeps = [] ;
@@ -407,10 +423,13 @@ class FeatureSet {
 
             $conflictingDeps[ $feature->feature_code ] = $baseFeature::getConflictingDependencies();
 
-            $deps = array_map( function( $code ) {
-                return new BasicFeatureStruct(['feature_code' => $code ]);
-            }, $baseFeature->getDependencies() );
+            $deps = [] ;
 
+            if (!$this->_ignoreDependencies ) {
+                $deps = array_map( function( $code ) {
+                    return new BasicFeatureStruct(['feature_code' => $code ]);
+                }, $baseFeature->getDependencies() );
+            }
 
             $all_features = array_merge( $all_features, $deps, [$feature]  ) ;
         }

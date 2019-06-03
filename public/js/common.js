@@ -4,9 +4,11 @@ APP = {
     init: function () {
         this.setLoginEvents();
         if (config.isLoggedIn) {
-            APP.teamStorageName = 'teamId-' + config.userMail;
-            this.setTeamNameInMenu();
-            this.setUserImage()
+            var self = this;
+            APP.USER.loadUserData().done(function ( ) {
+                self.setTeamNameInMenu();
+                self.setUserImage();
+            });
         }
         this.isCattool = $( 'body' ).hasClass( 'cattool' );
         $( "body" ).on( 'click', '.modal .x-popup', function ( e ) {
@@ -123,18 +125,27 @@ APP = {
             checkbox_label: options['checkbox-label']
         } );
     },
+    getRandomUrl : function() {
+
+        if ( config.enableMultiDomainApi ) {
+            return '//' + Math.floor(Math.random() * config.ajaxDomainsNumber ) + '.ajax.' + location.host + '/';
+        }
+        return config.basepath;
+
+    },
     doRequest: function ( req, log ) {
 
         var logTxt = (typeof log == 'undefined') ? '' : '&type=' + log;
         var version = (typeof config.build_number == 'undefined') ? '' : '-v' + config.build_number;
-        var builtURL = (req.url) ? req.url : config.basepath + '?action=' + req.data.action + logTxt + this.appendTime() + version + ',jid=' + config.id_job + ((typeof req.data.id_segment != 'undefined') ? ',sid=' + req.data.id_segment : '');
+        var builtURL = (req.url) ? req.url : this.getRandomUrl() + '?action=' + req.data.action + logTxt + this.appendTime() + version + ',jid=' + config.id_job + ((typeof req.data.id_segment != 'undefined') ? ',sid=' + req.data.id_segment : '');
         var reqType = (req.type) ? req.type : 'POST';
         var setup = {
             url: builtURL,
 
 			data: req.data,
 			type: reqType,
-			dataType: 'json'
+			dataType: 'json',
+            xhrFields: { withCredentials: true },
 			//TODO set timeout longer than server curl for TM/MT
 		};
 
@@ -692,7 +703,11 @@ APP = {
     },
 
     getUserShortName: function (user) {
-        return (user.first_name[0] + user.last_name[0]).toUpperCase();
+        if ( user && user.first_name && user.last_name ) {
+            return (user.first_name[0] + user.last_name[0]).toUpperCase();
+        } else {
+            return "AU";
+        }
     },
 
     getLastTeamSelected: function (teams) {
@@ -869,8 +884,10 @@ APP = {
             var team = this.getLastTeamSelected(APP.USER.STORE.teams);
             $('.user-menu-container .organization-name').text(team.name);
         } else {
-            APP.USER.loadUserData();
-            setTimeout(this.setTeamNameInMenu.bind(this), 500);
+            var self = this;
+            APP.USER.loadUserData().done(function (  ) {
+                self.setTeamNameInMenu.bind(self);
+            });
         }
     },
 
@@ -976,18 +993,5 @@ $.extend( $.expr[":"], {
         return (elem.textContent || elem.innerText || "").toLowerCase().indexOf( (match[3] || "").toLowerCase() ) >= 0;
     }
 } );
-
-var _prum = [['id',
-    '54fdb531abe53d014cfbfea5'],
-    ['mark',
-        'firstbyte',
-        (new Date()).getTime()]];
-(function () {
-    var s = document.getElementsByTagName( 'script' )[0]
-            , p = document.createElement( 'script' );
-    p.async = 'async';
-    p.src = '//rum-static.pingdom.net/prum.min.js';
-    s.parentNode.insertBefore( p, s );
-})();
 
 

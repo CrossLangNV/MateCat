@@ -250,7 +250,7 @@ UI = {
 
             var saveBehaviour = true;
             if (operation != 'noSave') {
-                if ((operation == 'translated') || (operation == 'Save'))
+                if ((operation == 'translated') || (operation == 'save'))
                     saveBehaviour = false;
             }
 
@@ -485,6 +485,18 @@ UI = {
         var node = document.createElement("span");
         var br = document.createElement("br");
         node.setAttribute('class', 'monad softReturn ' + config.lfPlaceholderClass);
+        node.setAttribute('contenteditable', 'false');
+        node.appendChild(br);
+        insertNodeAtCursor(node);
+        this.unnestMarkers();
+    },
+
+    handleSoftReturn: function(e) {
+        if(!this.hiddenTextEnabled) return;
+        e.preventDefault();
+        var node = document.createElement("span");
+        var br = document.createElement("br");
+        node.setAttribute('class', 'monad softReturn ' + config.crPlaceholderClass);
         node.setAttribute('contenteditable', 'false');
         node.appendChild(br);
         insertNodeAtCursor(node);
@@ -797,20 +809,10 @@ UI = {
 				this.scrollSegment(segToScrollElem, options.segmentToScroll, options.highlight );
 				UI.openSegment(segToScrollElem);
 			} else if (options.segmentToOpen) {
-                $('#segment-' + options.segmentToOpen + ' ' + UI.targetContainerSelector()).click();
+                var segToScrollElem = UI.getSegmentById(options.segmentToOpen);
+                this.scrollSegment(segToScrollElem, options.segmentToOpen, options.highlight );
+                UI.openSegment(segToScrollElem);
             }
-            // else if ( UI.editarea.length && ($('#segment-' + UI.currentSegmentId).length) && (!$('#segment-' + UI.currentSegmentId).hasClass('opened'))) {
-            //     UI.openSegment(UI.editarea);
-            // }
-
-			if ($('#segment-' + UI.startSegmentId).hasClass('readonly')) {
-                setTimeout(function () {
-                    var next = UI.findNextSegment(UI.startSegmentId);
-                    if (next) {
-                        UI.gotoSegment(next.attr('data-split-original-id'));
-                    }
-                }, 100);
-			}
 
 			if (options.applySearch) {
 				$('mark.currSearchItem').removeClass('currSearchItem');
@@ -1041,7 +1043,6 @@ UI = {
                 var mountPoint = $(".article-segments-container-" + fid)[0];
                 this.SegmentsContainers[fid] = ReactDOM.render(React.createElement(SegmentsContainer, {
                     fid: fid,
-                    isReviewImproved: ReviewImproved.enabled() && Review.enabled(),
                     isReviewExtended: ReviewExtended.enabled(),
                     reviewType: Review.type,
                     enableTagProjection: UI.enableTagProjection,
@@ -1255,11 +1256,12 @@ UI = {
 	},
     retrieveStatistics: function () {
         var path = sprintf(
-            '/api/v1/jobs/%s/%s/stats',
+            APP.getRandomUrl() + 'api/v1/jobs/%s/%s/stats',
             config.id_job, config.password
         );
         $.ajax({
             url: path,
+            xhrFields: { withCredentials: true },
             type: 'get',
         }).done( function( data ) {
             if (data.stats){
@@ -1636,6 +1638,7 @@ UI = {
 		}
 	},
     segmentQA : function( segment ) {
+	    if ( UI.tagMenuOpen ) return;
         if ( ! ( segment instanceof UI.Segment) ) {
             segment = new UI.Segment( segment );
         }
@@ -1680,7 +1683,7 @@ UI = {
                     UI.markTagMismatch(d.details);
                 }else{
                     SegmentActions.setSegmentWarnings(segment.id,{});
-                    UI.removeHighlightCorrespondingTags(UI.getSegmentById(segment.id));
+                    UI.removeHighlightErrorsTags(UI.getSegmentById(segment.id));
                 }
                 $(document).trigger('getWarning:local:success', { resp : d, segment: segment }) ;
 			}
@@ -2357,7 +2360,7 @@ UI = {
     clickOnTranslatedButton: function (button) {
         var buttonValue = ($(button).hasClass('translated')) ? 'translated' : 'next-untranslated';
         //??
-        $('.test-invisible').remove();
+        $('.temp-highlight-tags').remove();
 
         // UI.setSegmentModified( UI.currentSegment, false ) ;
 

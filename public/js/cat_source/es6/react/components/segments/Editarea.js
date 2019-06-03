@@ -21,6 +21,7 @@ class Editarea extends React.Component {
         this.onKeyDownEvent = this.onKeyDownEvent.bind(this);
         this.onKeyPressEvent = this.onKeyPressEvent.bind(this);
         this.onPasteEvent = this.onPasteEvent.bind(this);
+        this.keyPressed = false;
     }
 
     allowHTML(string) {
@@ -113,11 +114,14 @@ class Editarea extends React.Component {
     }
 
     onInputEvent(e) {
-        UI.inputEditAreaEventHandler.call(this.editAreaRef, e);
-        this.checkEmptyText();
-        this.emitTrackChanges();
+        if (!this.keyPressed && !this.compositionsStart) {
+            UI.inputEditAreaEventHandler.call(this.editAreaRef, e);
+            this.checkEmptyText();
+            this.emitTrackChanges();
+        }
     }
     onKeyDownEvent(e) {
+        this.keyPressed = true;
     	//on textarea the event of ctrz+z have a preventDefault.
 		//We added this lines for fix the bug
 		//TODO:delete preventDefault on ui.events.js
@@ -127,11 +131,20 @@ class Editarea extends React.Component {
         UI.keydownEditAreaEventHandler.call(this.editAreaRef, e);
     }
     onKeyPressEvent(e) {
-        UI.keyPressEditAreaEventHandler.call(this.editAreaRef, e);
+        UI.keyPressEditAreaEventHandler.call(this.editAreaRef, e, this.props.segment.sid);
 		this.emitTrackChanges();
     }
     onKeyUpEvent(e) {
+        this.keyPressed = false;
         this.checkEditToolbar();
+    }
+    onCompositionStartEvent() {
+        this.compositionsStart = true;
+        console.log('CompositionEvent START');
+    }
+    onCompositionEndEvent() {
+        this.compositionsStart = false;
+        console.log('CompositionEvent END');
     }
     onCopyText(e) {
         UI.handleCopyEvent(e);
@@ -197,6 +210,7 @@ class Editarea extends React.Component {
                 self.emitTrackChanges();
             }
         });
+        focusOnPlaceholder();
     }
     render() {
         let lang = '';
@@ -233,7 +247,9 @@ class Editarea extends React.Component {
                     onKeyPress={this.onKeyPressEvent}
                     onKeyUp={this.onKeyUpEvent.bind(this)}
                     onCopy={this.onCopyText.bind(this)}
-                    onInput={this.onInputEvent}
+                    onInput={_.debounce(this.onInputEvent, 500)}
+                    onCompositionStart={this.onCompositionStartEvent.bind(this)}
+                    onCompositionEnd={this.onCompositionEndEvent.bind(this)}
                     onPaste={this.onPasteEvent}
                     ref={(ref) => this.editAreaRef = ref}
                     tabIndex="-1"

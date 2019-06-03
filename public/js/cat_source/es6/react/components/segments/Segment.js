@@ -8,8 +8,6 @@ let SegmentActions = require('../../actions/SegmentActions');
 let SegmentConstants = require('../../constants/SegmentConstants');
 let SegmentHeader = require('./SegmentHeader').default;
 let SegmentFooter = require('./SegmentFooter').default;
-let SegmentBody = require('./SegmentBody').default;
-let TranslationIssuesSideButtons = require('../review/TranslationIssuesSideButton').default;
 let IssuesContainer = require('./footer-tab-issues/SegmentFooterTabIssues').default;
 let ReviewExtendedPanel = require('../review_extended/ReviewExtendedPanel').default;
 let WrapperLoader = require('../../common/WrapperLoader').default;
@@ -88,9 +86,6 @@ class Segment extends React.Component {
             this.dataAttrTagged = "nottagged";
         } else {
             this.dataAttrTagged = "tagged";
-        }
-        if (this.props.isReviewImproved) {
-            classes.push("reviewImproved");
         }
         if (this.props.segment.edit_area_locked) {
             classes.push("editAreaLocked");
@@ -191,6 +186,17 @@ class Segment extends React.Component {
             });
         }
     }
+    checkSegmentStatus() {
+        let classes = this.state.segment_classes.slice(0);
+        let index = classes.findIndex(function ( item ) {
+            return item.indexOf("status-") > -1;
+        });
+
+        if (index >= 0) {
+            classes.splice(index, 1);
+        }
+        return classes;
+    }
     isSplitted() {
         return (!_.isUndefined(this.props.segment.split_group));
     }
@@ -212,7 +218,7 @@ class Segment extends React.Component {
                 ( !this.isSplitted() || (this.isSplitted() && this.isFirstOfSplit()))
             )
         ) {
-            return <TranslationIssuesSideButtons
+            return <TranslationIssuesSideButton
                     sid={this.props.segment.sid.split('-')[0]}
                     reviewType={this.props.reviewType}
                     segment={this.props.segment}
@@ -229,6 +235,8 @@ class Segment extends React.Component {
     }
 
     checkSegmentClasses() {
+        // let classes =  this.checkSegmentStatus();
+        // classes =  classes.concat(this.createSegmentClasses());
         let classes =  this.state.segment_classes.concat(this.createSegmentClasses());
         if (classes.indexOf("muted") > -1 && classes.indexOf("editor") > -1){
             let indexEditor = classes.indexOf("editor");
@@ -427,7 +435,6 @@ class Segment extends React.Component {
                     <SegmentBody
                         segment={this.props.segment}
                         readonly={this.state.readonly}
-                        isReviewImproved={this.props.isReviewImproved}
                         decodeTextFn={this.props.decodeTextFn}
                         tagModesEnabled={this.props.tagModesEnabled}
                         speech2textEnabledFn={this.props.speech2textEnabledFn}

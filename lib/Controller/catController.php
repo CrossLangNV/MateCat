@@ -1,9 +1,10 @@
 <?php
 use ActivityLog\Activity;
 use ActivityLog\ActivityLogStruct;
+use Exceptions\AuthorizationError;
 use Exceptions\NotFoundException;
 use TmKeyManagement\UserKeysModel;
-
+use Engines_Intento as Intento;
 
 /**
  * Description of catController
@@ -307,13 +308,17 @@ class catController extends viewController {
 
     }
 
+    /**
+     * @return mixed|void
+     * @throws NotFoundException
+     * @throws AuthorizationError
+     */
     public function setTemplateVars() {
 
         if ( $this->job_not_found ) {
             parent::makeTemplate( 'job_not_found.html' );
             $this->template->support_mail = INIT::$SUPPORT_MAIL;
-            header( "HTTP/1.0 404 Not Found" );
-            return;
+            throw new NotFoundException( "Job Not Found." );
         }
 
         if( $this->job_cancelled ) parent::makeTemplate( 'job_cancelled.html' );
@@ -379,7 +384,7 @@ class catController extends viewController {
             $this->template->logged_user         = ( $this->isLoggedIn() !== false ) ? $this->user->shortName() : "";
             $this->template->extended_user       = ( $this->isLoggedIn() !== false ) ? trim( $this->user->fullName() ) : "";
 
-            return;
+            throw new AuthorizationError( "Forbidden, Job archived/cancelled." );
 
         } else {
             $this->template->pid                 = $this->pid;
@@ -408,7 +413,9 @@ class catController extends viewController {
         $this->template->mt_engines = $this->translation_engines;
         $this->template->mt_id      = $this->chunk->id_mt_engine ;
 
-        $this->template->first_job_segment   = $this->chunk->job_first_segment ;
+        $this->template->translation_engines_intento_providers = Intento::getProviderList();
+
+        $this->template->first_job_segment   = json_decode($this->firstSegmentOfFiles)[0]->first_segment;
         $this->template->last_job_segment    = $this->chunk->job_last_segment ;
 
         $this->template->owner_email         = $this->job_owner;
@@ -431,7 +438,13 @@ class catController extends viewController {
         $this->template->mt_enabled  = var_export( (bool) $this->chunk->id_mt_engine , true );
 
         $this->template->warningPollingInterval = 1000 * ( INIT::$WARNING_POLLING_INTERVAL );
-        $this->template->segmentQACheckInterval = 1000 * ( INIT::$SEGMENT_QA_CHECK_INTERVAL );
+
+        if ( array_key_exists( explode( '-', $this->target_code )[0] , CatUtils::$cjk ) ) {
+            $this->template->segmentQACheckInterval = 3000 * ( INIT::$SEGMENT_QA_CHECK_INTERVAL );
+        } else {
+            $this->template->segmentQACheckInterval = 1000 * ( INIT::$SEGMENT_QA_CHECK_INTERVAL );
+        }
+
 
         $this->template->maxFileSize    = INIT::$MAX_UPLOAD_FILE_SIZE;
         $this->template->maxTMXFileSize = INIT::$MAX_UPLOAD_TMX_FILE_SIZE;

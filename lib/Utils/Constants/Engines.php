@@ -25,6 +25,8 @@ class Constants_Engines {
     const MMT              = 'MMT';
     const GOOGLE_TRANSLATE = 'GoogleTranslate';
     const JUDICIO          = 'Judicio';
+    const MTHUB            = 'MTHUB';
+    const INTENTO          = 'Intento';
 
     protected static $ENGINES_LIST = [
             self::MY_MEMORY        => self::MY_MEMORY,
@@ -39,6 +41,8 @@ class Constants_Engines {
             self::YANDEX_TRANSLATE => self::YANDEX_TRANSLATE,
             self::GOOGLE_TRANSLATE => self::GOOGLE_TRANSLATE,
             self::JUDICIO          => self::JUDICIO,
+            self::MTHUB            => self::MTHUB,
+            self::INTENTO          => self::INTENTO,
     ];
 
     /**

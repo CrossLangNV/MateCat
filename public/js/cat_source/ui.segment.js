@@ -180,7 +180,7 @@
         enableTagProjectionInJob: function () {
             config.tag_projection_enabled = 1;
             var path = sprintf(
-                '/api/v2/jobs/%s/%s/options',
+                APP.getRandomUrl() + 'api/v2/jobs/%s/%s/options',
                 config.id_job, config.password
             );
             var data = {
@@ -189,7 +189,8 @@
             $.ajax({
                 url: path,
                 type: 'POST',
-                data : data
+                data : data,
+                xhrFields: { withCredentials: true }
             }).done( function( data ) {
                 UI.render({
                     segmentToScroll: UI.getSegmentId(UI.currentSegment),
@@ -206,7 +207,7 @@
         disableTagProjectionInJob: function () {
             config.tag_projection_enabled = 0;
             var path = sprintf(
-                '/api/v2/jobs/%s/%s/options',
+                APP.getRandomUrl() + 'api/v2/jobs/%s/%s/options',
                 config.id_job, config.password
             );
             var data = {
@@ -215,7 +216,8 @@
             $.ajax({
                 url: path,
                 type: 'POST',
-                data : data
+                data : data,
+                xhrFields: { withCredentials: true }
             }).done( function( data ) {
                 UI.render({
                     segmentToScroll: UI.getSegmentId(UI.currentSegment),
@@ -421,10 +423,16 @@
                 id = UI.parsedHash.splittedSegmentId ;
             }
 
+            if ( typeof id === 'undefined' ) {
+                console.debug( 'id is undefined', id);
+                return ;
+            }
+
             if ( MBC.enabled() && MBC.wasAskedByCommentHash( id ) ) {
                 MBC.openSegmentComment( UI.Segment.findEl( id ) ) ;
             } else {
-                SegmentActivator.activate(id);
+                var el = $("section:not(.opened)#segment-" + id);
+                UI.editAreaClick($(UI.targetContainerSelector(), el));
             }
         },
         isReadonlySegment : function( segment ) {
