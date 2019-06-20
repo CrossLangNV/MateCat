@@ -79,7 +79,7 @@
 
                                         <td class="update text-center check"><div><input type="checkbox" disabled="true" checked="true"/></div></td>
                                         <td class="description">
-                                            <div class="mymemory-descr" data-descr="MyMemory: Collaborative translation memory shared with all MateCat users.">MyMemory: Collaborative translation memory shared with all MateCat users.</div>
+                                            <div class="mymemory-descr" data-descr="Mouse: Crosslang POC TM">Mouse: Crosslang PoC</div>
                                         </td>
                                         <td class="privatekey"></td>
                                         <td class="owner text-center">
@@ -351,18 +351,6 @@
                                 <tbody>
 
                                     <tal:block tal:condition="php: page == 'home'">
-                                        <tr class="activemt" data-id="1">
-                                            <td class="mt-provider">MyMemory ( All Pairs )</td>
-                                            <td class="engine-name">
-                                                <div>Machine translation from Google Translate and Microsoft Translator.</div>
-                                            </td>
-                                            <td class="enable-mt text-center">
-                                                <input tal:condition="php: page == 'home'" type="checkbox" checked="checked" />
-                                            </td>
-                                            <td class="action">
-                                                &nbsp;
-                                            </td>
-                                        </tr>
                                         <tal:block tal:repeat="engine mt_engines">
                                         <tr class="" data-id="${engine/id}">
                                             <td class="mt-provider" tal:content="structure engine/name"></td>
