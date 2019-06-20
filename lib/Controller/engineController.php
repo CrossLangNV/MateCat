@@ -296,6 +296,7 @@ class engineController extends ajaxController {
                 $newEngineStruct->extra_parameters[ 'engine' ] = $this->engineData[ 'engine' ];
                 $newEngineStruct->extra_parameters[ 'wso2app' ] = $this->engineData[ 'wso2app' ];
                 $newEngineStruct->extra_parameters[ 'projectname' ] = $this->engineData[ 'projectname' ];
+                $newEngineStruct->extra_parameters[ 'auth' ] = $this->engineData[ 'auth' ];
 
                 break;
 

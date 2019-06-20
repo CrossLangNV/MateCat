@@ -16,7 +16,7 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
     /**
      * @var string
      */
-    public $base_url = "http://judic.io:8093";
+    public $base_url = "https://portal.judic.io/translations";
 
     /**
      * @var string
@@ -29,7 +29,8 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
     public $extra_parameters = array(
         'engine' => "",
         'wso2app'=> "",
-        'projectname' => ""
+        'projectname' => "",
+        'auth' => ""
     );
 
     /**

@@ -76,7 +76,7 @@ class Engines_Judicio extends Engines_AbstractEngine {
         $_config['source'] = $this->_fixLangCode($_config['source']);
         $_config['target'] = $this->_fixLangCode($_config['target']);
 
-        $_headers = array('wso2-app: ' . $this->wso2app, 'Content-Type: application/x-www-form-urlencoded');
+        $_headers = array('wso2-app: ' . $this->wso2app, 'Authorization: Basic ' . base64_encode($this->auth), 'Content-Type: application/x-www-form-urlencoded');
 
         $parameters = array(
             'lp'            => $_config['source'] . '-' . $_config['target'],
