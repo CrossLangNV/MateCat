@@ -17,7 +17,9 @@ $.extend(UI, {
     sendJobToService: function(service_url, date, timezone, job, project) {
         API.JOB.sendServiceRequest(service_url, date, timezone, job, project.name).done(function (data) {
             APP.ModalWindow.onCloseModal();
-            if (!data.job) {
+            if (data.job) {
+                UI.checkShareToTranslatorResponse(data, service_url, date, job, project);
+            } else {
                 UI.showShareTranslatorError();
             }
         }).fail(function () {
