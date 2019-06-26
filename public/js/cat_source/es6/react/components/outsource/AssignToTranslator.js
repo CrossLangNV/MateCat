@@ -171,9 +171,9 @@ class AssignToTranslator extends React.Component {
                                         <button className="send-job ui primary button disabled"
                                         onClick={this.shareJob.bind(this)}
                                         ref={(send) => this.sendButton=send }>Send Job to Translator</button>
-                                        <button className="send-job ui success button"
+                                        <button className="send-job ui primary button"
                                         onClick={this.shareJobService.bind(this)}
-                                        ref={(send) => this.sendServiceButton=send }>Send Job to Dummy Service</button>
+                                        ref={(send) => this.sendServiceButton=send }>Send Job to Translator Pool</button>
                                     </div>
                                 </div>
                             </div>
