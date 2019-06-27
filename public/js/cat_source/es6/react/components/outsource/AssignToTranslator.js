@@ -33,7 +33,7 @@ class AssignToTranslator extends React.Component {
         // TODO : Change this line when the time change
         date.setMinutes(date.getMinutes() + (1 - parseFloat(this.state.timezone)) * 60);
 
-        let service_url = window.location.protocol + "//" + window.location.hostname + ":8090";
+        let service_url = window.location.protocol + "//parrot." + window.location.hostname;
 
         OutsourceActions.sendJobToService(service_url, date, this.state.timezone, this.props.job.toJS(), this.props.project.toJS());
         this.props.closeOutsource();
