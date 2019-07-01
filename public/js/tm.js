@@ -2038,7 +2038,7 @@
 
 
 
-            $('.icon-owner-public').data("powertip", "<div style='line-height: 20px;font-size: 15px;'>Public translation memory.</div>");
+            $('.icon-owner-public').data("powertip", "<div style='line-height: 20px;font-size: 15px;'>Main translation memory.</div>");
             $('.icon-owner-public').powerTip({
                 placement : 's',
             });

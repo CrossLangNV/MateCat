@@ -418,9 +418,7 @@ $.extend(UI.UPLOAD_PAGE, {
 
 
         $('.tmx-select .tm-info-title .icon').popup({
-            html: "<div style='text-align: left'>By updating MyMemory, you are contributing to making MateCat better " +
-            "and helping fellow MateCat users improve their translations.</br></br>" +
-            "For confidential projects, we suggest adding a private TM and selecting the Update option in the Settings panel.</div>",
+            html: "<div style='text-align: left'>Proof of concept TM.</div>",
             position: 'bottom center'
         });
     },
