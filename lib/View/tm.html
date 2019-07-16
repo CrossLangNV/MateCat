@@ -86,7 +86,12 @@
                                             <a class="icon-owner icon-earth icon-owner-public"></a>
                                         </td>
                                         <td class="action">
-                                            <a tal:condition="php: !empty( INIT::$DEFAULT_TM_KEY )" class="btn pull-left addtmx tmx-import-slider"><span class="text">Import TMX</span></a>
+                                            <a class="btn pull-left addtmx"><span class="text">Import TMX</span></a>
+                                            <div  class="wrapper-dropdown-5 pull-left" tabindex="1">&nbsp;
+                                                <ul class="dropdown pull-left">
+                                                    <li><a class="downloadtmx" title="Export TMX" alt="Export TMX"><span class="icon-download"></span>Export TMX</a></li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tal:block tal:condition="php: page == 'cattool'" tal:repeat="key user_keys/job_keys">

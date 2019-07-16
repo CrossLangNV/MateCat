@@ -59,11 +59,6 @@ class loadTMXController extends ajaxController {
 
         if ( !isset( $this->tm_key ) || is_null( $this->tm_key ) || empty( $this->tm_key ) ) {
 
-            if( empty( INIT::$DEFAULT_TM_KEY ) ){
-                $this->result[ 'errors' ][ ] = array( "code" => -2, "message" => "Please specify a TM key." );
-                return;
-            }
-
             /*
              * Added the default Key.
              * This means if no private key are provided the TMX will be loaded in the default MyMemory key
