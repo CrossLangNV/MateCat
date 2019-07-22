@@ -108,14 +108,15 @@ class Engines_Judicio extends Engines_AbstractEngine {
         $mtTranslation = $mtResult['translation'];
 
         $_config['segment'] = $this->_preserveSpecialStrings($_config['segment']);
-        $_config['translation'] = $this->_preserveSpecialStrings($mtTranslation);
+        $_config['translation'] = $this->_preserveSpecialStrings($_config['translation']);
         $_config['source'] = $this->_fixLangCode($_config['source']);
         $_config['target'] = $this->_fixLangCode($_config['target']);
         
         $parameters = array(
             'langpair'      => $_config['source'] . '-' . $_config['target'],
             'seg'           => $_config['segment'],
-            'hyp'           => $_config['translation']
+            'tra'           => $_config['translation'],
+            'hyp'           => $mtTranslation
         );
 
         if ( !empty( $_config[ 'keys' ] ) ) {
