@@ -42,6 +42,9 @@ class SetContributionMTWorker extends SetContributionWorker {
         $config[ 'segment' ]     = $contributionStruct->segment;
         $config[ 'translation' ] = $contributionStruct->translation;
 
+        $jobStruct = $contributionStruct->getJobStruct();
+        $config = array_merge( $config, $this->_extractAvailableKeysForUser( $contributionStruct, $jobStruct ) );
+
         // set the contribution for every key in the job belonging to the user
         $res = $this->_engine->set( $config );
 

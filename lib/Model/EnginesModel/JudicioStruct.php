@@ -24,6 +24,11 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
     public $translate_relative_url = "/translations/blocking";
 
     /**
+     * @var string
+     */
+    public $contribute_relative_url = "/hypothesis";
+
+    /**
      * @var array
      */
     public $extra_parameters = array(

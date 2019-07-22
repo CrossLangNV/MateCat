@@ -7,10 +7,12 @@ class Engines_Judicio extends Engines_AbstractEngine {
     const Judicio_USER_AGENT = 'Judicio.MatecatPlugin/1.0.0';
 
     protected $_config = array(
-            'segment' => null,
-            'source'  => null,
-            'target'  => null
-        );
+            'segment'       => null,
+            'translation'   => null,
+            'source'        => null,
+            'target'        => null,
+            'id_user'       => null
+    );
 
     public function __construct($engineRecord) {
         parent::__construct($engineRecord);
@@ -101,9 +103,40 @@ class Engines_Judicio extends Engines_AbstractEngine {
     }
 
     public function set($_config) {
+        // get latest MT translation
+        $mtResult = $this->get($_config);
+        $mtTranslation = $mtResult['translation'];
 
-        //if engine does not implement SET method, exit
-        return true;
+        $_config['segment'] = $this->_preserveSpecialStrings($_config['segment']);
+        $_config['translation'] = $this->_preserveSpecialStrings($mtTranslation);
+        $_config['source'] = $this->_fixLangCode($_config['source']);
+        $_config['target'] = $this->_fixLangCode($_config['target']);
+        
+        $parameters = array(
+            'langpair'      => $_config['source'] . '-' . $_config['target'],
+            'seg'           => $_config['segment'],
+            'hyp'           => $_config['translation']
+        );
+
+        if ( !empty( $_config[ 'keys' ] ) ) {
+            if ( !is_array( $_config[ 'keys' ] ) ) {
+                $_config[ 'keys' ] = [ $_config[ 'keys' ] ];
+            }
+            $parameters[ 'key' ] = implode( ",", $_config[ 'keys' ] );
+        }
+
+        $this->_setJudicioUserAgent(); //Set Judicio User Agent
+
+        $this->_setAdditionalCurlParams(
+            array(
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query($parameters)
+            )
+        );
+
+        $this->callTM("contribute_relative_url", $parameters, true);
+
+        return $this->result;
     }
 
     public function update($config) {
@@ -117,6 +150,18 @@ class Engines_Judicio extends Engines_AbstractEngine {
         //if engine does not implement DELETE method, exit
         return true;
 
+    }
+
+    private function callTM( $relativeUrl, Array $parameters = array(), $isPostRequest = false, $isJsonRequest = false) {
+        $engineDAO = new EnginesModel_EngineDAO(Database::obtain(INIT::$DB_SERVER, INIT::$DB_USER, INIT::$DB_PASS, INIT::$DB_DATABASE ));
+        $engine_struct = EnginesModel_EngineStruct::getStruct();
+        $engine_struct->id = 1;
+        $eng = $engineDAO->read($engine_struct);
+        $engine_mouse = new Engines_MyMemory($eng[0]);
+        // change base_url to the base_url of the TM
+        $this->engineRecord->base_url = $engine_mouse->engineRecord->base_url;
+
+        $this->call($relativeUrl, $parameters, $isPostRequest, $isJsonRequest);
     }
 
     /**
