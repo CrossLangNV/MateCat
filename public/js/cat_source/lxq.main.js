@@ -101,9 +101,8 @@ LXQ.init  = function () {
         if (data.segment.raw) {
           segment = data.segment.raw;
         }
-        var translation = $(UI.targetContainerSelector(), segment ).text().replace(/\uFEFF/g,'');
         var id_segment = UI.getSegmentId(segment);
-        LXQ.doLexiQA(segment, translation, id_segment,false, function () {}) ;
+        LXQ.doLexiQA(segment, id_segment,false, function () {}) ;
     });
     /* Invoked when page loads */
     $(document).on('getWarning:global:success', function(e, data) {
@@ -118,8 +117,7 @@ LXQ.init  = function () {
     /* invoked when segment is completed (translated clicked)*/
     $(document).on('setTranslation:success', function(e, data) {
         var segment = data.segment;
-        var translation = $(UI.targetContainerSelector(), segment ).text().replace(/\uFEFF/g,'');
-        LXQ.doLexiQA(segment,translation,UI.getSegmentId(segment),true,null);
+        LXQ.doLexiQA(segment,UI.getSegmentId(segment),true,null);
     });
     /* invoked when more segments are loaded...*/
     $( window ).on( 'segmentsAdded', function ( e , data) {
@@ -476,6 +474,7 @@ LXQ.init  = function () {
                         skip = false;
                 }
             }
+            text = text.replace(/<br>/g,'<br>\uFFFF')
             var spcsBeforeRegex = /(( |\&nbsp;)+)<span id="selectionBoundary_/g;
             var spacesBefore = '';
             var match;
@@ -687,6 +686,7 @@ LXQ.init  = function () {
             }
             spcsBeforeRegex.lastIndex = 0;
             text = text.replace(spcsBeforeRegex,spacesBefore+'<span id="selectionBoundary_');
+            text = text.replace(/\uFFFF/g,'')
             return text;
         };
         var toggleHighlighting = function () {
@@ -1016,21 +1016,22 @@ LXQ.init  = function () {
             });
             var html = '';
             if (insource) {
-                //html = UI.clearMarks($.trim($(".source", segment).html()));
                 html = $(".source", segment).html();
-                html = highLightText(html,highlights.source,true,LXQ.shouldHighlighWarningsForSegment(segment),true,segment);
-                // $(".source", segment).html(html);
-                SegmentActions.replaceSourceText(UI.getSegmentId(segment), UI.getSegmentFileId(segment), html);
+                html = highLightText(html,highlights.source,true,LXQ.shouldHighlighWarningsForSegment(segmentId),true,segment);
+                html.indexOf('lxqwarning') > -1 && SegmentActions.replaceSourceText(segmentId, UI.getSegmentFileId(segment), html);
             }
             else {
-                //html = UI.clearMarks($.trim($(UI.targetContainerSelector(), segment).html()));
+                if ( parseInt(UI.currentSegmentId) === parseInt(segmentId) )
+                    saveSelection();
                 html = $(UI.targetContainerSelector(), segment).html();
-                html = highLightText(html,highlights.target,(segment===UI.currentSegment ? true : false),
-                    LXQ.shouldHighlighWarningsForSegment(segment),false,segment);
-                // $(".editarea", segment).html(html);
-                SegmentActions.replaceEditAreaTextContent(UI.getSegmentId(segment), UI.getSegmentFileId(segment), html);
+                var html_new = highLightText(html,highlights.target,(segment===UI.currentSegment ? true : false),
+                    LXQ.shouldHighlighWarningsForSegment(segmentId),false,segment);
+                if ( html.length !== html_new.length ) {
+                    html_new.indexOf('lxqwarning') > -1 && SegmentActions.replaceEditAreaTextContent(segmentId, UI.getSegmentFileId(segment), html_new);
+                }
+                if ( parseInt(UI.currentSegmentId) === parseInt(segmentId) )
+                    restoreSelection();
             }
-            // $('.lxq-error-seg',segment).attr('numberoferrors',LXQ.getVisibleWarningsCountForSegment(segment));
             reloadPowertip(segment);
 
         };
@@ -1151,7 +1152,7 @@ LXQ.init  = function () {
             var seg =  UI.getSegmentById(segment);
             if (UI.getSegmentTarget(seg).length > 0) {
                 // console.log('Requesting QA for: '+segment);
-                LXQ.doLexiQA(seg, UI.getSegmentTarget(seg),segment, true, checkNextUncheckedSegment);
+                LXQ.doLexiQA(seg,segment, true, checkNextUncheckedSegment);
             }
             else {
                 checkNextUncheckedSegment();
@@ -1307,7 +1308,7 @@ LXQ.init  = function () {
     },
 
 
-        doLexiQA: function ( segment, translation, id_segment, isSegmentCompleted, callback ) {
+        doLexiQA: function ( segment, id_segment, isSegmentCompleted, callback ) {
             if ( !LXQ.enabled() ) {
                 if ( callback !== undefined && typeof callback === 'function' ) {
                     callback();
@@ -1315,14 +1316,14 @@ LXQ.init  = function () {
                 return;
             }
 
-            // var html = $( segment ).find( '.source' )
-            //     .html()
-            //     .replace( /<.*?>/g, '' )
-            //     .replace( /\&gt;/g, '>' )
-            //     .replace( /\&lt;/g, '<' );
+            // var sourcetext = UI.getSegmentSource(segment);
+            // var translation = UI.postProcessEditarea(segment, '.targetarea');
+            // translation = UI.clenaupTextFromPleaceholders( translation ).replace(/\uFEFF/g,'');
 
             var sourcetext = $( segment ).find( '.source' ).text();
+            var translation = $(UI.targetContainerSelector(), segment ).text().replace(/\uFEFF/g,'');
 
+            
             var returnUrl = window.location.href.split( '#' )[0] + '#' + id_segment;
             $.lexiqaAuthenticator.doLexiQA(
                 {
@@ -1343,7 +1344,7 @@ LXQ.init  = function () {
                         //myWindow.location =result.qaurl;
                         if ( result.hasOwnProperty( 'qaData' ) && result.qaData.length > 0 ) {
                             //do something here -- enable qa errors
-                           if ( (ind = LXQ.lexiqaData.segments.indexOf( id_segment )) < 0 ) {
+                            if ( (ind = LXQ.lexiqaData.segments.indexOf( id_segment )) < 0 ) {
                                 LXQ.lexiqaData.segments.push( id_segment );
                                 LXQ.updateWarningsUI();
                             }
@@ -1398,17 +1399,20 @@ LXQ.init  = function () {
                             LXQ.lexiqaData.lexiqaWarnings[id_segment] = newWarnings[id_segment];
                             QaCheckGlossary.enabled() && QaCheckGlossary.destroyPowertip(segment);
                             QaCheckBlacklist.enabled() && QaCheckBlacklist.destroyPowertip($( UI.targetContainerSelector(), segment ));
+
                             source_val = LXQ.highLightText( source_val, highlights.source, isSegmentCompleted, true, true, segment );
-                            if ( callback != null && UI.currentSegmentId == id_segment )
+                            if ( source_val.indexOf('lxqwarning') > -1 ) {
+                                SegmentActions.replaceSourceText( id_segment, UI.getSegmentFileId( segment ), source_val );
+                            }
+                            if ( parseInt(UI.currentSegmentId) === parseInt(id_segment) )
                                 saveSelection();
                             target_val = $( UI.targetContainerSelector(), segment ).html();
                             target_val = LXQ.highLightText( target_val, highlights.target, isSegmentCompleted, true, false, segment );
-
-                            SegmentActions.replaceEditAreaTextContent(UI.getSegmentId(segment), UI.getSegmentFileId(segment), target_val);
-                            if ( callback != null && UI.currentSegmentId == id_segment ) {
-                                restoreSelection();
+                            if ( target_val.indexOf('lxqwarning') > -1 ) {
+                                SegmentActions.replaceEditAreaTextContent( id_segment, UI.getSegmentFileId( segment ), target_val );
                             }
-                            SegmentActions.replaceSourceText(UI.getSegmentId(segment), UI.getSegmentFileId(segment), source_val);
+                            if ( parseInt(UI.currentSegmentId) === parseInt(id_segment) )
+                                restoreSelection();
                             LXQ.reloadPowertip( segment );
                             QaCheckBlacklist.enabled() && QaCheckBlacklist.reloadPowertip($( UI.targetContainerSelector(), segment ));
                             QaCheckGlossary.enabled() && QaCheckGlossary.redoBindEvents(segment);
@@ -1423,15 +1427,19 @@ LXQ.init  = function () {
                             //do something else
                             noVisibleErrorsFound = true;
                             source_val = $( ".source", segment ).html();
-                            source_val = LXQ.cleanUpHighLighting( source_val );
-                            if ( callback != null && UI.currentSegmentId == id_segment )
+                            if ( source_val.indexOf('lxqwarning') > -1 ) {
+                                source_val = LXQ.cleanUpHighLighting( source_val );
+                                SegmentActions.replaceSourceText(UI.getSegmentId(segment), UI.getSegmentFileId(segment), source_val);
+                            }
+                            if ( parseInt(UI.currentSegmentId) === parseInt(id_segment) )
                                 saveSelection();
                             target_val = $( UI.targetContainerSelector(), segment ).html();
-                            target_val = LXQ.cleanUpHighLighting( target_val );
-                            SegmentActions.replaceEditAreaTextContent(UI.getSegmentId(segment), UI.getSegmentFileId(segment), target_val);
-                            if ( callback != null && UI.currentSegmentId == id_segment )
+                            if ( target_val.indexOf('lxqwarning') > -1 ) {
+                                target_val = LXQ.cleanUpHighLighting( target_val );
+                                SegmentActions.replaceEditAreaTextContent( UI.getSegmentId( segment ), UI.getSegmentFileId( segment ), target_val );
+                            }
+                            if ( parseInt(UI.currentSegmentId) === parseInt(id_segment) )
                                 restoreSelection();
-                            SegmentActions.replaceSourceText(UI.getSegmentId(segment), UI.getSegmentFileId(segment), source_val);
                             if ( callback != null )
                                 callback();
                         }
@@ -1539,12 +1547,12 @@ LXQ.init  = function () {
                             
                             var source_val = $( ".source", seg ).html();
                             QaCheckGlossary.enabled() && QaCheckGlossary.destroyPowertip(seg);
-                            source_val = LXQ.highLightText( source_val, highlights.source, true, LXQ.shouldHighlighWarningsForSegment( seg ), true, seg );
+                            source_val = LXQ.highLightText( source_val, highlights.source, true, LXQ.shouldHighlighWarningsForSegment( UI.getSegmentId(seg) ), true, seg );
                             QaCheckBlacklist.enabled() && QaCheckBlacklist.destroyPowertip($( UI.targetContainerSelector(), seg ));
                             var target_val = $(".targetarea", seg).html();
-                            target_val = LXQ.highLightText( target_val, highlights.target, true, LXQ.shouldHighlighWarningsForSegment( seg ), false, seg );
-                            SegmentActions.replaceEditAreaTextContent(UI.getSegmentId(seg), UI.getSegmentFileId(seg), target_val);
-                            SegmentActions.replaceSourceText(UI.getSegmentId(seg), UI.getSegmentFileId(seg), source_val);
+                            target_val = LXQ.highLightText( target_val, highlights.target, true, LXQ.shouldHighlighWarningsForSegment( UI.getSegmentId(seg) ), false, seg );
+                            target_val.indexOf('lxqwarning') > -1 && SegmentActions.replaceEditAreaTextContent(UI.getSegmentId(seg), UI.getSegmentFileId(seg), target_val);
+                            source_val.indexOf('lxqwarning') > -1 && SegmentActions.replaceSourceText(UI.getSegmentId(seg), UI.getSegmentFileId(seg), source_val);
                             LXQ.buildPowertipDataForSegment( seg );
                             QaCheckGlossary.enabled() && QaCheckGlossary.redoBindEvents(seg);
                             QaCheckBlacklist.enabled() && QaCheckBlacklist.reloadPowertip($( UI.targetContainerSelector(), seg ));

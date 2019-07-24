@@ -7,6 +7,7 @@
  *
  */
 
+use SubFiltering\Commons\Pipeline;
 use SubFiltering\Filter;
 use SubFiltering\Filters\LtGtDecode;
 use SubFiltering\Filters\LtGtDoubleDecode;
@@ -197,7 +198,14 @@ is &lt; 70 dB(A).';
 
         //Original JSON value from Airbnb
         //"&lt;br>&lt;br>This will "
-        $expected_segment = '&amp;lt;b&gt;de %1$s, &lt;/b&gt;que';
+
+        //Xliff Value
+        //"&amp;lt;br&gt;&amp;lt;br&gt;This will "
+
+        //Fixed by airbnb plugin in Database
+        //"&lt;br&gt;&lt;br&gt;This will"
+
+        $expected_segment = '&lt;b&gt;de %1$s, &lt;/b&gt;que';
 
         //Start test
         $string_from_UI = '&lt;b&gt;de <ph id="mtc_1" equiv-text="base64:JTEkcw=="/>, &lt;/b&gt;que';
@@ -211,7 +219,7 @@ is &lt; 70 dB(A).';
     /**
      * @throws \Exception
      */
-    public function testFix(){
+    public function testFixQA(){
 
         $seg [ 'segment' ] = 'Due to security concerns, we were not able to process your transaction.&amp;lt;br&gt;&amp;lt;br&gt;This will likely happen if you try again.&amp;lt;br&gt;&amp;lt;br&gt;If you feel you should be able to complete your transaction, contact us.';
         $translation = 'Devido a questões de segurança, não foi possível processar sua transação. &lt;br&gt;&lt;br&gt; Isso provavelmente acontecerá se você tentar novamente. &lt;br&gt;&lt;br&gt;Se você acha que deve conseguir concluir sua transação , Contate-Nos.';
@@ -262,6 +270,28 @@ is &lt; 70 dB(A).';
 
         $this->assertEquals( $segment_from_UI, $this->filter->fromLayer0ToLayer1( $db_segment ) );
 
+    }
+
+    public function testSprintf(){
+
+        $channel = new Pipeline();
+        $channel->addLast( new \SubFiltering\Filters\SprintfToPH() );
+
+        $segment = 'Legalább 10%-os befejezett foglalás 20%-dir VAGY';
+        $seg_transformed = $channel->transform( $segment );
+
+        $this->assertEquals( $segment, $seg_transformed );
+
+    }
+
+    public function testTwigUngreedy(){
+        $segment = 'Dear {{customer.first_name}}, This is {{agent.alias}} with Airbnb.';
+        $expected = 'Dear <ph id="mtc_1" equiv-text="base64:e3tjdXN0b21lci5maXJzdF9uYW1lfX0="/>, This is <ph id="mtc_2" equiv-text="base64:e3thZ2VudC5hbGlhc319"/> with Airbnb.';
+
+        $channel = new Pipeline();
+        $channel->addLast( new \SubFiltering\Filters\TwigToPh() );
+        $seg_transformed = $channel->transform( $segment );
+        $this->assertEquals( $expected, $seg_transformed );
     }
 
 }

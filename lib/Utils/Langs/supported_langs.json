@@ -27,7 +27,7 @@
             "isocode":"am",
             "enabled":true,
             "rtl":false,
-            "rfc3066code":"am-AM"
+            "rfc3066code":"am-ET"
         }
     ,
         {
@@ -560,7 +560,7 @@
             "isocode":"eo",
             "enabled":true,
             "rtl":false,
-            "rfc3066code":"eo-XN"
+            "rfc3066code":"eo-EU"
         }
     ,
         {
@@ -1090,7 +1090,7 @@
             "isocode":"rw",
             "enabled":true,
             "rtl":false,
-            "rfc3066code":"rw-KIN"
+            "rfc3066code":"rw-RW"
         }
     ,
         {
@@ -1945,6 +1945,16 @@
             "enabled":true,
             "rtl":false,
             "rfc3066code":"es-ES"
+        }
+    ,
+        {
+            "localized":[{
+                "en":"Spanish United States"
+            }],
+            "isocode":"es",
+            "enabled":true,
+            "rtl":false,
+            "rfc3066code":"es-US"
         }
     ,
         {
