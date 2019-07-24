@@ -293,10 +293,10 @@ class engineController extends ajaxController {
                 $newEngineStruct->name                                = $this->name;
                 $newEngineStruct->uid                                 = $this->user->uid;
                 $newEngineStruct->type                                = Constants_Engines::MT;
-                $newEngineStruct->extra_parameters[ 'engine' ] = $this->engineData[ 'engine' ];
-                $newEngineStruct->extra_parameters[ 'wso2app' ] = $this->engineData[ 'wso2app' ];
-                $newEngineStruct->extra_parameters[ 'projectname' ] = $this->engineData[ 'projectname' ];
-                $newEngineStruct->extra_parameters[ 'auth' ] = $this->engineData[ 'auth' ];
+                $newEngineStruct->extra_parameters[ 'engine' ]        = $this->engineData[ 'engine' ];
+                $newEngineStruct->extra_parameters[ 'wso2app' ]       = $this->engineData[ 'wso2app' ];
+                $newEngineStruct->extra_parameters[ 'projectname' ]   = $this->engineData[ 'projectname' ];
+                $newEngineStruct->extra_parameters[ 'auth' ]          = $this->engineData[ 'auth' ];
 
                 break;
 
@@ -386,6 +386,22 @@ class engineController extends ajaxController {
             $config[ 'segment' ] = "Hello World";
             $config[ 'source' ]  = "en-US";
             $config[ 'target' ]  = "fr-FR";
+
+            $mt_result = $newTestCreatedMT->get( $config );
+
+            if ( isset( $mt_result[ 'error' ][ 'code' ] ) ) {
+                $this->result[ 'errors' ][] = $mt_result[ 'error' ];
+                $engineDAO->delete( $newCreatedDbRowStruct );
+
+                return;
+            }
+        } elseif ( $newEngineStruct instanceof EnginesModel_JudicioStruct ) {
+
+            $newTestCreatedMT    = Engine::getInstance( $newCreatedDbRowStruct->id );
+            $config              = $newTestCreatedMT->getConfigStruct();
+            $config[ 'segment' ] = "Hello World";
+            $config[ 'source' ]  = "en";
+            $config[ 'target' ]  = "fr";
 
             $mt_result = $newTestCreatedMT->get( $config );
 
