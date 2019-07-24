@@ -84,6 +84,33 @@ class changeJobsStatusController extends ajaxController {
             $this->result[ 'code' ]   = 1;
             $this->result[ 'data' ]   = "OK";
             $this->result[ 'status' ] = $this->new_status;
+
+            // purge ActiveMQ analysis queues if job was cancelled
+            if ( $this->new_status == 'cancelled' ) {
+                $curl = new MultiCurlHandler();
+                $options = array(
+                    CURLOPT_HEADER         => false,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_USERAGENT      => INIT::MATECAT_USER_AGENT . INIT::$BUILD_NUMBER,
+                    CURLOPT_CONNECTTIMEOUT => 5,
+                    CURLOPT_SSL_VERIFYPEER => true,
+                    CURLOPT_SSL_VERIFYHOST => 2,
+                    CURLOPT_HTTPHEADER     => array( 'Authorization: Basic ' . base64_encode( "admin:admin" ) )
+                );
+                $curl->createResource(
+                    INIT::$QUEUE_JMX_ADDRESS . "/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=0_analysis_queue_P1/purge",
+                    $options
+                );
+                $curl->createResource(
+                    INIT::$QUEUE_JMX_ADDRESS . "/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=0_analysis_queue_P2/purge",
+                    $options
+                );
+                $curl->createResource(
+                    INIT::$QUEUE_JMX_ADDRESS . "/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=0_analysis_queue_P3/purge",
+                    $options
+                );
+                $curl->multiExec();
+            }
         }
     }
 
