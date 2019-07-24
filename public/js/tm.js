@@ -1471,50 +1471,82 @@
                 }
             });
 
-            var name = $('#new-engine-name').val();
-            var data = {
-                action: 'engine',
-                exec: 'add',
-                name: name,
-                provider: provider,
-                data: JSON.stringify(providerData)
-            };
-            var context = data;
-            context.providerName = providerName;
+            var add = function () {
+                var name = $('#new-engine-name').val();
+                var data = {
+                    action: 'engine',
+                    exec: 'add',
+                    name: name,
+                    provider: provider,
+                    data: JSON.stringify(providerData)
+                };
+                var context = data;
+                context.providerName = providerName;
 
-            APP.doRequest({
-                data: data,
-                context: context,
-                error: function() {
-                    console.log('error');
-                },
-                success: function(d) {
-                    if(d.errors.length) {
+                APP.doRequest({
+                    data: data,
+                    context: context,
+                    error: function () {
                         console.log('error');
-                        if( d.errors[0].code !== undefined ){
-                            $('#mt-provider-details .mt-error-key').text( d.errors[0].message ).show();
-                        } else {
-                            $('#mt-provider-details .mt-error-key').text("API key not valid").show();
-                        }
-                    } else {
-                        if(d.data.config && Object.keys(d.data.config).length) {
-                            UI.renderMTConfig(provider, d.name, d.data.config);
-                        }
-                        else {
-                            console.log('success');
-                            UI.renderNewMT(this, d.data);
-                            if(!APP.isCattool) {
-                                UI.activateMT($('table.mgmt-mt tr[data-id=' + d.data.id + '] .enable-mt input'));
-                                $('#mt_engine').append('<option value="' + d.data.id + '">' + d.data.name + '</option>');
-                                $('#mt_engine option:selected').removeAttr('selected');
-                                $('#mt_engine option[value="' + d.data.id + '"]').attr('selected', 'selected');
+                    },
+                    success: function (d) {
+                        if (d.errors.length) {
+                            console.log('error');
+                            if (d.errors[0].code !== undefined) {
+                                $('#mt-provider-details .mt-error-key').text(d.errors[0].message).show();
+                            } else {
+                                $('#mt-provider-details .mt-error-key').text("API key not valid").show();
                             }
-                            $('#mt_engine_int').val('none').trigger('change');
+                        } else {
+                            if (d.data.config && Object.keys(d.data.config).length) {
+                                UI.renderMTConfig(provider, d.name, d.data.config);
+                            }
+                            else {
+                                console.log('success');
+                                UI.renderNewMT(this, d.data);
+                                if (!APP.isCattool) {
+                                    UI.activateMT($('table.mgmt-mt tr[data-id=' + d.data.id + '] .enable-mt input'));
+                                    $('#mt_engine').append('<option value="' + d.data.id + '">' + d.data.name + '</option>');
+                                    $('#mt_engine option:selected').removeAttr('selected');
+                                    $('#mt_engine option[value="' + d.data.id + '"]').attr('selected', 'selected');
+                                }
+                                $('#mt_engine_int').val('none').trigger('change');
+                            }
                         }
-                    }
 
-                }
-            });
+                    }
+                });
+            };
+
+            // Judicio validation
+            if (provider === 'judicio') {
+                var translateUrl = "https://portal.judic.io/translations/translations/blocking";
+
+                var fd = new FormData();
+                fd.append('projectname', providerData['projectname']);
+                fd.append('engine', providerData['engine']);
+                fd.append('lp', 'en-fr');
+                fd.append('text', 'a simple test');
+
+                $.ajax({
+                    url: translateUrl,
+                    headers: {
+                        "Authorization": "Basic " + btoa(providerData['auth'])
+                    },
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: function (data) {
+                        add();
+                    },
+                    error: function (data) {
+                        alert("One or more fields are incorrect.");
+                    }
+                });
+            } else {
+                add();
+            }
         },
         renderNewMT: function (data, serverResponse) {
             var newTR =    '<tr data-id="' + serverResponse.id + '">' +
