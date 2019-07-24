@@ -1492,7 +1492,11 @@
                     if(d.errors.length) {
                         console.log('error');
                         if( d.errors[0].code !== undefined ){
-                            $('#mt-provider-details .mt-error-key').text( d.errors[0].message ).show();
+                            var errorMessage = d.errors[0].message;
+                            if (errorMessage.length === 0) {
+                                errorMessage = "Authorisation not valid";
+                            }
+                            $('#mt-provider-details .mt-error-key').text( errorMessage ).show();
                         } else {
                             $('#mt-provider-details .mt-error-key').text("API key not valid").show();
                         }

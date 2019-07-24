@@ -1,4 +1,8 @@
 $.extend( UI, {
+    editAreaEditing: false,
+    setEditAreaEditing: function(isEditing) {
+        this.editAreaEditing = isEditing;
+    },
     setEditAreaEvents: function () {
         /**
          * Start EditArea Events Shortcuts
@@ -12,14 +16,11 @@ $.extend( UI, {
         }).on('keydown', '.editor .editarea', 'ctrl+shift+space', function(e) {
             if (!UI.hiddenTextEnabled) return;
             e.preventDefault();
-            UI.editarea.find('.lastInserted').removeClass('lastInserted');
-
-            var node = document.createElement("span");
-            node.setAttribute('class', 'marker monad nbsp-marker lastInserted ' + config.nbspPlaceholderClass);
-            node.setAttribute('contenteditable', 'false');
-            node.textContent = htmlDecode("&nbsp;");
-            insertNodeAtCursor(node);
-            UI.unnestMarkers();
+            UI.insertNbspAtCursor();
+        }).on('keydown', '.editor .editarea', 'alt+space', function(e) {
+            if (!UI.hiddenTextEnabled) return;
+            e.preventDefault();
+            UI.insertNbspAtCursor();
         });
         /**
          * Finish editArea Events
@@ -72,8 +73,14 @@ $.extend( UI, {
                 var selBound = $('.rangySelectionBoundary', UI.editarea);
                 if(undeletableMonad) selBound.prev().remove();
                 if(code == 8) { // backspace
-                    var undeletableTag = (($(translation[sbIndex-1]).hasClass('locked'))&&($(translation[sbIndex-2]).prop("tagName") == 'BR'))? true : false;
-                    if(undeletableTag) selBound.prev().remove();
+                    var undeletableTag = (
+                        ( $(translation[sbIndex-1]).hasClass('locked') && ($(translation[sbIndex-2]).prop("tagName") === 'BR')) ||
+                        ( ( $(translation[sbIndex-2]).hasClass("monad") || $(translation[sbIndex-2]).hasClass("locked")) && $(translation[sbIndex-1]).hasClass('undoCursorPlaceholder') )
+                    )? true : false;
+                    if(undeletableTag) {
+                        selBound.prev().remove();
+                        // e.preventDefault();
+                    }
                 }
 
                 restoreSelection();
@@ -282,9 +289,10 @@ $.extend( UI, {
         }
     },
     inputEditAreaEventHandler: function (e) {
-        SegmentActions.removeClassToSegment(UI.getSegmentId(UI.currentSegment), 'waiting_for_check_result');
-        SegmentActions.addClassToSegment(UI.getSegmentId(UI.currentSegment), 'modified');
-        UI.currentSegment.data('modified', true);
+        if ( !UI.currentSegment.data('modified') ) {
+            SegmentActions.addClassToSegment(UI.getSegmentId(UI.currentSegment), 'modified');
+            UI.currentSegment.data('modified', true);
+        }
         UI.currentSegment.trigger('modified');
         //UI.updateSegmentTranslation();
         UI.registerQACheck();
@@ -329,6 +337,16 @@ $.extend( UI, {
             }
             return false;
         }
+    },
+    insertNbspAtCursor: function (  ) {
+        UI.editarea.find('.lastInserted').removeClass('lastInserted');
+
+        var node = document.createElement("span");
+        node.setAttribute('class', 'marker monad nbsp-marker lastInserted ' + config.nbspPlaceholderClass);
+        node.setAttribute('contenteditable', 'false');
+        node.textContent = htmlDecode("&nbsp;");
+        insertNodeAtCursor(node);
+        UI.unnestMarkers();
     }
 
 
