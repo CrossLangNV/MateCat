@@ -105,6 +105,25 @@ class Engines_Judicio extends Engines_AbstractEngine {
     public function set($_config) {
         // get latest MT translation
         $mtResult = $this->get($_config);
+        // decode html entities
+        $mtResult['translation'] = html_entity_decode( $mtResult['translation'], ENT_NOQUOTES, 'UTF-8' );
+        // decode placeholders for special chars
+        $array_patterns = array(
+            rtrim( CatUtils::lfPlaceholderRegex, 'g' ),
+            rtrim( CatUtils::crPlaceholderRegex, 'g' ),
+            rtrim( CatUtils::crlfPlaceholderRegex, 'g' ),
+            rtrim( CatUtils::tabPlaceholderRegex, 'g' ),
+            rtrim( CatUtils::nbspPlaceholderRegex, 'g' )
+        );
+        $array_replacements_txt = array(
+            "\n",
+            "\r",
+            "\r\n",
+            "\t",
+            CatUtils::unicode2chr( 0Xa0 )
+        );
+        $mtResult['translation'] = preg_replace( $array_patterns, $array_replacements_txt, $mtResult['translation'] );
+        
         $mtTranslation = $mtResult['translation'];
 
         $_config['segment'] = $this->_preserveSpecialStrings($_config['segment']);
