@@ -105,6 +105,8 @@ class Engines_Judicio extends Engines_AbstractEngine {
     public function set($_config) {
         // get latest MT translation
         $mtResult = $this->get($_config);
+        // decode html entities
+        $mtResult['translation'] = html_entity_decode( $mtResult['translation'], ENT_NOQUOTES, 'UTF-8' );
         $mtTranslation = $mtResult['translation'];
 
         $_config['segment'] = $this->_preserveSpecialStrings($_config['segment']);
