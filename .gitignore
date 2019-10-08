@@ -3,6 +3,7 @@
 .idea
 .project
 nbproject/
+.vscode/
 
 
 # Configuration files
