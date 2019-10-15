@@ -298,6 +298,11 @@
 
                 UI.openExportTmx(this);
 
+            }).on('mousedown', '.mgmt-tm .downloadxliff:not(.disabled)', function(e){
+                e.preventDefault();
+
+                UI.openExportXliff(this);
+
             }).on('click', '.shareKey:not(.disabled)', function(e){
                 var tr = $(this).closest('tr');
                 if ( tr.hasClass('mymemory') || ( (tr.hasClass('ownergroup') || tr.hasClass('anonymous')) && !config.isLoggedIn) ) return;
@@ -317,6 +322,17 @@
                 if (e.which == 13) { // enter
                     e.preventDefault();
                     UI.startExportTmx(this);
+                }
+                UI.hideAllBoxOnTables();
+            }).on('mousedown', '.mgmt-tm .export-xliff-button', function(e){
+                e.preventDefault();
+                UI.startExportXliff(this);
+
+
+            }).on('keydown', '.email-export-xliff.mgmt-input', function(e){
+                if (e.which == 13) { // enter
+                    e.preventDefault();
+                    UI.startExportXliff(this);
                 }
                 UI.hideAllBoxOnTables();
             }).on('mousedown', '.mgmt-tm .canceladd-export-tmx', function(e){
@@ -814,6 +830,7 @@
                 '              <ul class="dropdown pull-left">' +
                 '                   <li><a class="addGlossary" title="Import Glossary" alt="Import Glossary"><span class="icon-upload"></span>Import Glossary</a></li>'+
                 '                   <li><a class="downloadtmx" title="Export TMX" alt="Export TMX"><span class="icon-download"></span>Export TMX</a></li>' +
+                '                   <li><a class="downloadxliff" title="Export XLIFF" alt="Export XLIFF"><span class="icon-download"></span>Export XLIFF</a></li>' +
                 '                   <li><a class="downloadGlossary" title="Export Glossary" alt="Export Glossary"><span class="icon-download"></span>Export Glossary</a></li>' +
                 '                   <li><a class="shareKey" title="Share resource" alt="Share resource"><span class="icon-share"></span>Share resource</a></li>' +
                 '                  <li><a class="deleteTM" title="Delete TMX" alt="Delete TMX"><span class="icon-trash-o"></span>Delete TM</a></li>'+
@@ -1281,6 +1298,30 @@
             });
 
         },
+        downloadXliffTM: function( tm, email ) {
+            var tm_key = $( '.privatekey', tm ).text().trim();
+            var tm_name = $( '.description', tm ).text().trim();
+
+            var id_job;
+            var password;
+
+            if ( typeof config.id_job !== 'undefined' ){
+                id_job = config.id_job;
+                password = config.password;
+            }
+
+            return APP.doRequest({
+                data: {
+                    action: 'downloadXliff',
+                    tm_key: tm_key,
+                    tm_name: tm_name,
+                    id_job: id_job,
+                    password: password,
+                    email: email
+                }
+            });
+
+        },
         downloadGlossary: function( elem ) {
             var tr = elem.closest('tr');
             UI.hideAllBoxOnTables();
@@ -1726,6 +1767,27 @@
             $(elem).parents('tr').append(exportDiv);
             $(elem).parents('tr').find('.download-tmx-container').slideToggle();
         },
+        openExportXliff: function (elem) {
+            $(elem).parents('.action').find('a').each( function() { $(this).addClass('disabled'); } );
+
+            var exportDiv = '<td class="download-tmx-container" style="display: none">' +
+                '<div class="message-export-tmx">We will send a link to download the exported TM to this email:</div>' +
+                '<div class="message-export-tmx-success"></div>' +
+                '<input type="email" required class="email-export-xliff mgmt-input" value="' + config.userMail + '"/>' +
+                '<span class="uploadloader"></span>'+
+                '<span class="email-export-tmx-email-sent">Request submitted</span>' +
+                '<a class="pull-right btn-grey canceladd-export-tmx">' +
+                    '<span class="text"></span>'+
+                '</a>' +
+                '<a class="pull-right btn-ok export-xliff-button">' +
+                '   <span class="text export-tmx-button-label">Confirm</span>' +
+                '</a>' +
+                '<span class="email-export-tmx-email-error">We got an error,</br> please contact support</span>' +
+                '</td>';
+
+            $(elem).parents('tr').append(exportDiv);
+            $(elem).parents('tr').find('.download-tmx-container').slideToggle();
+        },
         getUserSharedKey: function (keyValue) {
             return APP.doRequest({
                 data: {
@@ -1897,6 +1959,42 @@
                     setTimeout(function () {
                         line.find('.uploadloader').hide();
                         line.find('.export-tmx-button').hide();
+                        line.find('.action a').removeClass('disabled');
+                        line.find('.canceladd-export-tmx').removeClass('disabled');
+                        line.find('.email-export-tmx-email-error').show();
+                        UI.showErrorMessage(line, "We got an error, please contact support");
+                        line.find('.download-tmx-container').addClass('tm-error');
+                    }, 2000);
+                }
+            });
+
+        },
+        startExportXliff: function (elem) {
+            var line = $(elem).closest('tr');
+            var email = line.find('.email-export-xliff').val();
+            var successText = 'You should receive the link at ' + email + ' in <strong>%XX% minutes.</strong>';
+
+            line.find('.uploadloader').show();
+            line.find('.export-xliff-button, .canceladd-export-tmx').addClass('disabled');
+            UI.downloadXliffTM( line, email ).done(function (response) {
+                if (response.errors.length == 0 && !response.data.error) {
+                    var time = Math.round(response.data.estimatedTime / 60);
+                    time = (time > 0 ) ? time : 1;
+                    successText = successText.replace('%XX%', time);
+                    setTimeout(function () {
+                        line.find('.message-export-tmx-success').html(successText);
+                        line.find('.uploadloader').hide();
+                        line.find('.export-xliff-button, .canceladd-export-tmx, .email-export-xliff').hide();
+                        line.find('.message-export-tmx').hide();
+                        line.find('.message-export-tmx-success, .email-export-tmx-email-sent').show();
+                        setTimeout(function () {
+                            UI.closeExportTmx(line);
+                        }, 5000);
+                    }, 3000);
+                } else {
+                    setTimeout(function () {
+                        line.find('.uploadloader').hide();
+                        line.find('.export-xliff-button').hide();
                         line.find('.action a').removeClass('disabled');
                         line.find('.canceladd-export-tmx').removeClass('disabled');
                         line.find('.email-export-tmx-email-error').show();

@@ -1069,7 +1069,7 @@ td.addtmxtd {
 width: 804px;
 }
 
-input.email-export-tmx {
+input.email-export-tmx, input.email-export-xliff {
     width: 180px;
     margin-left: 10px!important;
 }
@@ -2071,7 +2071,7 @@ td.download-tmx-container,
     margin-left: 11px;
 }
 
-input.email-export-tmx {
+input.email-export-tmx, input.email-export-xliff {
     float: left;
     margin-left: 14px;
     margin-top: 3px!important;
@@ -2089,7 +2089,7 @@ input.email-export-tmx {
     text-align: center;
     color: white !important;
 }
-.mgmt-tm .btn-ok.export-tmx-button {
+.mgmt-tm .btn-ok.export-tmx-button, .btn-ok.export-xliff-button {
     padding: 0px 5px !important;
     margin-right: 9px;
 }
@@ -2229,7 +2229,7 @@ td.download-glossary-container .uploadloader {
     right: 200px;
     top: -18px;
 }
-.export-tmx-button.disabled {
+.export-tmx-button.disabled, .export-xliff-button.disabled {
     cursor: default;
     pointer-events: none;
 }
@@ -2281,12 +2281,12 @@ span.email-export-tmx-email-error {
 */
 
 
-.mine .downloadtmx {
+.mine .downloadtmx, .mine .downloadxliff {
 	display: block !important;
 }
 
 
-.mgmt-tm .downloadtmx {
+.mgmt-tm .downloadtmx, .mgmt-tm .downloadxliff {
     /*display: none !important; */
 }
 
@@ -2900,7 +2900,7 @@ input#new-tm-key {
 }
 
 #activetm input#new-tm-key,
-input.email-export-tmx
+input.email-export-tmx, input.email-export-xliff
  {
 	width: 170px;
 	padding: 12px 5px;
@@ -2913,7 +2913,7 @@ input#new-tm-key {
     margin-right: 15px !important;
 }
 
-input.email-export-tmx {
+input.email-export-tmx, input.email-export-xliff {
     width: 200px;
 }
 
@@ -3324,6 +3324,7 @@ color: #000;
 .addglossaryfile .text:before,
 .usetm .text:before,
 .downloadtmx .text:before,
+.downloadxliff .text:before,
 .uploadkey:before,
 .open-popup-addtm-tr:before,
 .tablesorter-headerDesc .tablesorter-header-inner:after,
@@ -3742,7 +3743,7 @@ cursor: pointer;
 }
 
 .open-popup-addtm-tr:before,
-.downloadtmx .text:before {
+.downloadtmx .text:before, .downloadxliff .text:before {
 		content: "\e602";
 	padding-right: 5px;
 	vertical-align: text-top;

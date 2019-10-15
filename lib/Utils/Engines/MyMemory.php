@@ -74,6 +74,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
             case 'tmx_export_create_url' :
             case 'tmx_export_check_url' :
             case 'tmx_export_email_url' :
+            case 'xliff_export_email_url' :
             case 'glossary_export_relative_url' :
                 $result_object = Engines_Results_MyMemory_ExportResponse::getInstance( $decoded, $this->featureSet );
                 break;
@@ -617,6 +618,42 @@ class Engines_MyMemory extends Engines_AbstractEngine {
         }
 
         Log::doJsonLog('TMX exported to E-mail.');
+        return $this->result;
+    }
+
+    /**
+     * Calls the MyMemory endpoint to send the Xliff download URL to the user e-mail
+     *
+     * @param $key
+     * @param $name
+     * @param $userEmail
+     * @param $userName
+     * @param $userSurname
+     *
+     *
+     * @return Engines_Results_MyMemory_ExportResponse
+     * @throws Exception
+     *
+     */
+    public function emailXliffExport( $key, $name, $userEmail, $userName, $userSurname ) {
+        $parameters = array();
+
+        $parameters[ 'key' ] = trim( $key );
+        $parameters[ 'user_email' ] = trim( $userEmail );
+        $parameters[ 'user_name' ] = trim( $userName ) . " " . trim( $userSurname );
+        ( !empty( $name ) ? $parameters[ 'zip_name' ] = $name : $parameters[ 'zip_name' ] = $key );
+        $parameters[ 'zip_name' ] = $parameters[ 'zip_name' ] . ".zip";
+
+        $this->call( 'xliff_export_email_url', $parameters );
+
+        /**
+         * $result Engines_Results_MyMemory_ExportResponse
+         */
+        if ( $this->result->responseStatus >= 400 ) {
+            throw new Exception( $this->result->error->message, $this->result->responseStatus );
+        }
+
+        Log::doJsonLog('Xliff exported to E-mail.');
         return $this->result;
     }
 

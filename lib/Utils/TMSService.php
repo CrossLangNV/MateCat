@@ -412,6 +412,30 @@ class TMSService {
     }
 
     /**
+     * Send a mail with link for direct prepared download
+     *
+     * @param $userMail
+     * @param $userName
+     * @param $userSurname
+     *
+     * @return Engines_Results_MyMemory_ExportResponse
+     * @throws Exception
+     */
+    public function requestXliffEmailDownload( $userMail, $userName, $userSurname ){
+
+        $response = $this->mymemory_engine->emailXliffExport(
+                $this->tm_key,
+                $this->name,
+                $userMail,
+                $userName,
+                $userSurname
+        );
+
+        return $response;
+
+    }
+
+    /**
      * @return string
      * @throws Exception
      */
