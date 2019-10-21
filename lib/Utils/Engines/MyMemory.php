@@ -149,6 +149,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
 
         $parameters               = [];
         $parameters[ 'q' ]        = $_config[ 'segment' ];
+        $parameters[ 'translation' ] = $_config[ 'translation' ];
         $parameters[ 'langpair' ] = $_config[ 'source' ] . "|" . $_config[ 'target' ];
         $parameters[ 'de' ]       = $_config[ 'email' ];
         $parameters[ 'mt' ]       = $_config[ 'get_mt' ];
