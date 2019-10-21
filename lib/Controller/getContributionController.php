@@ -30,6 +30,7 @@ class getContributionController extends ajaxController {
                 'id_job'         => [ 'filter' => FILTER_SANITIZE_NUMBER_INT ],
                 'num_results'    => [ 'filter' => FILTER_SANITIZE_NUMBER_INT ],
                 'text'           => [ 'filter' => FILTER_UNSAFE_RAW ],
+                'translation'    => [ 'filter' => FILTER_UNSAFE_RAW ],
                 'id_translator'  => [ 'filter' => FILTER_SANITIZE_STRING, 'flags' => FILTER_FLAG_STRIP_LOW ],
                 'password'       => [ 'filter' => FILTER_SANITIZE_STRING, 'flags' => FILTER_FLAG_STRIP_LOW ],
                 'is_concordance' => [ 'filter' => FILTER_VALIDATE_BOOLEAN ],
@@ -55,6 +56,7 @@ class getContributionController extends ajaxController {
         $this->id_job             = $this->__postInput[ 'id_job' ];
         $this->num_results        = $this->__postInput[ 'num_results' ];
         $this->text               = trim( $this->__postInput[ 'text' ] );
+        $this->translation        = trim( $this->__postInput[ 'translation' ] );
         $this->id_translator      = $this->__postInput[ 'id_translator' ];
         $this->concordance_search = $this->__postInput[ 'is_concordance' ];
         $this->switch_languages   = $this->__postInput[ 'from_target' ];
@@ -116,6 +118,7 @@ class getContributionController extends ajaxController {
         $contributionRequest->contexts          = [
                 'context_before' => $this->context_before,
                 'segment'        => $this->text,
+                'translation'    => $this->translation,
                 'context_after'  => $this->context_after
         ];
         $contributionRequest->jobStruct         = $jobStruct;

@@ -138,6 +138,15 @@ $.extend(UI, {
             txt = htmlDecode(txt);
         }
 
+        // process translation
+        var status = current.find('.status').attr('title').split(',')[0];
+        var translation;
+        if (status === 'Translated') {
+            translation = $('.original-translation', current).text();
+            translation = htmlDecode(translation).replace(/&quot;/g, '\"');
+            translation = htmlDecode(translation);
+        }
+
 		txt = view2rawxliff(txt);
 		// Attention: As for copysource, what is the correct file format in attributes? I am assuming html encoded and "=>&quot;
 
@@ -170,7 +179,8 @@ $.extend(UI, {
 				password: config.password,
 				is_concordance: 0,
 				id_segment: id_segment_original,
-				text: txt,
+                text: txt,
+                translation: translation,
 				id_job: config.id_job,
 				num_results: this.numContributionMatchesResults,
 				id_translator: config.id_translator,

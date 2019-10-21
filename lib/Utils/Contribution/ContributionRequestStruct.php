@@ -24,6 +24,7 @@ class ContributionRequestStruct extends ShapelessConcreteStruct implements DataA
     public $contexts = [
             'context_before' => null,
             'segment'        => null,
+            'translation'    => null,
             'context_after'  => null
     ];
 
