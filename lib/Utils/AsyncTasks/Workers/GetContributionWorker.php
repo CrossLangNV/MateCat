@@ -376,6 +376,7 @@ class GetContributionWorker extends AbstractWorker {
 
         $_config              = [];
         $_config[ 'segment' ] = $contributionStruct->getContexts()->segment;
+        $_config[ 'translation' ] = $contributionStruct->getContexts()->translation;
         $_config[ 'source' ]  = $jobStruct->source;
         $_config[ 'target' ]  = $targetLang;
 
