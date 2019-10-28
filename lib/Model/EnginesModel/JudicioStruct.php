@@ -16,7 +16,7 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
     /**
      * @var string
      */
-    public $base_url = "https://portal.judic.io/translations";
+    public $base_url = "https://portal.staging.judic.io/translations";
 
     /**
      * @var string
