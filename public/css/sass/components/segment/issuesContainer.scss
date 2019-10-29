@@ -34,7 +34,7 @@ section.readonly .issues-container {
                             border: 1px solid #888;
                             border-radius: 2px !important;
                             &:hover {
-                                border: 1px solid #96C8DA;
+                                border: 1px solid #D32A3A;
                             }
                             .text {
                                 background: none;
@@ -71,7 +71,7 @@ section.readonly .issues-container {
                                 border-top: 0 !important;
                                 border-radius: 0 0 2px 2px;
                                 &.visible {
-                                    border: 1px solid #96C8DA;
+                                    border: 1px solid #D32A3A;
                                     box-shadow: 0px 2px 3px 0px rgba(34, 36, 38, 0.15);
                                 }
                                 .item {
@@ -159,7 +159,7 @@ section.readonly .issues-container {
                                         background: #e3e3e3;
                                     }
                                     &:focus {
-                                        box-shadow: 0 0 0 1px #96C8DA inset;
+                                        box-shadow: 0 0 0 1px #D32A3A inset;
                                     }
                                     &:last-child {
                                         margin-right: 0;

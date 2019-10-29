@@ -28,10 +28,10 @@ ul, li, ol, p, button, .button, .primary, input, input[type="text"] input[type="
     text-decoration: underline;
     float: left;
     cursor: pointer;
-    color: #39699a;
+    color: #D32A3A;
     &:hover {
         text-decoration: none;
-        color: #1e70bf;
+        color: #D32A3A;
     }
 }
 
@@ -233,7 +233,7 @@ a.ui.primary.right.floated.button.tiny.register-ok {
         font-size: 16px;
         margin-bottom: 15px;
         margin-left: 80%;
-        background-color: #09beec;
+        background-color: #D32A3A;
         transition: 0.3s ease;
         color: #FFFFFF;
         text-shadow: none;
@@ -250,7 +250,7 @@ a.ui.primary.right.floated.button.tiny.register-ok {
         text-decoration: none;
         user-select: none;
         &:hover {
-            background-color: #08b3de;
+            background-color: #D32A3A;
             box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important
         }
     }
@@ -439,7 +439,7 @@ a.ui.primary.right.floated.button.tiny.register-ok {
 .forgot-password {
     cursor: pointer;
     text-decoration: underline;
-    color: #39699a;
+    color: #D32A3A;
 }
 
 .preferences-modal input[type=text],
@@ -772,7 +772,7 @@ div#matecat-modal p {
 .onoffswitch-inner:before {
     content: "";
     padding-left: 10px;
-    background-color: #22c4ee;
+    background-color: #D32A3A;
     color: #FFFFFF;
 }
 
@@ -801,7 +801,7 @@ div#matecat-modal p {
 .onoffswitch-label-status-active {
     display: none;
     font-weight: bold;
-    color: #22c4ee;
+    color: #D32A3A;
 }
 
 .onoffswitch-label-status-inactive,
@@ -887,7 +887,7 @@ div#matecat-modal p {
 
 .matecat-modal-content .btn-confirm-medium {
     color: #fff;
-    background: #09beec;
+    background: #D32A3A;
     border: 1px solid #848689;
     font-weight: bold;
     text-decoration: none;
@@ -1362,7 +1362,7 @@ a.login-button.btn-confirm-medium.sing-in.disabled:hover {
                 .shortcut-keys {
                     .shortcuts {
                         text-align: right;
-                        color: #03bdee;
+                        color: #D32A3A;
                     }
                     .mac, .standard {
                         .keys {

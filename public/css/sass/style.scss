@@ -330,7 +330,7 @@ section.opened .warnings {
     float: left;
     border: 0;
     margin-top: 10px;
-    /*background: url(../../img/logo.png) 0px 2px no-repeat;*/
+    background: url(../../img/logo.png) 0px 2px no-repeat;
     width: 132px;
     height: 31px;
     background-size: 130px 26px;
@@ -418,7 +418,7 @@ body.editing .grayed, body.virtualEditing .grayed {
 }
 
 .translated-bar {
-    background-color: #09beec;
+    background-color: #D32A3A;
 }
 
 .rejected-background {
@@ -531,7 +531,7 @@ body.editing .grayed, body.virtualEditing .grayed {
 }
 
 .pagination a:hover {
-    background: #09beec;
+    background: #D32A3A;
 }
 
 .pagination a:active {
@@ -657,7 +657,7 @@ section:hover .sid {
 }
 
 section.currSearchSegment .sid .txt {
-    background: #00c1e6;
+    background: #D32A3A;
     color: white;
     margin-bottom: 5px;
 }
@@ -913,9 +913,9 @@ ENABLE FOLLOWING RULE AND DELETE SUBSEQUENT WHEN DOWNLOAD OF THE SINGLE FILE WIL
     padding: 8px 18px;
     border-radius: 2px;
     font-size: 18px;
-    background: #09beec;
-    background: -moz-linear-gradient(top, #09beec, #119ec4);
-    background: linear-gradient(top, #09beec, #119ec4);
+    background: #D32A3A;
+    background: -moz-linear-gradient(top, #D32A3A, #D32A3A);
+    background: linear-gradient(top, #D32A3A, #D32A3A);
     text-transform: uppercase;
     user-select: none;
 }
@@ -937,7 +937,7 @@ ENABLE FOLLOWING RULE AND DELETE SUBSEQUENT WHEN DOWNLOAD OF THE SINGLE FILE WIL
 
 /*.guesstags {
     background: #fff;
-    border:1px solid #09beec;
+    border:1px solid #D32A3A;
 	font-weight: bold;
 	text-decoration: none;
 	padding: 8px 18px;
@@ -945,7 +945,7 @@ ENABLE FOLLOWING RULE AND DELETE SUBSEQUENT WHEN DOWNLOAD OF THE SINGLE FILE WIL
     border-radius: 2px;
 	font-size: 18px;
 	text-transform: uppercase;
-	color: #09beec !important;
+	color: #D32A3A !important;
     -webkit-transition: all  100ms ease-in;
     -moz-transition: all  100ms ease-in;
     -moz-box-shadow: 0 1px 2px #ccc;
@@ -956,16 +956,16 @@ ENABLE FOLLOWING RULE AND DELETE SUBSEQUENT WHEN DOWNLOAD OF THE SINGLE FILE WIL
 	cursor: pointer;
 	-moz-box-shadow: 0 1px 2px #666;
 	background: #fff;
-	box-shadow: 0 0 0 3px #09beec;
-	-webkit-box-shadow: 0 0 0 2px #09beec;
+	box-shadow: 0 0 0 3px #D32A3A;
+	-webkit-box-shadow: 0 0 0 2px #D32A3A;
 	border-color: #fff;
 }
 .guesstags:active {
 	background: #F8F8F9;
-	border: 1px solid #09beec;
-	-moz-box-shadow: inset 0 1px 1px #09beec;
-	-webkit-box-shadow: inset 0 1px 1px #09beec;
-	color: #09beec;
+	border: 1px solid #D32A3A;
+	-moz-box-shadow: inset 0 1px 1px #D32A3A;
+	-webkit-box-shadow: inset 0 1px 1px #D32A3A;
+	color: #D32A3A;
 }*/
 
 .button-reject,
@@ -1061,7 +1061,7 @@ article .approved:active {
 .translated:hover,
 .next-untranslated:hover,
 .guesstags:hover {
-    background-color: #08b3de;
+    background-color: #D32A3A;
     box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
 }
 
@@ -1084,7 +1084,7 @@ article .approved:active {
 .next-unapproved {
     width: 50px !important;
     height: 27px !important;
-    background: #09beec;
+    background: #D32A3A;
     border: 1px solid #848689;
     font-weight: bold;
     text-decoration: none;
@@ -1151,7 +1151,7 @@ article .approved:active {
 }
 
 .topmenu-drop input.translated {
-    background: #09beec;
+    background: #D32A3A;
     color: #fff !important;
 }
 
@@ -1168,7 +1168,7 @@ article .approved:active {
 }
 
 .topmenu-drop input.translated:hover {
-    background: #12b4df;
+    background: #D32A3A;
 }
 
 .topmenu-drop .text {
@@ -1639,7 +1639,7 @@ body .footer.showMatches .sub-editor.open {
     color: #fff;
     padding: 3px 10px 7px 4px;
     font-size: 12px;
-    background: #09beec;
+    background: #D32A3A;
     box-shadow: 0px 2px 4px 0px #868686;
     z-index: 2;
 }
@@ -2147,7 +2147,7 @@ body.searchActive .search-display {
 }
 
 .custom-checkbox > .tr-check {
-    background-color: #09beec !important
+    background-color: #D32A3A !important
 }
 
 .custom-checkbox > .dr-check {
@@ -2605,7 +2605,7 @@ body.archived section .status-container a.status:hover {
 /*
 section.highlighted1 .editarea
 {
-	border: 4px solid #0798BC;
+	border: 4px solid #D32A3A;
 }
 section.highlighted2 .editarea
 {
@@ -2618,7 +2618,7 @@ section.highlighted2 .editarea
 */
 
 section:not(.editor) .editarea.highlighted1 {
-    border-color: #00C1E6;
+    border-color: #D32A3A;
     background: rgba(0, 193, 230, 0.15);
 }
 section:not(.editor).editarea
@@ -2644,8 +2644,8 @@ border-color: transparent;
 }
 
 .editarea:focus {
-    border: 1px solid #96C8DA;
-    box-shadow: inset 0px 0px 2px 2px #96C8DA;
+    border: 1px solid #D32A3A;
+    box-shadow: inset 0px 0px 2px 2px #D32A3A;
 }
 
 body.rtl-target .editor .editarea span {
@@ -2716,7 +2716,7 @@ body.rtl-target .editor .editarea span {
 
 .graysmall .edit-buttons button {
     color: #fff;
-    background: #09beec;
+    background: #D32A3A;
     border: 1px solid #848689;
     font-weight: bold;
     text-decoration: none;
@@ -2724,9 +2724,9 @@ body.rtl-target .editor .editarea span {
     margin: 4px 3px;
     border-radius: 2px;
     font-size: 10px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#09beec), to(#119ec4));
-    background: -moz-linear-gradient(top, #09beec, #119ec4);
-    background: linear-gradient(top, #09beec, #119ec4);
+    background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
+    background: -moz-linear-gradient(top, #D32A3A, #D32A3A);
+    background: linear-gradient(top, #D32A3A, #D32A3A);
     cursor: pointer;
 }
 
@@ -2799,7 +2799,7 @@ body.rtl-target .editor .editarea span {
 
 /*TAG*/
 .b-open {
-    background: #09beec url(../../img/b-open.png) right center no-repeat;
+    background: #D32A3A url(../../img/b-open.png) right center no-repeat;
     padding: 3px 7px 3px 3px;
     height: 20px;
     color: #fff;
@@ -2808,7 +2808,7 @@ body.rtl-target .editor .editarea span {
 }
 
 .b-close {
-    background: #09beec url(../../img/b-close.png) left center no-repeat;
+    background: #D32A3A url(../../img/b-close.png) left center no-repeat;
     padding: 3px 3px 3px 7px;
     height: 20px;
     color: #fff;
@@ -3181,7 +3181,7 @@ body.rtl-target .editor .editarea span {
     font-size: 11px;
     margin: 0 0px;
     padding: 2px 5px 0px 5px;
-    background-color: #0798bc;
+    background-color: #D32A3A;
     width: 35px;
     height: 16px;
     position: absolute;
@@ -3251,7 +3251,7 @@ section.status-rejected .status {
 
 body[data-offline-mode="light-off"] section.setTranslationPending .status {
     background-image: url(../../img/offline-bg.png) !important;
-    background-color: #0798bc !important;
+    background-color: #D32A3A !important;
     background-repeat: no-repeat !important;
     background-position: center center;
     background-size: 20px 40px;
@@ -3340,7 +3340,7 @@ section.modified.editor .status {
 .arrow-mcolor{display:block;width:20px;height:20px;background:url(../../img/arrow-menucolor.png) 0 0 no-repeat;position:absolute;margin:-8px 0 0 123px;background-size:10px 8px}
 .arrow{border:0 !important; }
 .approvedStatusMenu{border-right:9px solid #7cc576}
-.translatedStatusMenu{border-right:9px solid #09beec}
+.translatedStatusMenu{border-right:9px solid #D32A3A}
 .rejectedStatusMenu{border-right:9px solid #dc2e34}
 .draftStatusMenu{order-right: 9px solid #ccced2;}
 
@@ -3435,7 +3435,7 @@ section.modified.editor .status {
 }
 
 .per-blue {
-    background: #09beec !important;
+    background: #D32A3A !important;
     color: #fff !important
 }
 
@@ -3579,7 +3579,7 @@ section.modified.editor .status {
 }
 
 .end-message-col1 p span, .end-message-col1 h3 span {
-    color: #09beec
+    color: #D32A3A
 }
 
 .end-message-col2 input {
@@ -4119,7 +4119,7 @@ body.searchActive #filterSwitch .numbererror:empty {
 }
 
 .popup-settings #settings-shortcuts .list .combination .keystroke.changing {
-    background: #0798BC;
+    background: #D32A3A;
     color: #fff;
 }
 
@@ -4376,7 +4376,7 @@ section .toolbar .autofillTag {
 }
 
 .editor.split-action .actions .split {
-    background: #09beec;
+    background: #D32A3A;
 }
 
 .splitBar .buttons a {
@@ -4891,7 +4891,7 @@ body.cattool .mgmt-table-mt .activemt {
 }
 
 .splitBar .btn-ok:hover {
-    background: #12b4df;
+    background: #D32A3A;
 }
 
 .splitpoint {
@@ -4946,7 +4946,7 @@ section .segment-side-buttons {
 
 
 .blue-button {
-    background: #09beec;
+    background: #D32A3A;
 }
 
 .red-button {

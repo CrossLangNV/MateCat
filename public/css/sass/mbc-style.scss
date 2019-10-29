@@ -6,7 +6,7 @@
  ******
  */
 
-.mbc-comment-balloon-inner {
+ .mbc-comment-balloon-inner {
   background: #ffffff;
   box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
@@ -200,8 +200,8 @@ a.mbc-new-message-link:hover {
   box-shadow: none;
 }
 .mbc-comment-textarea:focus {
-  border: 1px solid #96C8DA;
-  box-shadow: inset 0px 0px 2px 2px #96C8DA;
+  border: 1px solid #D32A3A;
+  box-shadow: inset 0px 0px 2px 2px #D32A3A;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -214,7 +214,7 @@ a.mbc-new-message-link:hover {
 }
 
 .tagging-item {
-    color: #09beec;
+    color: #D32A3A;
 }
 
 .mbc-comment-textinput {
@@ -352,15 +352,15 @@ a:active.mbc-comment-default-btn {
  */
 a.mbc-comment-send-btn:link,
 a.mbc-comment-send-btn:visited {
-  background: -webkit-gradient(linear, left top, left bottom, from(#09beec), to(#119ec4));
-  background: -moz-linear-gradient(top,  #09beec,  #119ec4);
-  background: linear-gradient(top,  #09beec,  #119ec4);
+  background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
+  background: -moz-linear-gradient(top,  #D32A3A,  #D32A3A);
+  background: linear-gradient(top,  #D32A3A,  #D32A3A);
   border: 1px solid #848689;
   color: #fff;
 }
 
 a.mbc-comment-send-btn:hover {
-  background: #12b4df;
+  background: #D32A3A;
   border: 1px solid #000;
   -webkit-box-shadow: 0 1px 2px #ccc;
   box-shadow: 0 1px 2px #ccc;
@@ -426,7 +426,7 @@ a.mbc-login-link:visited {
  */
 a.mbc-view-link:link,
 a.mbc-view-link:visited {
-  color: #0798bc;
+  color: #D32A3A;
   padding: 0 4px 6px 0;
 }
 
@@ -560,7 +560,7 @@ section:not(.opened) .segment-side-buttons .txt {
  Invitation element unique properties
  */
 .mbc-comment-highlight-invite {
-  background: #1451CC;
+  background: #D32A3A;
   color: #fff;
   position: absolute;
 }

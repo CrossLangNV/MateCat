@@ -6,7 +6,7 @@
  ******
  */
 
-.lxq-comment-balloon-outer {
+ .lxq-comment-balloon-outer {
   padding-right: 15px
 }
 
@@ -325,15 +325,15 @@ a:active.lxq-comment-default-btn {
  */
 a.lxq-comment-send-btn:link,
 a.lxq-comment-send-btn:visited {
-  background: -webkit-gradient(linear, left top, left bottom, from(#09beec), to(#119ec4));
-  background: -webkit-linear-gradient(top,  #09beec,  #119ec4);
-  background: linear-gradient(top,  #09beec,  #119ec4);
+  background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
+  background: -webkit-linear-gradient(top,  #D32A3A,  #D32A3A);
+  background: linear-gradient(top,  #D32A3A,  #D32A3A);
   border: 1px solid #848689;
   color: #fff;
 }
 
 a.lxq-comment-send-btn:hover {
-  background: #12b4df;
+  background: #D32A3A;
   border: 1px solid #000;
   box-shadow: 0 1px 2px #ccc;
 }
@@ -398,7 +398,7 @@ a.lxq-login-link:visited {
  */
 a.lxq-view-link:link,
 a.lxq-view-link:visited {
-  color: #0798bc;
+  color: #D32A3A;
   padding: 0 4px 6px 0;
 }
 
@@ -551,7 +551,7 @@ section:hover .lxq-comment-link {
  Invitation element unique properties
  */
 .lxq-comment-highlight-invite {
-  background: #1451CC;
+  background: #D32A3A;
   color: #fff;
   position: absolute;
 }
@@ -939,7 +939,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  .lxq-error-seg::after {
     content: attr(numberoferrors);
     vertical-align: middle;
-    color: #0798bc;
+    color: #D32A3A;
  }
 
  .lxq-error-seg.lxq-error-changed::after {
@@ -953,11 +953,11 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  */
  
 .lxq-triangle-top {
-    border-right: 14px solid #0798bc;
+    border-right: 14px solid #D32A3A;
  }
   
  .lxq-history-balloon-outer {
-     background-color: #0798bc;
+     background-color: #D32A3A;
      width: auto;
      right: 208px;
      padding: 1rem 0 0;
@@ -966,7 +966,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  
 .lxq-history-balloon.lxq-history-balloon-has-no-comments {
     color: #fff;
-    background-color: #0798bc;
+    background-color: #D32A3A;
 }
 
 .lxq-history-balloon.lxq-history-balloon-has-no-comments .lxq-comment-label {
@@ -985,11 +985,11 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 }
 
 .lxq-history-balloon.lxq-history-balloon-has-comment {
-    border: 1px solid #0798bc;
+    border: 1px solid #D32A3A;
 }
 
 .lxq-history-balloon-header {
-    background-color: #0798bc;
+    background-color: #D32A3A;
     color: #fff;
     font-size: 1rem;
     font-weight: 100;
@@ -1004,7 +1004,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 
 .lxq-info-link {
     text-align: center;
-    color: #0798bc;
+    color: #D32A3A;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1032,7 +1032,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 }
 
 .lxq-highlight-toggle {
-    color: #0798bc;
+    color: #D32A3A;
     font-size: 0.8rem;
     text-transform: uppercase;
     display: -webkit-box;
@@ -1149,7 +1149,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
         -ms-flex-preferred-size: 0;
             flex-basis: 0;
     color: #fff;
-    background-color: #0798bc;
+    background-color: #D32A3A;
     border-right: 1px solid #fff;
     border-top: 1px solid #fff;
     padding: 1rem;
@@ -1193,13 +1193,13 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 }
 
 .lxq-history-balloon-segment:hover {
-    background-color: #0798bc;
+    background-color: #D32A3A;
 }
 
 .lxq-history-balloon-total, .lxq-history-balloon-ignored {
-    color: #0798bc;
+    color: #D32A3A;
     background-color: #fff;
-    border-bottom: 1px solid #0798bc;
+    border-bottom: 1px solid #D32A3A;
 }    
 
 .lxq-history-balloon-row:last-of-type .lxq-history-balloon-total, .lxq-history-balloon-row:last-of-type .lxq-history-balloon-ignored {
