@@ -55,9 +55,9 @@ class WelcomeEmail extends AbstractEmail
     protected function _getDefaultMailConf() {
         $mailConf = parent::_getDefaultMailConf();
 
-        $mailConf[ 'from' ]       = 'noreply@matecat.com';
-        $mailConf[ 'sender' ]     = 'noreply@matecat.com';
-        $mailConf[ 'returnPath' ] = 'noreply@matecat.com';
+        $mailConf[ 'from' ]       = 'info@matecat.crosslang.com';
+        $mailConf[ 'sender' ]     = 'info@matecat.crosslang.com';
+        $mailConf[ 'returnPath' ] = 'info@matecat.crosslang.com';
 
         return $mailConf ;
     }

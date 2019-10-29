@@ -66,10 +66,12 @@ class INIT {
     public static $SMTP_PORT;
     public static $SMTP_SENDER;
     public static $SMTP_HOSTNAME;
+    public static $SMTP_USERNAME;
+    public static $SMTP_PASSWORD;
 
-    public static $MAILER_FROM = 'cattool@matecat.com' ;
+    public static $MAILER_FROM = 'info@matecat.crosslang.com' ;
     public static $MAILER_FROM_NAME = 'MateCat';
-    public static $MAILER_RETURN_PATH = 'no-reply@matecat.com';
+    public static $MAILER_RETURN_PATH = 'info@matecat.crosslang.com';
 
     public static $LOG_REPOSITORY;
     public static $STORAGE_DIR;
