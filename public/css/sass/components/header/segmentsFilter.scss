@@ -168,7 +168,7 @@ section.muted .segment-side-buttons {
                     border-color: rgba(34, 36, 38, 0.35) !important;
                 }
                 &:focus {
-                    border-color: #85B7D9 !important;
+                    border-color: #D32A3A !important;
                     background: #FFFFFF !important;
                     color: rgba(0, 0, 0, 0.8) !important;
                     outline: none;
@@ -222,8 +222,8 @@ section.muted .segment-side-buttons {
                             &.not-filtered {
                                 .ui.basic.button {
                                     &:hover {
-                                        box-shadow: 0px 0px 0px 1px #09beec inset;
-                                        color: #09beec !important;
+                                        box-shadow: 0px 0px 0px 1px #D32A3A inset;
+                                        color: #D32A3A !important;
                                     }
                                     &.disabled {
                                         box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.25) inset !important;
@@ -267,7 +267,7 @@ section.muted .segment-side-buttons {
                                     background: #E8E8E8;;
                                 }
                                 &.translated-color, &.post-edited-color {
-                                    background: #09beec;
+                                    background: #D32A3A;
                                 }
                                 &.approved-color {
                                     background: #7cc576;

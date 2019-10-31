@@ -66,10 +66,12 @@ class INIT {
     public static $SMTP_PORT;
     public static $SMTP_SENDER;
     public static $SMTP_HOSTNAME;
+    public static $SMTP_USERNAME;
+    public static $SMTP_PASSWORD;
 
-    public static $MAILER_FROM = 'cattool@matecat.com' ;
+    public static $MAILER_FROM = 'info@matecat.crosslang.com' ;
     public static $MAILER_FROM_NAME = 'MateCat';
-    public static $MAILER_RETURN_PATH = 'no-reply@matecat.com';
+    public static $MAILER_RETURN_PATH = 'info@matecat.crosslang.com';
 
     public static $LOG_REPOSITORY;
     public static $STORAGE_DIR;
@@ -298,40 +300,22 @@ class INIT {
     public static $SPELL_CHECK_ENABLED        = false;
     public static $SUPPORTED_FILE_TYPES = array(
             'Office'              => array(
-                    'doc'  => array( '', '', 'extdoc' ),
-                    'dot'  => array( '', '', 'extdoc' ),
                     'docx' => array( '', '', 'extdoc' ),
                     'docm' => array( '', '', 'extdoc' ),
-                    'dotx' => array( '', '', 'extdoc' ),
-                    'dotm' => array( '', '', 'extdoc' ),
-                    'rtf'  => array( '', '', 'extdoc' ),
                     'odt'  => array( '', '', 'extdoc' ),
                     'ott'  => array( '', '', 'extdoc' ),
-                    'pdf'  => array( '', '', 'extpdf' ),
                     'txt'  => array( '', '', 'exttxt' ),
-                    'xls'  => array( '', '', 'extxls' ),
-                    'xlt'  => array( '', '', 'extxls' ),
                     'xlsx' => array( '', '', 'extxls' ),
                     'xlsm' => array( '', '', 'extxls' ),
-                    'xltx' => array( '', '', 'extxls' ),
-                    'xltm' => array( '', '', 'extxls' ),
                     'ods'  => array( '', '', 'extxls' ),
                     'ots'  => array( '', '', 'extxls' ),
-                    //'csv'  => array( '', '', 'extxls' ),
+                    'csv'  => array( '', '', 'extxls' ),
                     'tsv'  => array( '', '', 'extxls' ),
-                    'ppt'  => array( '', '', 'extppt' ),
-                    'pps'  => array( '', '', 'extppt' ),
-                    'pot'  => array( '', '', 'extppt' ),
                     'pptx' => array( '', '', 'extppt' ),
                     'pptm' => array( '', '', 'extppt' ),
-                    'ppsx' => array( '', '', 'extppt' ),
-                    'ppsm' => array( '', '', 'extppt' ),
-                    'potx' => array( '', '', 'extppt' ),
-                    'potm' => array( '', '', 'extppt' ),
                     'odp'  => array( '', '', 'extppt' ),
                     'otp'  => array( '', '', 'extppt' ),
                     'xml'  => array( '', '', 'extxml' ),
-                    'zip'  => array( '', '', 'extzip' ),
             ),
             'Web'                 => array(
                     'htm'   => array( '', '', 'exthtm' ),
@@ -339,20 +323,10 @@ class INIT {
                     'xhtml' => array( '', '', 'exthtm' ),
                     'xml'   => array( '', '', 'extxml' ),
                     'dtd'   => array( '', '', 'extxml' ),
-//                    'php'   => array( '', '', 'extxml' ),
                     'json'  => array( '', '', 'extxml'),
                     'yaml'  => array( '', '', 'extxml' ),
                     'yml'   => array( '', '', 'extxml' ),
                     'md'    => array( '', '', 'extxml' ),
-            ),
-            'Scanned Files'                 => array(
-                    'pdf'   => array( '', '', 'extpdf' ),
-                    'bmp'   => array( '', '', 'extimg' ),
-                    'png'   => array( '', '', 'extimg' ),
-                    'gif'   => array( '', '', 'extimg' ),
-                    'jpeg'  => array( '', '', 'extimg' ),
-                    'jpg'   => array( '', '', 'extimg' ),
-                    'tiff'  => array( '', '', 'extimg' )
             ),
             "Interchange Formats" => array(
                     'xliff'    => array( 'default', '', 'extxif' ),

@@ -170,7 +170,6 @@ class AnalyzeHeader extends React.Component {
         }
         this.saving_perc_value = saving_perc;
 
-
         return <div className="word-count ui grid">
                 <div className="sixteen wide column">
                     <div className="word-percent " ref={(container) => this.containerSavingWords = container}>

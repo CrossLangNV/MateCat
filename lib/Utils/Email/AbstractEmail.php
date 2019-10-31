@@ -100,6 +100,8 @@ abstract class AbstractEmail
         $mailConf[ 'port' ]       = INIT::$SMTP_PORT;
         $mailConf[ 'sender' ]     = INIT::$SMTP_SENDER;
         $mailConf[ 'hostname' ]   = INIT::$SMTP_HOSTNAME;
+        $mailConf[ 'Username' ]   = INIT::$SMTP_USERNAME;
+        $mailConf[ 'Password' ]   = INIT::$SMTP_PASSWORD;
 
         $mailConf[ 'from' ]       = INIT::$SMTP_SENDER;
         $mailConf[ 'fromName' ]   = INIT::$MAILER_FROM_NAME;
