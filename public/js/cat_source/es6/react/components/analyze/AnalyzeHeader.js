@@ -170,30 +170,27 @@ class AnalyzeHeader extends React.Component {
         }
         this.saving_perc_value = saving_perc;
 
-
-        return <div></div>
-
-        // return <div className="word-count ui grid">
-        //         <div className="sixteen wide column">
-        //             <div className="word-percent " ref={(container) => this.containerSavingWords = container}>
-        //                 <h2 className="ui header">
-        //                     <div className="percent">{saving_perc}</div>
-        //                     <div className="content">
-        //                         Saving on word count
-        //                         <div className="sub header">
-        //                             {this.props.data.get('PAYABLE_WC_TIME')} work {this.props.data.get('PAYABLE_WC_UNIT')} at 3.000 w/day
-        //                         </div>
-        //                     </div>
-        //                 </h2>
-        //                 <p>MateCat gives you more matches than any other tool thanks to a better
-        //                     integration of machine translation and translation memories.
-        //                     <span style={{marginLeft: '2px'}} data-html={tooltipText} ref={(tooltip) => this.tooltip = tooltip}>
-        //                         <span className="icon-info icon" style={{position: 'relative', top: '2px', color: '#a7a7a7'}}/>
-        //                     </span>
-        //                 </p>
-        //             </div>
-        //         </div>
-        //     </div>
+        return <div className="word-count ui grid">
+                <div className="sixteen wide column">
+                    <div className="word-percent " ref={(container) => this.containerSavingWords = container}>
+                        <h2 className="ui header">
+                            <div className="percent">{saving_perc}</div>
+                            <div className="content">
+                                Saving on word count
+                                <div className="sub header">
+                                    {this.props.data.get('PAYABLE_WC_TIME')} work {this.props.data.get('PAYABLE_WC_UNIT')} at 3.000 w/day
+                                </div>
+                            </div>
+                        </h2>
+                        <p>MateCat gives you more matches than any other tool thanks to a better
+                            integration of machine translation and translation memories.
+                            <span style={{marginLeft: '2px'}} data-html={tooltipText} ref={(tooltip) => this.tooltip = tooltip}>
+                                <span className="icon-info icon" style={{position: 'relative', top: '2px', color: '#a7a7a7'}}/>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
     }
 
     downloadAnalysisReport() {

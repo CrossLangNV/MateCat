@@ -80,7 +80,7 @@ class Header extends React.Component {
 
     getHeaderComponentToShow() {
         if (this.props.showFilterProjects) {
-            return <div className="ten wide column">
+            return <div className="seven wide column">
                 <FilterProjects
                     selectedTeam={this.selectedTeam}
                 />
