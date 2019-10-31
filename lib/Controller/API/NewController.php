@@ -115,6 +115,7 @@ class NewController extends ajaxController {
                         'filter' => [ 'filter' => FILTER_VALIDATE_INT ]
                 ],
                 'id_team'            => [ 'filter' => FILTER_VALIDATE_INT ],
+                'uid'                => [ 'filter' => FILTER_VALIDATE_INT ],
                 'lexiqa'             => [ 'filter' => FILTER_VALIDATE_BOOLEAN ],
                 'speech2text'        => [ 'filter' => FILTER_VALIDATE_BOOLEAN ],
                 'tag_projection'     => [ 'filter' => FILTER_VALIDATE_BOOLEAN ],
@@ -566,6 +567,13 @@ class NewController extends ajaxController {
             $projectStructure[ 'id_customer' ]  = $this->user->getEmail();
             $projectStructure[ 'owner' ]        = $this->user->getEmail();
             $this->projectManager->setTeam( $this->team );
+        }  else if ( !empty( $this->postInput[ 'uid' ] ) ) {
+            $projectStructure[ 'uid' ]          = $this->postInput[ 'uid' ];
+            $userDao                            = new Users_UserDao( Database::obtain() );
+            $this->user                         = $userDao->getByUid( $projectStructure[ 'uid' ] );
+            $projectStructure[ 'id_customer' ]  = $this->user->getEmail();
+            $projectStructure[ 'owner' ]        = $this->user->getEmail();
+            $this->projectManager->setTeam( $this->user->getPersonalTeam() );
         }
 
         //set features override
