@@ -1,5 +1,5 @@
 .after-open-outsource {
-    border-left: 2px solid #09beec;
+    border-left: 2px solid #D32A3A;
     padding-left: 13px !important;
 }
 .outsource-container {
@@ -205,10 +205,10 @@
                                 border: 1px solid #ccc;
                                 font-family: Calibri, Arial, Helvetica, sans-serif;
                                 &:focus {
-                                    border-color: #85B7D9;
+                                    border-color: #D32A3A;
                                 }
                                 &:active {
-                                    border-color: #85B7D9;
+                                    border-color: #D32A3A;
                                 }
                             }
                             &.send-job-box {
@@ -620,10 +620,10 @@
                                     font-family: Calibri, Arial, Helvetica, sans-serif;
                                     border-radius: 2px;
                                     &:focus {
-                                        border-color: #85B7D9;
+                                        border-color: #D32A3A;
                                     }
                                     &:active {
-                                        border-color: #85B7D9;
+                                        border-color: #D32A3A;
                                     }
                                 }
                                 &.input-time {
@@ -653,7 +653,7 @@
                                     padding: 9px 11px;
                                     vertical-align: top;
                                     font-size: 18px;
-                                    border: 1px solid #09beec;
+                                    border: 1px solid #D32A3A;
                                     border-radius: 2px;
                                     box-shadow: none !important;
                                     background-color: #ffffff !important;
@@ -662,7 +662,7 @@
                                     &:hover {
                                         text-decoration: none;
                                         box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
-                                        border: 1px solid #09beec;
+                                        border: 1px solid #D32A3A;
                                     }
                                     &:focus {
                                         box-shadow: none !important;
@@ -907,7 +907,7 @@
                                             position: relative;
                                             top: 1px;
                                             &.online-item {
-                                                background-color: #09beec;
+                                                background-color: #D32A3A;
                                             }
                                             &.offline-item {
                                                 background-color: gray;

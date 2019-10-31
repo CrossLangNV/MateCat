@@ -100,7 +100,7 @@ class Header extends React.Component {
 
         let componentToShow = this.getHeaderComponentToShow();
         if (this.props.showLinks) {
-            containerClass = "user-teams thirteen";
+            containerClass = "user-teams ten";
         } else if (this.props.showJobInfo) {
             containerClass = "user-teams one";
         }
@@ -109,8 +109,9 @@ class Header extends React.Component {
 
                     <nav className="sixteen wide column navigation">
                         <div className="ui grid">
-                            <div className="three wide column">
+                            <div className="six wide column">
                                 <a href="/" className="logo"/>
+                                <a href="/" className="logo-matecat"/>
                             </div>
 
                             {componentToShow}

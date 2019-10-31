@@ -76,6 +76,20 @@ ul
     position: relative;
 
 }
+
+.logo-matecat {
+    position: relative;
+    float: left;
+    border: 0;
+    margin-top: 10px;
+    background: url(../../img/logo-matecat.png) 0px 2px no-repeat;
+    width: 132px;
+    height: 31px;
+    background-size: 130px 26px;
+    margin-left: 13px;
+    margin-right: 13px;
+}
+
 .offline .logo {
     margin-left: 13px;
 }
@@ -159,7 +173,7 @@ a[class^='edit_'] {
 }
 
 a.edit_1:before {
-    color: #09beec;
+    color: #D32A3A;
 }
 
 a.edit_2:before {
@@ -316,15 +330,15 @@ border: none;
 
 
 .iepopup .col-2:hover {
-    border: 1px solid #3AA9DD;
-    box-shadow: 0px 0px 3px #3AA9DD;
+    border: 1px solid #D32A3A;
+    box-shadow: 0px 0px 3px #D32A3A;
 }
 
 .button-learn {
 width: 100%!important;
 padding: 2% 4%;
 font-size: 28px!important;
-background: #3aa9dd;
+background: #D32A3A;
 border: none!important;
 border-radius: 4px;
 text-decoration: none;
@@ -353,7 +367,7 @@ border-bottom: 3px solid #1B5D7B!important;
 }
 
 .col-b .button-learn-2:hover {
-    color: #3AA9DD !important;
+    color: #D32A3A !important;
 }
 
 .col-2.col-b .button-learn-2 img {
@@ -390,7 +404,7 @@ border-bottom: 3px solid #1B5D7B!important;
     .iepopup ul a
     {
 	    padding: 0px 0 0 0;
-	    color: #39699A;
+	    color: #D32A3A;
 	    text-decoration: underline;
     }
 
@@ -917,7 +931,7 @@ color:#333;}
 .onoffswitch-inner:before {
     content: "";
     padding-left: 10px;
-    background-color: #22c4ee; color: #FFFFFF;
+    background-color: #D32A3A; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "";
@@ -939,7 +953,7 @@ color:#333;}
 .onoffswitch-label-status-active{
     display: none;
     font-weight: bold;
-    color:#22c4ee;
+    color:#D32A3A;
 }
 .onoffswitch-label-status-inactive,
 .onoffswitch-label-status-unavailable {
@@ -1327,7 +1341,7 @@ margin-left: 10px;
 
 
     .uploadtm.disabled {
-    	background: #09beec!important;
+    	background: #D32A3A!important;
     }
 
 
@@ -1350,7 +1364,7 @@ margin-left: 10px;
     .download-manage.btn-ok
     {
         color: #fff;
-        background: #09beec;
+        background: #D32A3A;
         border: 1px solid #797979;
         font-weight: bold;
         text-decoration: none;
@@ -1429,7 +1443,7 @@ float: none!important;
 .slide-panel .btn-ok:hover,
 .slide-panel .btn-cancel:hover
 {
-    background-color: #08b3de;
+    background-color: #D32A3A;
     box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
     border: 1px solid #797979;
     }
@@ -1858,7 +1872,7 @@ td.uploadfile
 .addtmxfile.btn-ok:hover,
 .addglossaryfile.btn-ok:hover
 {
-    background:#00A8D2;
+    background:#D32A3A;
 }
 
 
@@ -2144,7 +2158,7 @@ input.email-export-tmx {
 }
 .btn-confirm-small {
     /* color: #fff; */
-    background: #09beec;
+    background: #D32A3A;
     border: 1px solid #797979;
     font-weight: bold;
     text-decoration: none;
@@ -2161,7 +2175,7 @@ input.email-export-tmx {
     /* vertical-align: middle; */
 }
 .btn-confirm-small:hover {
-    background-color: #08b3de;
+    background-color: #D32A3A;
     box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
     border: 1px solid #797979;
 }
@@ -2189,16 +2203,16 @@ input.email-export-tmx {
 
 .btn-confirm-medium {
     color: #fff;
-    background: #09beec;
+    background: #D32A3A;
     border: 1px solid #848689;
     font-weight: bold;
     text-decoration: none;
     padding: 8px 18px;
     border-radius: 2px;
     font-size: 18px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#09beec), to(#119ec4));
-    background: -moz-linear-gradient(top, #09beec, #119ec4);
-    background: linear-gradient(top, #09beec, #119ec4);
+    background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
+    background: -moz-linear-gradient(top, #D32A3A, #D32A3A);
+    background: linear-gradient(top, #D32A3A, #D32A3A);
     margin: 16px 0 16px 20px;
     display: inline-block;
     text-align: center;
@@ -2707,7 +2721,7 @@ background-size: 25px!important;
 }
 
 .insert-tm input:focus {
-    border-color: #96C8DA !important;
+    border-color: #D32A3A !important;
     box-shadow: none;
     outline: none;
 }
@@ -3055,7 +3069,7 @@ font-weight: normal !important;
 }
 
 
-.claim span {font-weight:bold; color:#39699a;}
+.claim span {font-weight:bold; color:#D32A3A;}
 
 .extdoc {background: url(../../img/matecat_file_icons.png) 6px 0 no-repeat !important;} /* .doc, .dot, . docx, .dotx, .docm, .dotm, .odt, .sxw*/
 .extppt {background: url(../../img/matecat_file_icons.png) 6px -34px no-repeat !important;} /* .pot, .pps, .ppt, .potm, .potx, .ppsm, .ppsx, .pptm, .pptx, .odp, .sxi*/
@@ -3193,7 +3207,7 @@ only screen and (in-resolution: 2dppx) {
 /*.popup {background: #fff url(../img/borderfix.png) repeat-x!important;}*/
 
 .fileinput-button {
-	background: #09beec;
+	background: #D32A3A;
 }
 
 }
@@ -3216,7 +3230,7 @@ display: none;
 .active-tm-key-link {
     cursor: pointer;
     text-decoration: underline;
-    color: #39699a;
+    color: #D32A3A;
 }
 
 .tm-error-message, .tm-warning-message, .tm-success-message {
@@ -3460,7 +3474,7 @@ header .filter:before {
     content: "\ea10";
     margin-left: -40px;
     padding: 11px;
-    color: #3aa9dd;
+    color: #D32A3A;
 }
 
 .icon-tag-expand:before {
@@ -4138,11 +4152,11 @@ body.side-popup {
 }
 
 #menu-site li a.bigred:hover {
-background: #3aa9dd!important;
+background: #D32A3A!important;
 }
 
 #menu-site li a:hover {
-    color: #3aa9dd;
+    color: #D32A3A;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -4156,7 +4170,7 @@ header, .wrapper-claim, .wrapper-upload, footer, #template-upload, #template-dow
         min-height: 100px!important;
         box-shadow: 0px 2px 3px #E9E9E9;
         border: 1px solid #E6E6E6;
-        border-top: 3px solid #3aa9dd;
+        border-top: 3px solid #D32A3A;
     }
 
     .iepopup .col-2 a {
@@ -4560,7 +4574,7 @@ span.share-popup-item-email {
     transition: 0.3s ease;
 }
 .ui.user.label:hover {
-    border: 3px solid #02ceff;
+    border: 3px solid #D32A3A;
 }
 .user-nolog.sing-in-header {
     -webkit-box-align: center;
@@ -4593,11 +4607,11 @@ span.share-popup-item-email {
     border: 1px dashed !important;
 }
 .user-nolog.sing-in-header:hover {
-    border: 1px dashed #09BEEC !important;
+    border: 1px dashed #D32A3A !important;
 }
 
 .user-nolog.sing-in-header:hover i{
-    color: #09beec;
+    color: #D32A3A;
 }
 .team-name {
     position: relative;
