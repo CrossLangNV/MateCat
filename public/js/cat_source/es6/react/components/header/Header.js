@@ -111,7 +111,7 @@ class Header extends React.Component {
                         <div className="ui grid">
                             <div className="six wide column">
                                 <a href="/" className="logo"/>
-                                <a href="/" className="logo-matecat"/>
+                                <a href="https://www.matecat.com/" className="logo-matecat"/>
                             </div>
 
                             {componentToShow}
