@@ -71,6 +71,8 @@ $klein->with('/api/v2/jobs/[:id_job]/[:password]', function() {
     route( '/archive', 'POST', 'API\V2\ChunkController', 'archive' );
     route( '/active', 'POST', 'API\V2\ChunkController', 'active' );
 
+    route( '/xliff', 'GET', 'API\V2\SegmentsXliffController', 'index' );
+
 });
 
 $klein->with('/api/v2/glossaries', function() {

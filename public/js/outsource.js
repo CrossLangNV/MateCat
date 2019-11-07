@@ -27,6 +27,19 @@ $.extend(UI, {
         });
     },
 
+    sendXliffToService: function(service_url, date, timezone, job, project) {
+        API.JOB.sendPERequest(service_url, date, timezone, job, project.name).done(function (data) {
+            APP.ModalWindow.onCloseModal();
+            if (data.job) {
+                UI.checkShareToTranslatorResponse(data, service_url, date, job, project);
+            } else {
+                UI.showShareTranslatorError();
+            }
+        }).fail(function () {
+            UI.showShareTranslatorError();
+        });
+    },
+
     checkShareToTranslatorResponse: function (response, mail, date, job, project) {
         var message = '';
         if (job.translator) {

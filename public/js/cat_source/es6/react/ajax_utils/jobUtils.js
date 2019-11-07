@@ -112,6 +112,62 @@ API.JOB = {
             type: "POST",
             url: APP.getRandomUrl() + "api/v2/jobs/" + job.id + "/" + job.password + "/translator"
         });
+    },
+    sendPERequest: function (service_url, date, timezone, job, projectName) {
+        /*
+        example job xliff data 
+        {
+            "job": {
+                "id": "5",
+                "password": "dcddde6e7320",
+                "output_content": {
+                    "5": {
+                        "document_content": "<xliff>...</xliff>",
+                        "output_filename": "Oviedo-part.docx"
+                    },
+                    "6": {
+                        ...
+                    },
+                    ...
+                }
+            }
+        } */
+        var xliffDataObject = $.ajax({
+            type: "get",
+            xhrFields: { withCredentials: true },
+            url : APP.getRandomUrl() + "api/v2/jobs/" + job.id + "/" + job.password + "/xliff",
+            dataType: "json",
+            success: function(json) {
+                var xliffData = json["job"]["output_content"];
+                var matecatData = {
+                    service_url: service_url,
+                    delivery_date: Math.round(date / 1000),
+                    timezone: timezone
+                };
+                var serviceData = {
+                    source_language: job.source,
+                    target_language: job.target,
+                    text_format: "xliff",
+                    json: xliffData,
+                    project_name: projectName
+                };
+                $.ajax({
+                    async: true,
+                    data: JSON.stringify(serviceData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST",
+                    url: service_url + "/pe/translate"
+                });
+                return $.ajax({
+                    async: true,
+                    data: matecatData,
+                    type: "POST",
+                    url: APP.getRandomUrl() + "api/v2/jobs/" + job.id + "/" + job.password + "/translator"
+                });
+            }
+        });
+        return xliffDataObject;
     }
 
 };

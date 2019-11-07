@@ -25,6 +25,10 @@ let OutsourceActions = {
 
     sendJobToService: function(service_url, date, timezone, job, project) {
         UI.sendJobToService(service_url, date, timezone, job, project);
+    },
+
+    sendXliffToService: function(service_url, date, timezone, job, project) {
+        UI.sendXliffToService(service_url, date, timezone, job, project);
     }
 
 };
