@@ -28,7 +28,7 @@ $.extend(UI, {
     },
 
     sendXliffToService: function(service_url, date, timezone, job, project) {
-        API.JOB.sendPERequest(service_url, date, timezone, job, project.name).done(function (data) {
+        API.JOB.sendPERequest(service_url, date, timezone, job, project).done(function (data) {
             APP.ModalWindow.onCloseModal();
             if (data.job) {
                 UI.checkShareToTranslatorResponse(data, service_url, date, job, project);

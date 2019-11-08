@@ -567,13 +567,6 @@ class NewController extends ajaxController {
             $projectStructure[ 'id_customer' ]  = $this->user->getEmail();
             $projectStructure[ 'owner' ]        = $this->user->getEmail();
             $this->projectManager->setTeam( $this->team );
-        }  else if ( !empty( $this->postInput[ 'uid' ] ) ) {
-            $projectStructure[ 'uid' ]          = $this->postInput[ 'uid' ];
-            $userDao                            = new Users_UserDao( Database::obtain() );
-            $this->user                         = $userDao->getByUid( $projectStructure[ 'uid' ] );
-            $projectStructure[ 'id_customer' ]  = $this->user->getEmail();
-            $projectStructure[ 'owner' ]        = $this->user->getEmail();
-            $this->projectManager->setTeam( $this->user->getPersonalTeam() );
         }
 
         //set features override
@@ -913,6 +906,10 @@ class NewController extends ajaxController {
      * @throws Exception
      */
     private function __validateTeam() {
+        if ( !$this->user && !empty( $this->postInput[ 'uid' ] )) {
+            $userDao = new Users_UserDao( Database::obtain() );
+            $this->user = $userDao->getByUid( $this->postInput[ 'uid' ] );
+        }
         if ( $this->user && !empty( $this->postInput[ 'id_team' ] ) ) {
             $dao = new MembershipDao();
             $org = $dao->findTeamByIdAndUser( $this->postInput[ 'id_team' ], $this->user );

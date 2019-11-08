@@ -113,7 +113,7 @@ API.JOB = {
             url: APP.getRandomUrl() + "api/v2/jobs/" + job.id + "/" + job.password + "/translator"
         });
     },
-    sendPERequest: function (service_url, date, timezone, job, projectName) {
+    sendPERequest: function (service_url, date, timezone, job, project) {
         /*
         example job xliff data 
         {
@@ -145,11 +145,13 @@ API.JOB = {
                     timezone: timezone
                 };
                 var serviceData = {
+                    uid: APP.USER.STORE.user.uid,
+                    id_team: project.id_team,
                     source_language: job.source,
                     target_language: job.target,
                     text_format: "xliff",
                     json: xliffData,
-                    project_name: projectName
+                    project_name: project.name
                 };
                 $.ajax({
                     async: true,
