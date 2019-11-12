@@ -112,6 +112,16 @@ class SdlXliffSAXTranslationReplacer extends XliffSAXTranslationReplacer {
             //add tag ending
             $tag .= ">";
 
+            // add no-translate span
+            $list_of_ids = $this->transUnits[ $this->currentId ];
+            // there can be more than 1 segment for the currentId (if more than 1 mrk element for same source segment), but any of them will do
+            foreach ( $list_of_ids as $pos => $id ) {
+                $seg = $this->segments[ $id ];
+            }
+            if ( 'source' == $name && $seg[ 'status' ] == \Constants_TranslationStatus::STATUS_TRANSLATED ) {
+                $tag .= "<span class=\"notranslate\">";
+            }
+
             //set a a Buffer for the segSource Source tag
             if ( 'source' == $name
                     || 'seg-source' == $name

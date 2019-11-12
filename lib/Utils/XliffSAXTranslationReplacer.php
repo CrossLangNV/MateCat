@@ -431,8 +431,12 @@ class XliffSAXTranslationReplacer {
 
                     }
 
-                    //append translation
-                    $tag = "<target xml:lang=\"" . $this->target_lang . "\" $state_prop>$translation</target>";
+                    //append translation, add notranslate span if necessary
+                    if ( $seg[ 'status' ] == \Constants_TranslationStatus::STATUS_TRANSLATED ) {
+                        $tag = "<target xml:lang=\"" . $this->target_lang . "\" $state_prop><span class=\"notranslate\">$translation</span></target>";
+                    } else {
+                        $tag = "<target xml:lang=\"" . $this->target_lang . "\" $state_prop>$translation</target>";
+                    }
                 }
 
                 //signal we are leaving a target
@@ -449,7 +453,18 @@ class XliffSAXTranslationReplacer {
                     || 'context' == $name ) { // we are closing a critical CDATA section
 
                 $this->bufferIsActive = false;
-                $tag                  = $this->CDATABuffer . "</$name>";
+                
+                // current segment
+                $list_of_ids = $this->transUnits[ $this->currentId ];
+                foreach ( $list_of_ids as $pos => $id ) {
+                    $seg = $this->segments[ $id ];
+                }
+                // closing tag + close (notranslate) span if necessary
+                if ( 'source' == $name && $seg[ 'status' ] == \Constants_TranslationStatus::STATUS_TRANSLATED ) {
+                    $tag = $this->CDATABuffer . "</span></source>";
+                } else {
+                    $tag = $this->CDATABuffer . "</$name>";
+                }    
                 $this->CDATABuffer    = "";
                 //flush to pointer
                 $this->postProcAndFlush( $this->outputFP, $tag );
