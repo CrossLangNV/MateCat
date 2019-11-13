@@ -418,7 +418,7 @@ $.extend(UI.UPLOAD_PAGE, {
 
 
         $('.tmx-select .tm-info-title .icon').popup({
-            html: "<div style='text-align: left'>Proof of concept TM.</div>",
+            html: "<div style='text-align: left'>Proof of concept Quality Gate & TM.</div>",
             position: 'bottom center'
         });
     },
@@ -459,7 +459,7 @@ $.extend(UI.UPLOAD_PAGE, {
     checkMailDropDownValueSelected: function () {
         var values = $('#tmx-select').dropdown('get value');
         if (values.length === 0) {
-            $('#tmx-select').dropdown('set text', 'Mouse PoC TM');
+            $('#tmx-select').dropdown('set text', 'Gorilla PoC');
         }
     },
 
@@ -473,7 +473,7 @@ $.extend(UI.UPLOAD_PAGE, {
     checkTmKeys: function (event, desc, key) {
         var activeTm = $('#activetm .mine');
         if (activeTm.length ===  0) {
-            $('#tmx-select').dropdown('set text', 'Mouse PoC TM');
+            $('#tmx-select').dropdown('set text', 'Gorilla PoC');
             $('#tmx-select').dropdown('remove selected', key);
         } else {
             var existingKey = $('#tmx-select').find('div.item[data-value='+ key +']');
@@ -510,7 +510,7 @@ $.extend(UI.UPLOAD_PAGE, {
 	    if ($('#tmx-select').find('div.item[data-value='+ key +']').length > 0) {
             $('#tmx-select').find('div.item[data-value='+ key +']').remove();
             if ( $('#tmx-select').dropdown('get value') == key) {
-                $('#tmx-select').dropdown('set text', 'Mouse PoC TM');
+                $('#tmx-select').dropdown('set text', 'Gorilla PoC');
             }
         }
     },
