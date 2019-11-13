@@ -99,7 +99,7 @@ class SegmentsXliffController extends KleinController {
                  */
                 $_target_lang = $this->featureSet->filter(
                         'changeXliffTargetLangCode',
-                        $jStruct->target, 
+                        $this->jStruct->target, 
                         $file[ 'xliffFilePath' ]
                 );
 
