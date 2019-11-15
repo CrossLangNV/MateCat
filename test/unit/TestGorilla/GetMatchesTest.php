@@ -71,6 +71,30 @@ class GetMatchesTest extends AbstractTest {
         $this->engine_MyMemory = new Engines_MyMemory( $this->engine_struct_param );
 
         $this->config_param_of_get[ 'segment' ] = "This is a test.";
+
+        $result = $this->engine_MyMemory->get( $this->config_param_of_get );
+        $this->assertEquals( 200, $result->responseStatus );
+        $this->assertEquals( "", $result->responseDetails );
+        $this->assertCount( 2, $result->responseData );
+        $this->assertTrue( $result instanceof Engines_Results_MyMemory_TMS );
+
+        $this->reflector = new ReflectionClass( $result );
+        $property        = $this->reflector->getProperty( '_rawResponse' );
+        $property->setAccessible( true );
+
+        $this->assertEquals( "", $property->getValue( $result ) );
+
+    }
+
+    /**
+     * @group  regression
+     * @covers Engines_MyMemory::get
+     */
+    public function test_with_existing_translation_QE() {
+
+        $this->engine_MyMemory = new Engines_MyMemory( $this->engine_struct_param );
+
+        $this->config_param_of_get[ 'segment' ] = "This is a test.";
         $this->config_param_of_get[ 'translation' ] = "C'est un test.";
 
         $result = $this->engine_MyMemory->get( $this->config_param_of_get );
@@ -78,6 +102,13 @@ class GetMatchesTest extends AbstractTest {
         $this->assertEquals( "", $result->responseDetails );
         $this->assertCount( 2, $result->responseData );
         $this->assertTrue( $result instanceof Engines_Results_MyMemory_TMS );
+
+        // QE specific checks
+        $this->assertGreaterThanOrEqual( 2, $result->matches );
+        $this->assertTrue( $result->matches[0] instanceof Engines_Results_MyMemory_Matches );
+        $this->assertEquals( "0", $result->matches[0]->getMatches()['id'] );
+        $this->assertEquals( "QE existing translation", $result->matches[0]->getMatches()['created_by'] );
+        $this->assertEquals( "100%", $result->matches[0]->getMatches()['match']);
 
         $this->reflector = new ReflectionClass( $result );
         $property        = $this->reflector->getProperty( '_rawResponse' );
