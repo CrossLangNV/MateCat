@@ -1,16 +1,14 @@
 <?php
 
 use Teams\TeamDao;
+use Database;
 
 class Factory_User extends Factory_Base {
 
-    public static $email_counter = 0 ;
-
     static function create( $values=array() ) {
-        $email_counter = self::$email_counter += 1 ;
 
         $values = array_merge(array(
-            'email' => "test-email-{$email_counter}@example.org",
+            'email' => "test-email-" . uniqid() . "@example.org",
             'salt' => '1234abcd',
             'pass' => '1234abcd',
             'first_name' => 'John',
@@ -23,10 +21,12 @@ class Factory_User extends Factory_Base {
         $user = $dao->createUser( $userStruct );
 
         $orgDao = new TeamDao() ;
+        Database::obtain()->begin();
         $team = $orgDao->createUserTeam( $user, array(
             'type' => Constants_Teams::PERSONAL,
             'name' => 'personal'
         ));
+        Database::obtain()->commit();
 
         return $user ;
     }

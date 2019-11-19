@@ -28,7 +28,7 @@ class SegmentsXliffControllerTest extends IntegrationTest {
         );
     }
 
-    function test_get_output() {
+    function test_xliff_with_dummy_translation() {
 
         $project = integrationCreateTestProject( array(
             'headers' => $this->test_data->headers
