@@ -34,6 +34,9 @@ class SegmentsXliffControllerTest extends IntegrationTest {
             'headers' => $this->test_data->headers
         ));
 
+        // wait 5 seconds after upload of project to ensure analysis, including dummy MT translation, is done
+        sleep(5);
+
         $this->params = array(
             'id_project' => $project->id_project,
             'password' => $project->project_pass
@@ -47,9 +50,6 @@ class SegmentsXliffControllerTest extends IntegrationTest {
 
         $segments = $chunk->getSegments();
         $segment = $segments[0];
-
-        $translations = $chunk->getTranslations();
-        $translation = $translations[0];
 
         $test          = new CurlTest();
         $test->path    = sprintf("/api/v2/jobs/%s/%s/xliff", $chunk->id, $chunk->password );
@@ -119,13 +119,23 @@ class SegmentsXliffControllerTest extends IntegrationTest {
             "\r\n<body>\r\n</body>\r\n</file>\r\n<file datatype=\"x-undefined\" original=\"docProps/core.xml\" source-language=\"en-US\" target-language=\"it-IT\">\r\n" .
             "<body>\r\n</body>\r\n</file>\r\n</xliff>";
 
-        var_dump($response[ 'body' ]);
+        $expected_xliff_xml = new SimpleXMLElement($expected_xliff);
+        $expected_xliff_xml->registerXPathNamespace('prefix', 'urn:oasis:names:tc:xliff:document:1.2');
+        $expected_sources = $expected_xliff_xml->xpath('//prefix:source');
+        $expected_targets = $expected_xliff_xml->xpath('//prefix:target');
 
         $response_decoded = json_decode($response[ 'body' ]);
 
+        $actual_xml = new SimpleXMLElement($response_decoded->job->output_content->$file_id->document_content);
+        $actual_xml->registerXPathNamespace('prefix', 'urn:oasis:names:tc:xliff:document:1.2');
+        $actual_sources = $expected_xliff_xml->xpath('//prefix:source');
+        $actual_targets = $expected_xliff_xml->xpath('//prefix:target');
+
         $this->assertEquals( $expected_job_id, $response_decoded->job->id );
         $this->assertEquals( $expected_job_password, $response_decoded->job->password );
-        $this->assertEquals( $expected_xliff, $response_decoded->job->output_content->$file_id->document_content );
+        // assert contents
+        $this->assertEquals( $expected_sources[0], $actual_sources[0] );
+        $this->assertEquals( $expected_targets[0], $actual_targets[0] );
     }
 
 }
