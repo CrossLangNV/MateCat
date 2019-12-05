@@ -107,6 +107,8 @@ class SegmentFooterMultiMatches extends React.Component {
         setTimeout( () => {
             SegmentActions.replaceEditAreaTextContent(this.props.segment.sid, this.props.segment.fid, match.translationDecodedHtml);
             SegmentActions.highlightEditarea(this.props.id_segment);
+            UI.currentSegment.trigger('modified');
+            UI.registerQACheck();
         }, 200);
     }
 
