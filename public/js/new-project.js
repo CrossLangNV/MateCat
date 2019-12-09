@@ -230,7 +230,7 @@ APP.getCreateProjectParams = function() {
 		file_name					: APP.getFilenameFromUploadedFiles(),
 		project_name				: $('#project-name').val(),
 		source_lang 				: $('#source-lang').dropdown('get value'),
-		target_lang 				: $('#target-lang').dropdown('get value'),
+		target_lang 				: $('#target-lang').dropdown('get value') == '' ? $('#source-lang').dropdown('get value') : $('#target-lang').dropdown('get value'),
 		job_subject         		: $('#project-subject').dropdown('get value'),
 		disable_tms_engine			: ( $('#disable_tms_engine').prop('checked') ) ? $('#disable_tms_engine').val() : false,
 		mt_engine					: $('.mgmt-mt .activemt').data("id"),

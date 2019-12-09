@@ -15,6 +15,7 @@ class SegmentSource extends React.Component {
             source : this.props.segment.decoded_source
 
         };
+        this.isBase64Source = false;
         this.originalSource = this.createEscapedSegment(this.props.segment.segment);
         this.createEscapedSegment = this.createEscapedSegment.bind(this);
         this.decodeTextSource = this.decodeTextSource.bind(this);
@@ -58,7 +59,8 @@ class SegmentSource extends React.Component {
     beforeRenderActions() {
         var area = $("#segment-" + this.props.segment.sid + " .source");
         this.props.beforeRenderOrUpdate(area);
-
+        var base64Regex = /^([A-Za-z0-9+/]{4}){20,}([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
+        this.isBase64Source = this.state.source.search(base64Regex) == -1 ? false : true;
     }
 
     afterRenderActions() {
@@ -101,13 +103,18 @@ class SegmentSource extends React.Component {
         return { __html: string };
     }
 
+    base64ImgHtml(string) {
+        return `<img src="data:image;base64, ${string}" style="max-width: 400px;" />`;
+    }
+
     render() {
         return (
             <div className={"source item"}
                  tabIndex={0}
                  id={"segment-" + this.props.segment.sid +"-source"}
                  data-original={this.originalSource}
-                 dangerouslySetInnerHTML={ this.allowHTML(this.state.source) }
+                 dangerouslySetInnerHTML={ this.isBase64Source ? 
+                    this.allowHTML(this.base64ImgHtml(this.state.source)) : this.allowHTML(this.state.source) }
                  onCopy={this.onCopyEvent.bind(this)}
                  onDragStart={this.onDragEvent.bind(this)}
             />

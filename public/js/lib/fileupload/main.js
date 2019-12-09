@@ -584,7 +584,7 @@ convertFile = function ( fname, filerow, filesize, enforceConversion ) {
             action: 'convertFile',
             file_name: fname,
             source_lang: $( '#source-lang' ).dropdown('get value'),
-            target_lang: $( '#target-lang' ).dropdown('get value'),
+            target_lang: $( '#target-lang' ).dropdown('get value') == '' ? $( '#source-lang' ).dropdown('get value') : $( '#target-lang' ).dropdown('get value'),
             segmentation_rule: $( '#segm_rule' ).val()
         },
         type: 'POST',
