@@ -138,6 +138,11 @@ $.extend(UI, {
             txt = htmlDecode(txt);
         }
 
+        // if txt is still empty, source contains base64 data, use translation (hypothesis)
+        if (!txt) {
+            txt = $('.original-translation', current).text();
+        }
+
 		txt = view2rawxliff(txt);
 		// Attention: As for copysource, what is the correct file format in attributes? I am assuming html encoded and "=>&quot;
 
