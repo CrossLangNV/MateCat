@@ -983,7 +983,7 @@ CREATE TABLE `segments` (
   `xliff_mrk_id` varchar(70) DEFAULT NULL,
   `xliff_ext_prec_tags` text,
   `xliff_mrk_ext_prec_tags` text,
-  `segment` text,
+  `segment` mediumtext,
   `segment_hash` varchar(45) NOT NULL,
   `xliff_mrk_ext_succ_tags` text,
   `xliff_ext_succ_tags` text,
