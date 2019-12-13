@@ -195,6 +195,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
         $parameters               = [];
         $parameters[ 'seg' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'segment' ] );
         $parameters[ 'tra' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'translation' ] );
+        $parameters[ 'hyp' ]      = preg_replace( "/^(-?@-?)/", "", $_config[ 'old_translation' ] );
         $parameters[ 'tnote' ]    = $_config[ 'tnote' ];
         $parameters[ 'langpair' ] = $_config[ 'source' ] . "|" . $_config[ 'target' ];
         $parameters[ 'de' ]       = $_config[ 'email' ];

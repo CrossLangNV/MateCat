@@ -144,10 +144,11 @@ class SetContributionWorker extends AbstractWorker {
      */
     protected function _set( Array $config, ContributionSetStruct $contributionStruct ){
 
-        $config[ 'segment' ]        = $contributionStruct->segment;
-        $config[ 'translation' ]    = $contributionStruct->translation;
-        $config[ 'context_after' ]  = $contributionStruct->context_after;
-        $config[ 'context_before' ] = $contributionStruct->context_before;
+        $config[ 'segment' ]         = $contributionStruct->segment;
+        $config[ 'old_translation' ] = $contributionStruct->oldTranslation;
+        $config[ 'translation' ]     = $contributionStruct->translation;
+        $config[ 'context_after' ]   = $contributionStruct->context_after;
+        $config[ 'context_before' ]  = $contributionStruct->context_before;
 
         //get the Props
         $config[ 'prop' ]        = json_encode( $contributionStruct->getProp() );
