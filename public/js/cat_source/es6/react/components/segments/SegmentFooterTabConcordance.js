@@ -86,8 +86,13 @@ class SegmentFooterTabConcordance extends React.Component {
         return {__html: string};
     }
 
+    base64ImgHtml(string) {
+        return `<img src="data:image;base64, ${string}" style="max-width: 200px;" />`;
+    }
+
     renderConcordances(sid, data) {
         let self = this;
+        let base64Regex = /^([A-Za-z0-9+/]{4}){20,}([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
         let segment = UI.currentSegment;
         let segment_id = UI.currentSegmentId;
         let array = [];
@@ -105,6 +110,8 @@ class SegmentFooterTabConcordance extends React.Component {
                 leftTxt = leftTxt.replace(/\#\{/gi, "<mark>");
                 leftTxt = leftTxt.replace(/\}\#/gi, "</mark>");
 
+                let isBase64Source = leftTxt.search(base64Regex) == -1 ? false : true;
+
                 let rightTxt = item.translation;
                 rightTxt = UI.decodePlaceholdersToText(rightTxt);
                 rightTxt = rightTxt.replace(/\#\{/gi, "<mark>");
@@ -114,7 +121,8 @@ class SegmentFooterTabConcordance extends React.Component {
                     prime].join(' ')} data-item={index + 1} data-id={item.id}>
                     <li className={"sugg-source"}>
                         <span id={segment_id + '-tm-' + item.id + '-source'} className={"suggestion_source"}
-                              dangerouslySetInnerHTML={self.allowHTML(leftTxt)}/>
+                              dangerouslySetInnerHTML={ isBase64Source ? 
+                                self.allowHTML(self.base64ImgHtml(leftTxt)) : self.allowHTML(leftTxt) }/>
                     </li>
                     <li className={"b sugg-target"}>
                         <span id={segment_id + "-tm-" + item.id + "-translation"} className={"translation"}

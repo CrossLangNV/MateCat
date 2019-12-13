@@ -126,11 +126,17 @@ class SegmentFooterMultiMatches extends React.Component {
         return { __html: string };
     }
 
+    base64ImgHtml(string) {
+        return `<img src="data:image;base64, ${string}" style="max-width: 200px;" />`;
+    }
+
     render() {
         var matches = [];
         if ( this.state.matches && this.state.matches.length > 0 ) {
             var self = this;
+            var base64Regex = /^([A-Za-z0-9+/]{4}){20,}([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
             this.state.matches.forEach(function (match, index) {
+                var isBase64Source = match.segment.search(base64Regex) == -1 ? false : true;
                 var item =
                     <ul key={match.id + index}
                         className="suggestion-item crosslang-item graysmall"
@@ -142,7 +148,8 @@ class SegmentFooterMultiMatches extends React.Component {
                             <span
                                 id={self.props.id_segment + '-tm-' + match.id + '-source'}
                                 className="suggestion_source"
-                                dangerouslySetInnerHTML={ self.allowHTML(match.sourceDiff) } >
+                                dangerouslySetInnerHTML={ isBase64Source ? 
+                                    self.allowHTML(self.base64ImgHtml(match.segment)) : self.allowHTML(match.sourceDiff) } >
                             </span>
                         </li>
                         <li className="b sugg-target">
