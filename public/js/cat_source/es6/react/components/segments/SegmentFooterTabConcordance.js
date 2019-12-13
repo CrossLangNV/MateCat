@@ -106,11 +106,14 @@ class SegmentFooterTabConcordance extends React.Component {
                 let cb = item.created_by;
 
                 let leftTxt = item.segment;
-                leftTxt = UI.decodePlaceholdersToText(leftTxt);
-                leftTxt = leftTxt.replace(/\#\{/gi, "<mark>");
-                leftTxt = leftTxt.replace(/\}\#/gi, "</mark>");
-
                 let isBase64Source = leftTxt.search(base64Regex) == -1 ? false : true;
+                if (isBase64Source) {
+                    leftTxt = self.base64ImgHtml(leftTxt);
+                } else {
+                    leftTxt = UI.decodePlaceholdersToText(leftTxt);
+                    leftTxt = leftTxt.replace(/\#\{/gi, "<mark>");
+                    leftTxt = leftTxt.replace(/\}\#/gi, "</mark>");
+                }
 
                 let rightTxt = item.translation;
                 rightTxt = UI.decodePlaceholdersToText(rightTxt);
@@ -121,8 +124,7 @@ class SegmentFooterTabConcordance extends React.Component {
                     prime].join(' ')} data-item={index + 1} data-id={item.id}>
                     <li className={"sugg-source"}>
                         <span id={segment_id + '-tm-' + item.id + '-source'} className={"suggestion_source"}
-                              dangerouslySetInnerHTML={ isBase64Source ? 
-                                self.allowHTML(self.base64ImgHtml(leftTxt)) : self.allowHTML(leftTxt) }/>
+                              dangerouslySetInnerHTML={self.allowHTML(leftTxt)}/>
                     </li>
                     <li className={"b sugg-target"}>
                         <span id={segment_id + "-tm-" + item.id + "-translation"} className={"translation"}

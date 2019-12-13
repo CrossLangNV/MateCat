@@ -241,7 +241,8 @@ class GetContributionWorker extends AbstractWorker {
 
             $match = $this->_matchRewrite( $match, $contributionStruct, $featureSet );
 
-            if ( $contributionStruct->concordanceSearch ) {
+            if ( preg_match( '/^([A-Za-z0-9+\/]{4}){20,}([A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)?$/', strip_tags( html_entity_decode( $match[ 'segment' ] ) ) ) != 1
+                    && $contributionStruct->concordanceSearch ) {
 
                 $regularExpressions = $this->tokenizeSourceSearch( $contributionStruct->getContexts()->segment );
 
