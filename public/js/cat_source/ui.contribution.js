@@ -101,26 +101,26 @@ $.extend(UI, {
         /* If the segment just translated is equal or similar (Levenshtein distance) to the
          * current segment force to reload the matches
         **/
-        var s1 = $('#segment-' + this.lastTranslatedSegmentId + ' .source').text();
-        var s2 = $('.source', current).text();
-        var areSimilar = lev(s1,s2)/Math.max(s1.length,s2.length)*100 < 50;
-        var isEqual = (s1 == s2) && s1 !== '';
+        // var s1 = $('#segment-' + this.lastTranslatedSegmentId + ' .source').text();
+        // var s2 = $('.source', current).text();
+        // var areSimilar = lev(s1,s2)/Math.max(s1.length,s2.length)*100 < 50;
+        // var isEqual = (s1 == s2) && s1 !== '';
 
-        var callNewContributions = areSimilar || isEqual;
+        // var callNewContributions = areSimilar || isEqual;
 
-        if ($(current).hasClass('loaded') && current.find('.footer .matches .overflow').text().length && !callNewContributions) {
-            SegmentActions.addClassToSegment(UI.getSegmentId(current), 'loaded');
-            if (!next) {
-                this.blockButtons = false;
-                this.segmentQA(segment);
-            }
-            if (this.currentSegmentId == this.nextUntranslatedSegmentId)
-                this.blockButtons = false;
-            return $.Deferred().resolve();
-		}
-		if ((!current.length) && (next)) {
-			return $.Deferred().resolve();
-		}
+        // if ($(current).hasClass('loaded') && current.find('.footer .matches .overflow').text().length) {
+        //     SegmentActions.addClassToSegment(UI.getSegmentId(current), 'loaded');
+        //     if (!next) {
+        //         this.blockButtons = false;
+        //         this.segmentQA(segment);
+        //     }
+        //     if (this.currentSegmentId == this.nextUntranslatedSegmentId)
+        //         this.blockButtons = false;
+        //     return $.Deferred().resolve();
+		// }
+		// if ((!current.length) && (next)) {
+		// 	return $.Deferred().resolve();
+		// }
 
         var id = UI.getSegmentId(current);
         var id_segment_original = id.split('-')[0];
@@ -142,7 +142,7 @@ $.extend(UI, {
         var status = current.find('.status').attr('title').split(',')[0];
         var translation;
         if (status === 'Translated') {
-            translation = $('.original-translation', current).text();
+            translation = UI.postProcessEditarea(current, ".editarea");
             translation = htmlDecode(translation).replace(/&quot;/g, '\"');
             translation = htmlDecode(translation);
         }
