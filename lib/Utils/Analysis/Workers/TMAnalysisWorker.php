@@ -499,32 +499,35 @@ class TMAnalysisWorker extends AbstractWorker {
      */
     protected function _getMT( \Engines_AbstractEngine $mtEngine, $_config, QueueElement $queueElement ) {
 
-        $mt_result = null;
+        // never get external MT during analysis phase
+        return null;
 
-        try {
+        // $mt_result = null;
 
-            $mtEngine->setFeatureSet( $this->featureSet );
+        // try {
 
-            //tell to the engine that this is the analysis phase ( some engines want to skip the analysis )
-            $mtEngine->setAnalysis();
+        //     $mtEngine->setFeatureSet( $this->featureSet );
 
-            $config = $mtEngine->getConfigStruct();
-            $config = array_merge( $config, $_config );
+        //     //tell to the engine that this is the analysis phase ( some engines want to skip the analysis )
+        //     $mtEngine->setAnalysis();
 
-            //if a callback is not set only the first argument is returned, get the config params from the callback
-            $config = $this->featureSet->filter( 'analysisBeforeMTGetContribution', $config, $mtEngine, $queueElement );
+        //     $config = $mtEngine->getConfigStruct();
+        //     $config = array_merge( $config, $_config );
 
-            $mt_result = $mtEngine->get( $config );
+        //     //if a callback is not set only the first argument is returned, get the config params from the callback
+        //     $config = $this->featureSet->filter( 'analysisBeforeMTGetContribution', $config, $mtEngine, $queueElement );
 
-            if ( isset( $mt_result[ 'error' ][ 'code' ] ) ) {
-                $mt_result = false;
-            }
+        //     $mt_result = $mtEngine->get( $config );
 
-        } catch ( \Exception $e ) {
-            $this->_doLog( $e->getMessage() );
-        }
+        //     if ( isset( $mt_result[ 'error' ][ 'code' ] ) ) {
+        //         $mt_result = false;
+        //     }
 
-        return $mt_result;
+        // } catch ( \Exception $e ) {
+        //     $this->_doLog( $e->getMessage() );
+        // }
+
+        // return $mt_result;
 
     }
 
