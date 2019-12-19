@@ -110,6 +110,8 @@ class SegmentFooterTabMatches extends React.Component {
             UI.copySuggestionInEditarea(UI.currentSegment, $(ulDataItem + index + '] li.b .translation').html(),
                 $('.editor .editarea'), $(ulDataItem + index + '] ul.graysmall-details .percent').text(), false, false, index, $(ulDataItem + index + '] li.graydesc .bold').text());
             SegmentActions.highlightEditarea(self.props.id_segment);
+            UI.currentSegment.trigger('modified');
+            UI.registerQACheck();
         }, 200);
     }
 

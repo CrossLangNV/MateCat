@@ -36,7 +36,7 @@
     <!-- add web component support for older browsers -->
     <SCRIPT src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.0.2/webcomponents-bundle.js"></SCRIPT>
     <!-- Tilde MT system selection web component manages system selection and configuration by source-target language pair. The system configuration is returned in JSON. The web components documentation can be found at http://www.tilde.com/mt/tools/api -->
-    <link id="tildemt_link" rel="import" href="https://www.letsmt.eu/ws/tildemt-selector.html"/>
+    <link id="tildemt_link" rel="import" href="https://www.letsmt.eu/ws/tildemt-selector.html?from=some_domain"/>
     <!-- Tilde MT -->
 
     <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
@@ -903,16 +903,16 @@
     <div class="wrapper">
 
         <ul class="external-links">
-            <li><a href="https://www.matecat.com/open-source/" target="_blank">Open source</a></li>
+            <!-- <li><a href="https://www.matecat.com/open-source/" target="_blank">Open source</a></li> -->
             <li><a tal:attributes="href string:${basepath}api/docs" target="_blank">API</a></li>
-            <li><a href="https://www.matecat.com/terms/" target="_blank">Terms</a></li>
-            <li><a href="https://blog.matecat.com" target="_blank">Blog</a></li>
+            <!-- <li><a href="https://www.matecat.com/terms/" target="_blank">Terms</a></li>
+            <li><a href="https://blog.matecat.com" target="_blank">Blog</a></li> -->
         </ul>
 
         <nav>
             <ul>
                 <li><a class="link-manage-page" href="/manage/">Manage</a></li>
-                <li><a href="https://www.matecat.com/support/" target="_blank">Support</a></li>
+                <!-- <li><a href="https://www.matecat.com/support/" target="_blank">Support</a></li> -->
             </ul>
 
             <!--<div metal:use-macro="common.html/login_includes" />-->
