@@ -599,4 +599,31 @@ class TMSService {
 
     }
 
+    /**
+     * Export Job translation segments to plain text file
+     *
+     * @param $jid
+     * @param $jPassword
+     * @param $sourceLang
+     * @param $targetLang
+     *
+     * @return SplTempFileObject $tmpFile
+     *
+     */
+    public function exportTranslationsAsTxt( $jid, $jPassword, $sourceLang, $targetLang ) {
+
+        $tmpFile = new SplTempFileObject( 15 * 1024 * 1024 /* 15MB */ );
+
+        $result = getTranslationsForTMXExport( $jid, $jPassword );
+
+        foreach ( $result as $k => $row ) {
+            $tmpFile->fwrite( $row[ 'translation' ] . "\n" );
+        }
+
+        $tmpFile->rewind();
+
+        return $tmpFile;
+
+    }
+
 }

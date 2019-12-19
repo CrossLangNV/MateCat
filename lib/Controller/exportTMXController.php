@@ -94,6 +94,13 @@ class exportTMXController extends downloadController {
                 $this->tmx = $tmsService->exportJobAsCSV( $this->jobID, $this->jobPass, $source, $target );
                 $this->fileName = $projectData[0][ 'name' ] . "-" . $this->jobID . ".csv";
                 break;
+            case 'translations':
+                /**
+                 * @var $tmx SplTempFileObject
+                 */
+                $this->tmx = $tmsService->exportTranslationsAsTxt( $this->jobID, $this->jobPass, $source, $target );
+                $this->fileName = $projectData[0][ 'name' ] . "-" . $this->jobID . ".txt";
+                break;
             default:
                 /**
                  * @var $tmx SplTempFileObject
