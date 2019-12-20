@@ -542,6 +542,7 @@ class TMAnalysisWorker extends AbstractWorker {
     protected function _getTM( \Engines_AbstractEngine $tmsEngine, $_config ) {
 
         $tms_match = null;
+        $_config[ 'analysis' ] = true;
 
         /**
          * @var $tmsEngine \Engines_MyMemory

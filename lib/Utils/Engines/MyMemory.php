@@ -154,6 +154,7 @@ class Engines_MyMemory extends Engines_AbstractEngine {
         $parameters[ 'de' ]       = $_config[ 'email' ];
         $parameters[ 'mt' ]       = $_config[ 'get_mt' ];
         $parameters[ 'numres' ]   = $_config[ 'num_result' ];
+        $parameters[ 'analysis' ] = $_config[ 'analysis' ];
 
         ( @$_config[ 'onlyprivate' ] ? $parameters[ 'onlyprivate' ] = 1 : null );
         ( @$_config[ 'isConcordance' ] ? $parameters[ 'conc' ] = 'true' : null );
