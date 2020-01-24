@@ -6,7 +6,7 @@ use ConnectedServices\GDrive;
 use LexiQA\LexiQADecorator;
 use Engines_Intento as Intento;
 
-class newProjectController extends viewController {
+class brandController extends viewController {
 
     private $guid = '';
     private $mt_engines;
@@ -25,7 +25,8 @@ class newProjectController extends viewController {
     public function __construct() {
 
         parent::__construct();
-        parent::makeTemplate( "upload.html" );
+        parent::makeTemplate( "admin.html" );
+
 
         $filterArgs = [
                 'project_name' => [ 'filter' => FILTER_SANITIZE_STRING ]
@@ -38,6 +39,15 @@ class newProjectController extends viewController {
         $this->subject_handler = Langs_LanguageDomains::getInstance();
 
         $this->subjectArray = $this->subject_handler->getEnabledDomains();
+
+
+        $this->template->log = "log is empty";
+
+        if(isset($_POST["title"])) {
+            $updatedBrandingSettings = json_encode($_POST);
+            $settingsPath = realpath(__DIR__ . '/../../branding/settings.json');
+            file_put_contents($settingsPath, $updatedBrandingSettings);
+        }
 
         $this->template->title = "MateCat";
         $this->template->subtitle = "";

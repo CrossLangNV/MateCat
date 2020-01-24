@@ -37,6 +37,8 @@ RewriteRule ^(jobanalysis)/([^/]*)-([^/]*)-([^/]*)/?$ index.php?action=analyze&p
 
 RewriteRule ^(login)[/]?$ index.php?action=loginPage [L,QSA]
 
+RewriteRule ^(branding)[/]?$ index.php?action=brand [L,QSA]
+
 RewriteRule ^(oauth)/(response)[/]?$ index.php?action=oauthResponseHandler [L,QSA]
 
 RewriteRule ^(manage)[/]?$ index.php?action=manage [QSA,L]
@@ -95,7 +97,7 @@ AddOutputFilterByType DEFLATE application/xml application/xhtml+xml appalication
 AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
 #AddOutputFilterByType DEFLATE application/x-httpd-php
 </IfModule>
-	
+
 <IfModule mod_setenvif.c>
 SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
 SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
