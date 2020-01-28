@@ -3,32 +3,80 @@
 <html lang="en">
 
     <head>
+        <link href="/public/css/build/common.css?build=${build_number}" rel="stylesheet" type="text/css"/>
+        <link href="/public/css/build/upload-build.css?build=${build_number}" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
 
-        <h2>Custom Branding</h2>
+        <header class="upload-page-header" style="height: 45px; background-color: #4d4d4d;">
+            <section class="nav-mc-bar ui grid">
 
-        <p>${log}</p>
+                <nav class="sixteen wide column navigation">
+                    <div class="ui grid">
+                        <div class="six wide column">
+                            <a href="/" class="logo"><img src="/public/img/logo.png"/></a>
+                            <a href="https://www.matecat.com/" class="logo-matecat"/>
+                        </div>
 
-        <form id="branding" method="post" enctype="multipart/form-data">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"/>
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                </div>
-            </div>
-            <p>Title:</p>
-            <input type="text" value="${title}" name="title"/>
+                        <div class="user-teams ten wide right floated right aligned column">
+                            <div class="wide right floated right aligned column">
+                                <ul id="menu-site" style="border-right: none !important">
+                                    <li><a href="https://www.matecat.com/benefits/">Benefits</a></li>
+                                    <li><a href="https://www.matecat.com/outsourcing/">Outsource</a></li>
+                                    <li><a href="https://www.matecat.com/support-plans/">Plans</a></li>
+                                    <li><a href="https://www.matecat.com/about/">About</a></li>
+                                    <li><a href="https://www.matecat.com/faq/">FAQ</a></li>
+                                    <li><a href="https://www.matecat.com/support/">Support</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </nav>
+            </section>
+        </header>
+
+        <div class="wrapper-claim">
+            <h1 style="padding-top: 30px;">Custom Branding</h1>
+        </div>
+
+        <form id="branding" method="post" enctype="multipart/form-data" style="width: 500px; margin: auto;">
+            <h2 style="text-align: left; margin: 20px 0 10px 0;">Logo</h2>
+            <input type="file" name="new-logo" class="multiple-button" id="inputGroupFile01" style="width: 500px;"/>
+            <h2 style="margin: 30px 0 5px 0; text-align: left;">Title</h2>
+            <input type="text" value="${title}" name="title" class="upload-input" style="width: 500px;"/>
             <br/>
-            <p>Subtitle:</p>
-            <input type="text" value="${subtitle}" name="subtitle"/>
+            <h2 style="margin: 30px 0 5px 0; text-align: left;">Subtitle</h2>
+            <input type="text" value="${subtitle}" name="subtitle" class="upload-input" style="width: 500px;"/>
             <br/>
-            <input type="submit" value="submit"/>
+            <h2 style="margin: 30px 0 5px 0; text-align: left;">Password</h2>
+            <input type="password" name="password" class="upload-input" style="width: 500px;"/>
+            <br/>
+            <input type="submit" value="submit" style="float: right; cursor: pointer; background-color: #D32A3A; height: 44px; width: 140px; color: #fff; margin-top: 30px; font-weight: bold; border: 1px solid #848689;"/>
         </form>
+
+        <footer>
+            <div class="wrapper">
+
+                <ul class="external-links">
+                    <li><a href="https://www.matecat.com/open-source/" target="_blank">Open source</a></li>
+                    <li><a target="_blank" href="/api/docs">API</a></li>
+                    <li><a href="https://www.matecat.com/terms/" target="_blank">Terms</a></li>
+                    <li><a href="https://blog.matecat.com" target="_blank">Blog</a></li>
+                </ul>
+
+                <nav>
+                    <ul>
+                        <li><a class="link-manage-page" href="/manage/">Manage</a></li>
+                        <li><a href="https://www.matecat.com/support/" target="_blank">Support</a></li>
+                    </ul>
+
+                    <!--<div metal:use-macro="common.html/login_includes" />-->
+                </nav>
+
+            </div>
+        </footer>
     </body>
 
 </html>
