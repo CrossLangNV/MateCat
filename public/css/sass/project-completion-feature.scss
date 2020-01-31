@@ -1,5 +1,9 @@
+@import 'theme-colors';
+
+
+
 #markAsCompleteButton.isMarkableAsComplete {
-  background: #D32A3A;
+  background: $theme-color;
   color: #fff!important;
   width: auto!important;
   border-radius: 2px 0 0 2px;

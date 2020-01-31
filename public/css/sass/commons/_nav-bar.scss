@@ -1,3 +1,9 @@
+@import '../theme-colors';
+
+
+
+
+
 header {
     font-family: 'Calibri', 'Helvetica Neue', Arial, Helvetica, sans-serif;
     position: fixed;
@@ -35,7 +41,7 @@ header {
                     margin: 0px;
                     padding: 15px;
                     cursor: pointer;
-                    color: #D32A3A;
+                    color: $theme-color;
                     &:hover {
                         background-color: #f3f3f3;
                     }
@@ -44,7 +50,7 @@ header {
                         font-size: 24px;
                         margin-top: -3px;
                         margin-right: -3px;
-                        color: #D32A3A;
+                        color: $theme-color;
                     }
                 }
                 .item > a > i {
@@ -57,7 +63,7 @@ header {
                     right: 10px;
                     bottom: 20%;
                     background-color: transparent;
-                    color: #D32A3A;
+                    color: $theme-color;
                     font-size: 18px;
                     padding-left: 1px;
                     &:hover {
@@ -129,7 +135,7 @@ header {
             transition: 0.3s ease;
             cursor: pointer;
             &:hover {
-                border: 3px solid #D32A3A;
+                border: 3px solid $theme-color;
             }
         }
         .ui.user-nolog.label {
@@ -163,9 +169,9 @@ header {
             border: 1px dashed;
             top: 2px;
             &:hover {
-                border: 1px dashed #D32A3A !important;
+                border: 1px dashed $theme-color !important;
                 i {
-                    color: #D32A3A;
+                    color: $theme-color;
                 }
             }
         }
@@ -299,7 +305,7 @@ header {
         a {
             float: right;
             text-decoration: underline;
-            color: #D32A3A;
+            color: $theme-color;
             cursor: pointer;
             &:hover {
                 text-decoration: none;

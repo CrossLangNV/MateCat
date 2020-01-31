@@ -6,6 +6,8 @@
 @import "commons/buttons";
 @import "commons/nav-bar";
 @import "components/segment/tagsMenu";
+@import 'theme-colors';
+
 
 $color-red: #FB2A0D;
 $color-orange: #FBAA0D;
@@ -393,7 +395,7 @@ header {
                                                 }
                                                 .status-translated {
                                                     font-size: 20px;
-                                                    color: #D32A3A;
+                                                    color: $theme-color;
                                                 }
                                                 .status-approved {
                                                     font-size: 20px;
@@ -671,8 +673,8 @@ header {
             &.not-filtered {
                 .ui.basic.button {
                     &:hover {
-                        box-shadow: 0px 0px 0px 1px #D32A3A inset;
-                        color: #D32A3A !important;
+                        box-shadow: 0px 0px 0px 1px $theme-color inset;
+                        color: $theme-color !important;
                     }
                     &.disabled {
                         box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.25) inset !important;
@@ -716,7 +718,7 @@ header {
                     background: #E8E8E8;;
                 }
                 &.translated-color {
-                    background: #D32A3A;
+                    background: $theme-color;
                 }
                 &.approved-color {
                     background: #7cc576;
@@ -860,8 +862,8 @@ header {
             &.not-filtered {
                 .ui.basic.button {
                     &:hover {
-                        box-shadow: 0px 0px 0px 1px #D32A3A inset;
-                        color: #D32A3A !important;
+                        box-shadow: 0px 0px 0px 1px $theme-color inset;
+                        color: $theme-color !important;
                     }
                     &.disabled {
                         box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.25) inset !important;
@@ -905,7 +907,7 @@ header {
                     background: #E8E8E8;;
                 }
                 &.translated-color {
-                    background: #D32A3A;
+                    background: $theme-color;
                 }
                 &.approved-color {
                     background: #7cc576;
@@ -1028,7 +1030,7 @@ footer {
 }
 
 .per-blue {
-    background: #D32A3A !important;
+    background: $theme-color !important;
     color: #fff !important
 }
 

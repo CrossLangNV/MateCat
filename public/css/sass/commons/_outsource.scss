@@ -1,5 +1,11 @@
+@import '../theme-colors';
+
+
+
+
+
 .after-open-outsource {
-    border-left: 2px solid #D32A3A;
+    border-left: 2px solid $theme-color;
     padding-left: 13px !important;
 }
 .outsource-container {
@@ -205,10 +211,10 @@
                                 border: 1px solid #ccc;
                                 font-family: Calibri, Arial, Helvetica, sans-serif;
                                 &:focus {
-                                    border-color: #D32A3A;
+                                    border-color: $theme-color;
                                 }
                                 &:active {
-                                    border-color: #D32A3A;
+                                    border-color: $theme-color;
                                 }
                             }
                             &.send-job-box {
@@ -620,10 +626,10 @@
                                     font-family: Calibri, Arial, Helvetica, sans-serif;
                                     border-radius: 2px;
                                     &:focus {
-                                        border-color: #D32A3A;
+                                        border-color: $theme-color;
                                     }
                                     &:active {
-                                        border-color: #D32A3A;
+                                        border-color: $theme-color;
                                     }
                                 }
                                 &.input-time {
@@ -653,7 +659,7 @@
                                     padding: 9px 11px;
                                     vertical-align: top;
                                     font-size: 18px;
-                                    border: 1px solid #D32A3A;
+                                    border: 1px solid $theme-color;
                                     border-radius: 2px;
                                     box-shadow: none !important;
                                     background-color: #ffffff !important;
@@ -662,7 +668,7 @@
                                     &:hover {
                                         text-decoration: none;
                                         box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
-                                        border: 1px solid #D32A3A;
+                                        border: 1px solid $theme-color;
                                     }
                                     &:focus {
                                         box-shadow: none !important;
@@ -907,7 +913,7 @@
                                             position: relative;
                                             top: 1px;
                                             &.online-item {
-                                                background-color: #D32A3A;
+                                                background-color: $theme-color;
                                             }
                                             &.offline-item {
                                                 background-color: gray;

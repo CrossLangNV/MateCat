@@ -1,3 +1,9 @@
+@import 'theme-colors';
+
+
+
+
+
 /*popup*/
 .popup-outer{
     background:#000;
@@ -144,7 +150,7 @@ p.button-aligned-right {
 
 .btn-ok, .btn-cancel {
     color: #fff;
-    background: #D32A3A;
+    background: $theme-color;
     border: 1px solid #797979;
     font-weight: bold;
     text-decoration: none;
@@ -156,8 +162,8 @@ p.button-aligned-right {
 .btn-cancel {color:#333;background:#f6f6f6;
 
     background: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#e2e3e5));
-	background: -moz-linear-gradient(top,  #f6f6f6,  #e2e3e5);
-	background: linear-gradient(top,  #f6f6f6,  #e2e3e5);
+    background: -moz-linear-gradient(top,  #f6f6f6,  #e2e3e5);
+    background: linear-gradient(top,  #f6f6f6,  #e2e3e5);
 
 }
 
@@ -220,7 +226,7 @@ box-shadow: inset 0 0 1px 1px #888;
 
 .outsource.modal .out-email:focus,
 .outsource.modal .out-date:focus {
-    border-color: #D32A3A;
+    border-color: $theme-color;
     background: #FFFFFF;
     color: rgba(0, 0, 0, 0.8);
     border-radius: 2px;
@@ -228,14 +234,14 @@ box-shadow: inset 0 0 1px 1px #888;
 }
 
 .modal select:focus {
-    border-color: #D32A3A !important;
+    border-color: $theme-color !important;
     background: #FFFFFF;
     color: rgba(0, 0, 0, 0.8);
     outline: none;
 }
 
 .modal select:active {
-    border-color: #D32A3A;
+    border-color: $theme-color;
     background: #FFFFFF;
     color: rgba(0, 0, 0, 0.8);
     outline: none;
@@ -297,7 +303,7 @@ p.translator_name {
 }
 
 
-.addrevision h4, 
+.addrevision h4,
 .addrevision span {
     display: inline-block;
     margin: 0;
@@ -331,8 +337,8 @@ p.translator_name {
 
 .outsource.modal.loading .delivery
 {
-	background: url(../../img/loader.gif) #f6f6f6 center center no-repeat;
-	background-size: 20px;
+    background: url(../../img/loader.gif) #f6f6f6 center center no-repeat;
+    background-size: 20px;
 }
 
 .outsource.modal.loading .tprice
@@ -382,7 +388,7 @@ p.translator_name {
     padding: 20px 1% 5px 1%;
 }
 
-.outsource.modal.loading .delivery_details, 
+.outsource.modal.loading .delivery_details,
 .outsource.modal.loading .displayprice,
 .outsource.modal.loading .euro,
 .outsource.modal.loading .addrevision .revision_delivery,
@@ -460,7 +466,7 @@ body.showingOutsourceTo {
 }
 
 .tprice span.currency_per_word {
-	font-size: 15px!important;
+    font-size: 15px!important;
     font-weight: normal!important;
 }
 
@@ -685,7 +691,7 @@ span.revision_delivery {
 .translator_info a,
 .delivery a,
 .contact_box p a {
-    color:#D32A3A!important;
+    color:$theme-color!important;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -728,28 +734,28 @@ a.hide_translator {
 .outsourceto:not(.outsourced) .blink {
     -webkit-animation-name: blinker;
     -webkit-animation-duration: 0.4s;
-    -webkit-animation-timing-function: linear;  
+    -webkit-animation-timing-function: linear;
     -moz-animation-name: blinker;
     -moz-animation-duration: 0.4;
-    -moz-animation-timing-function: linear;   
+    -moz-animation-timing-function: linear;
     animation-name: blinker;
     animation-duration: 0.4;
     animation-timing-function: linear;
 }
 
-@-moz-keyframes blinker {  
+@-moz-keyframes blinker {
     0% {  background: transparent; }
     50% {  background: rgb(255, 255, 153);}
     100% {  background: transparent; }
 }
 
-@-webkit-keyframes blinker {  
+@-webkit-keyframes blinker {
     0% {  background: transparent; }
     50% {  background: rgb(255, 255, 153);}
     100% {  background: transparent; }
 }
 
-@keyframes blinker {  
+@keyframes blinker {
     0% {  background: transparent; }
     50% {  background: rgb(255, 255, 153);}
     100% {  background: transparent; }
@@ -765,9 +771,9 @@ a.hide_translator {
 }
 
 .pricebox .translator_info,
-.pricebox .tprice, 
+.pricebox .tprice,
 .pricebox .delivery,
-.pricebox .torder { 
+.pricebox .torder {
     float:left;
 }
 
@@ -868,7 +874,7 @@ a.hide_translator {
     margin-top: -10px;
 }
 
-.references, 
+.references,
 .paymentinfo {
     text-align: center;
     padding: 5px 0;
@@ -1004,7 +1010,7 @@ span.zone2 {
     padding: 5px 10px !important;
 }
 
-.uploadbtn.showprices  
+.uploadbtn.showprices
 {
     margin: 2% 2.5% 2% 2%!important;
     width: 160px;
@@ -1098,11 +1104,11 @@ background: #F6F6F6;
 
 
 table.chunks  th:last-child {
-width: 15%;	
+width: 15%;
 }
 
 table.chunks  tr:last-child {
-	background:#fff;
+    background:#fff;
 }
 
 
@@ -1138,7 +1144,7 @@ padding: 4px 0px 0px;
 
 /* scroll pop-up
 .outsourcemodal .popup-box {
-	overflow-y: auto;
+    overflow-y: auto;
 max-height: 525px;
 }
 */
@@ -1283,7 +1289,7 @@ a.tooltip.gray span:after {
     top: 120px;
     left: 435px;
     zoom: 0.9;
-    z-index: 99999999999999999999;    
+    z-index: 99999999999999999999;
     text-align: left;
     -moz-box-shadow: 0 0px 11px #888;
     -webkit-box-shadow: 0 0px 11px #888;
@@ -1494,7 +1500,7 @@ a.btn-cancel.in-popup.cancelForceDelivery:hover {
 
 .modal-outsource-datepicker td.datepickerSpecial a {
     border: 1px solid;
-    color: #D32A3A;
+    color: $theme-color;
     background-color: #F3F3F3!important;
 }
 
@@ -1568,12 +1574,12 @@ a.btn-cancel.in-popup.cancelForceDelivery:hover {
 
 
 .modal-outsource-datepicker .datepickerDays a:hover {
-    background-color: #D32A3A;
+    background-color: $theme-color;
     color:#fff;
 }
 
 .modal-outsource-datepicker td.datepickerSpecial a:hover {
-    background-color: #D32A3A!important;
+    background-color: $theme-color!important;
     color: #fff;
 }
 
@@ -1715,7 +1721,7 @@ a.btn-cancel.in-popup.cancelForceDelivery:hover {
     margin-top: -8px;
 }
 
-.quoteNotAvailable .tprice {   
+.quoteNotAvailable .tprice {
     min-height: 109px;
 }
 
@@ -1729,7 +1735,7 @@ a.btn-cancel.in-popup.cancelForceDelivery:hover {
 .modal.outsource .continuebtn,
 .modal.outsource .standardbtn,
 .modal.outsource .send-to-translator-btn.in-popup {
-    background: #D32A3A;
+    background: $theme-color;
     font-weight: bold;
     -webkit-transition: all 100ms ease-in;
     -moz-transition: all 100ms ease-in;
@@ -1762,7 +1768,7 @@ a.btn-cancel.in-popup.cancelForceDelivery:hover {
     -moz-box-shadow: 0 1px 2px #666;
     -webkit-box-shadow: 0 1px 2px #666;
     box-shadow: 0 1px 2px #666;
-    background: #D32A3A;
+    background: $theme-color;
 }
 .modal.outsource .continuebtn {
     clear: both;
@@ -1880,7 +1886,7 @@ div#open-translator {
     font-weight: bold;
     cursor: pointer;
     margin-right: 52px;
-    color: #D32A3A;
+    color: $theme-color;
 }
 
 div#open-translator:hover {

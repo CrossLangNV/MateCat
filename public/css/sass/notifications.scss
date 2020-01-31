@@ -1,4 +1,9 @@
 @import 'variables';
+@import 'theme-colors';
+
+
+
+
 /******* Notifications ************/
 
 
@@ -116,7 +121,7 @@
     text-align: right;
     a {
       text-decoration: underline;
-      color: #D32A3A;
+      color: $theme-color;
       font-weight: 700;
       &:hover {
         text-decoration: none;
@@ -173,7 +178,7 @@
         font-weight: bold;
         line-height: 28px;
         span {
-            color: #D32A3A;
+            color: $theme-color;
         }
     }
 }

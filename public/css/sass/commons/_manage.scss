@@ -1,3 +1,9 @@
+@import '../theme-colors';
+
+
+
+
+
 // rewrite semantic CSS
 
 body.manage {
@@ -218,12 +224,12 @@ body.manage {
                                 padding: 15px;
                                 cursor: pointer;
                                 a {
-                                    color: #D32A3A;
+                                    color: $theme-color;
                                 }
                                 i {
                                     float: right;
                                     font-size: 18px;
-                                    color: #D32A3A;
+                                    color: $theme-color;
                                 }
                                 &:hover {
                                     background-color: #f3f3f3;
@@ -269,10 +275,10 @@ body.manage {
                             transition: 0.3s ease;
                         }
                         &:hover {
-                            border: 1px solid #D32A3A;
-                            color: #D32A3A;
+                            border: 1px solid $theme-color;
+                            color: $theme-color;
                             .icon-user22 {
-                                color: #D32A3A;
+                                color: $theme-color;
                             }
                         }
                         .not-assigned {
@@ -288,12 +294,12 @@ body.manage {
                                 padding: 15px;
                                 cursor: pointer;
                                 a {
-                                    color: #D32A3A;
+                                    color: $theme-color;
                                 }
                                 i {
                                     float: right;
                                     font-size: 18px;
-                                    color: #D32A3A;
+                                    color: $theme-color;
                                 }
                                 &:hover {
                                     background-color: #f3f3f3;

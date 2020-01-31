@@ -1,3 +1,7 @@
+@import '../theme-colors';
+
+
+
 
 .progress-bar {
 	height: 20px;
@@ -46,7 +50,7 @@
 		    }
 		}
 		.translated-bar {
-			background-color: #D32A3A;
+			background-color: $theme-color;
 		}
 		.approved-bar {
 			background-color: #7cc576;
@@ -66,7 +70,7 @@
 		    border: 0px;
 		    height: 6px;
 		    margin-top: 0px;
-	   
+
 			.progr {
 				height: 23px;
 				width: 100%;
@@ -81,7 +85,7 @@
 					    border-radius: 0px;
 						&:after {
 						    top: -5px;
-						    height: 8px;	
+						    height: 8px;
 						}
 					}
 				}

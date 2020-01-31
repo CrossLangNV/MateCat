@@ -1,5 +1,8 @@
 // rewrite semantic CSS
 
+@import '../theme-colors';
+
+
 body.analyze{
     min-width: 1024px;
     font-family: Calibri, Arial, Helvetica, sans-serif;
@@ -337,7 +340,7 @@ body.analyze{
                                     font-size: 15px;
                                     float: right;
                                     top: 11px;
-                                    color: #D32A3A;
+                                    color: $theme-color;
                                     text-decoration: underline;
                                     font-weight: 700;
                                     margin-left: 5px;
@@ -417,7 +420,7 @@ body.analyze{
                         padding: 5px 11px;
                         vertical-align: top;
                         font-size: 19px;
-                        border: 1px solid #D32A3A;
+                        border: 1px solid $theme-color;
                         border-radius: 2px;
                         box-shadow: none !important;
                         background-color: #ffffff !important;
@@ -426,7 +429,7 @@ body.analyze{
                         &:hover {
                             text-decoration: none;
                             box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
-                            border: 1px solid #D32A3A;
+                            border: 1px solid $theme-color;
                         }
                         &:focus {
                             box-shadow: none !important;

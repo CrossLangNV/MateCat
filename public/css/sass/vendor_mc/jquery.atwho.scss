@@ -1,3 +1,8 @@
+@import '../theme-colors';
+
+
+
+
 .atwho-view {
     position:absolute;
     top: 0;
@@ -38,7 +43,7 @@
 }
 
 .atwho-view .cur {
-    /*background: #D32A3A;*/
+    /*background: $theme-color;*/
     background: #f2f2f2;
     /*color: white;*/
 }
@@ -46,7 +51,7 @@
     /*color: white;*/
 }
 .atwho-view strong {
-    color: #D32A3A;
+    color: $theme-color;
 }
 .atwho-view .cur strong {
     /*color: white;*/

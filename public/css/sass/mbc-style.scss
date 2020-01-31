@@ -6,6 +6,11 @@
  ******
  */
 
+
+
+ @import 'theme-colors';
+
+
  .mbc-comment-balloon-inner {
   background: #ffffff;
   box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.3);
@@ -200,8 +205,8 @@ a.mbc-new-message-link:hover {
   box-shadow: none;
 }
 .mbc-comment-textarea:focus {
-  border: 1px solid #D32A3A;
-  box-shadow: inset 0px 0px 2px 2px #D32A3A;
+  border: 1px solid $theme-color;
+  box-shadow: inset 0px 0px 2px 2px $theme-color;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -214,7 +219,7 @@ a.mbc-new-message-link:hover {
 }
 
 .tagging-item {
-    color: #D32A3A;
+    color: $theme-color;
 }
 
 .mbc-comment-textinput {
@@ -352,15 +357,15 @@ a:active.mbc-comment-default-btn {
  */
 a.mbc-comment-send-btn:link,
 a.mbc-comment-send-btn:visited {
-  background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
-  background: -moz-linear-gradient(top,  #D32A3A,  #D32A3A);
-  background: linear-gradient(top,  #D32A3A,  #D32A3A);
+  background: -webkit-gradient(linear, left top, left bottom, from($theme-color), to($theme-color));
+  background: -moz-linear-gradient(top,  $theme-color,  $theme-color);
+  background: linear-gradient(top,  $theme-color,  $theme-color);
   border: 1px solid #848689;
   color: #fff;
 }
 
 a.mbc-comment-send-btn:hover {
-  background: #D32A3A;
+  background: $theme-color;
   border: 1px solid #000;
   -webkit-box-shadow: 0 1px 2px #ccc;
   box-shadow: 0 1px 2px #ccc;
@@ -426,7 +431,7 @@ a.mbc-login-link:visited {
  */
 a.mbc-view-link:link,
 a.mbc-view-link:visited {
-  color: #D32A3A;
+  color: $theme-color;
   padding: 0 4px 6px 0;
 }
 
@@ -441,7 +446,7 @@ a.mbc-view-link:visited {
   font-size: 16px;
   color: #9A9A9A;
   line-height: 1.8;
-  margin-bottom: 6px;  
+  margin-bottom: 6px;
 }
 
 
@@ -560,7 +565,7 @@ section:not(.opened) .segment-side-buttons .txt {
  Invitation element unique properties
  */
 .mbc-comment-highlight-invite {
-  background: #D32A3A;
+  background: $theme-color;
   color: #fff;
   position: absolute;
 }
@@ -959,7 +964,7 @@ Close icon ballon - Right panel
 section:hover .mbc-comment-icon-button,
 .segment-side-buttons:hover .mbc-comment-icon-button,
 .mbc-comment-icon-button:hover
- { 
+ {
     visibility: visible;
 }
 

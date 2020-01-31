@@ -1,4 +1,9 @@
-﻿body {
+﻿@import 'theme-colors';
+
+
+
+
+body {
     padding-top: 30px;
     font-family: Calibri, Arial, Helvetica, sans-serif;
     text-align: center
@@ -140,7 +145,7 @@ section {
 /* Bruteforce Override style.css and legacy.min.css */
 
 .api a {
-    color: #D32A3A;
+    color: $theme-color;
 }
 
 .api .menu {
@@ -315,7 +320,7 @@ table {
 code {
     padding: 2px 4px;
     font-size: 90%;
-    color: #D32A3A;
+    color: $theme-color;
     background-color: #f4f4f4;
     white-space: nowrap;
     border-radius: 4px;
@@ -486,7 +491,7 @@ td[data-vote='Fail'] {
     /*box-shadow: inset 0px 1px 0px rgba(255,255,255,.3),
        inset 0px 0px 20px rgba(0,0,0,0.0),
        0px 1px 1px rgba(0, 0, 0, 0.65); */
-    /* background: #D32A3A; */
+    /* background: $theme-color; */
     display: inline-block;
 }
 
@@ -522,7 +527,7 @@ td[data-vote='Fail'] {
 .blueline {
     width: 100%;
     height: 1px;
-    background: #D32A3A;
+    background: $theme-color;
     float: left;
     box-shadow: 0px 1px 0px #ccc;
 }
@@ -613,7 +618,7 @@ blockquote {
 }
 
 /**
-	QUALITY REPORT
+    QUALITY REPORT
 **/
 .qa-job-title {
     margin-bottom: 0;

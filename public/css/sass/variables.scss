@@ -1,6 +1,9 @@
+@import 'theme-colors';
+
+
 
 $approved-color: #639d5e;
-$translated-color: #D32A3A;
+$translated-color: $theme-color;
 $rejected-color: #b02429;
 $disabled-color: #ebebeb;
 $disabled-border-color: #b3b3b3;

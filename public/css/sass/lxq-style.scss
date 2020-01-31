@@ -6,6 +6,10 @@
  ******
  */
 
+
+ @import 'theme-colors';
+
+
  .lxq-comment-balloon-outer {
   padding-right: 15px
 }
@@ -325,15 +329,15 @@ a:active.lxq-comment-default-btn {
  */
 a.lxq-comment-send-btn:link,
 a.lxq-comment-send-btn:visited {
-  background: -webkit-gradient(linear, left top, left bottom, from(#D32A3A), to(#D32A3A));
-  background: -webkit-linear-gradient(top,  #D32A3A,  #D32A3A);
-  background: linear-gradient(top,  #D32A3A,  #D32A3A);
+  background: -webkit-gradient(linear, left top, left bottom, from($theme-color), to($theme-color));
+  background: -webkit-linear-gradient(top,  $theme-color,  $theme-color);
+  background: linear-gradient(top,  $theme-color,  $theme-color);
   border: 1px solid #848689;
   color: #fff;
 }
 
 a.lxq-comment-send-btn:hover {
-  background: #D32A3A;
+  background: $theme-color;
   border: 1px solid #000;
   box-shadow: 0 1px 2px #ccc;
 }
@@ -398,7 +402,7 @@ a.lxq-login-link:visited {
  */
 a.lxq-view-link:link,
 a.lxq-view-link:visited {
-  color: #D32A3A;
+  color: $theme-color;
   padding: 0 4px 6px 0;
 }
 
@@ -413,7 +417,7 @@ a.lxq-view-link:visited {
   font-size: 16px;
   color: #9A9A9A;
   line-height: 1.8;
-  margin-bottom: 6px;  
+  margin-bottom: 6px;
 }
 
 
@@ -551,7 +555,7 @@ section:hover .lxq-comment-link {
  Invitation element unique properties
  */
 .lxq-comment-highlight-invite {
-  background: #D32A3A;
+  background: $theme-color;
   color: #fff;
   position: absolute;
 }
@@ -894,7 +898,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
     text-decoration: line-through;
 }
 .g0 {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 .d0 {
     border-bottom: 2px red dotted;
@@ -908,7 +912,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 .m, .l0, .p0, .c0, .u0, .s0 .g0 {
     padding: 0.1rem 0.2rem;
 }
-/*.m, .l1, .l2, .l3, .l4, .n1, .n2, .n3, .n4, .p1, .p2, .p2sub1, .p2sub2, .p3, .p3sub1, .p4, .p5, .p6, .p7, .p8, 
+/*.m, .l1, .l2, .l3, .l4, .n1, .n2, .n3, .n4, .p1, .p2, .p2sub1, .p2sub2, .p3, .p3sub1, .p4, .p5, .p6, .p7, .p8,
 .c1, .c2, .c3, .c2sub1, .c3sub1, .c4, .c5, .u1, .u2, .u3, .u4, .u5, .s1, .s2, .s3, .s3sub1, .s3sub1, .s4, .s5 {
     padding: 0.1rem 0.2rem;
 }*/
@@ -922,7 +926,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  .editarea .toolbar {
      position: relative;
  }
- 
+
  .lxq-error-seg {
     position: absolute;
     bottom: -0.2rem;
@@ -939,7 +943,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  .lxq-error-seg::after {
     content: attr(numberoferrors);
     vertical-align: middle;
-    color: #D32A3A;
+    color: $theme-color;
  }
 
  .lxq-error-seg.lxq-error-changed::after {
@@ -951,22 +955,22 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  Change style of lexiqa comment popup when there is NO error
  ******
  */
- 
+
 .lxq-triangle-top {
-    border-right: 14px solid #D32A3A;
+    border-right: 14px solid $theme-color;
  }
-  
+
  .lxq-history-balloon-outer {
-     background-color: #D32A3A;
+     background-color: $theme-color;
      width: auto;
      right: 208px;
      padding: 1rem 0 0;
      box-shadow: none;
  }
- 
+
 .lxq-history-balloon.lxq-history-balloon-has-no-comments {
     color: #fff;
-    background-color: #D32A3A;
+    background-color: $theme-color;
 }
 
 .lxq-history-balloon.lxq-history-balloon-has-no-comments .lxq-comment-label {
@@ -979,17 +983,17 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
  Change style of lexiqa comment popup when there are ERRORS
  ******
  */
- 
+
  .lxq-history-balloon .lxq-thread-wrap {
     padding: 0;
 }
 
 .lxq-history-balloon.lxq-history-balloon-has-comment {
-    border: 1px solid #D32A3A;
+    border: 1px solid $theme-color;
 }
 
 .lxq-history-balloon-header {
-    background-color: #D32A3A;
+    background-color: $theme-color;
     color: #fff;
     font-size: 1rem;
     font-weight: 100;
@@ -1004,7 +1008,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 
 .lxq-info-link {
     text-align: center;
-    color: #D32A3A;
+    color: $theme-color;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1032,7 +1036,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 }
 
 .lxq-highlight-toggle {
-    color: #D32A3A;
+    color: $theme-color;
     font-size: 0.8rem;
     text-transform: uppercase;
     display: -webkit-box;
@@ -1105,7 +1109,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
             align-items: center;
     margin-left: 0.3rem;
 }
- 
+
 .lxq-history-balloon-body {
     display: -webkit-box;
     display: -webkit-flex;
@@ -1120,7 +1124,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
             justify-content: space-between;
     white-space: nowrap;
 }
- 
+
  .lxq-history-balloon-row {
     display: -webkit-box;
     display: -webkit-flex;
@@ -1149,7 +1153,7 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
         -ms-flex-preferred-size: 0;
             flex-basis: 0;
     color: #fff;
-    background-color: #D32A3A;
+    background-color: $theme-color;
     border-right: 1px solid #fff;
     border-top: 1px solid #fff;
     padding: 1rem;
@@ -1193,22 +1197,22 @@ article.lxq-commenting-opened .lxq-comment-balloon-outer {
 }
 
 .lxq-history-balloon-segment:hover {
-    background-color: #D32A3A;
+    background-color: $theme-color;
 }
 
 .lxq-history-balloon-total, .lxq-history-balloon-ignored {
-    color: #D32A3A;
+    color: $theme-color;
     background-color: #fff;
-    border-bottom: 1px solid #D32A3A;
-}    
+    border-bottom: 1px solid $theme-color;
+}
 
 .lxq-history-balloon-row:last-of-type .lxq-history-balloon-total, .lxq-history-balloon-row:last-of-type .lxq-history-balloon-ignored {
     border-bottom: none;
 }
 
 .lxq-history-balloon-segment-link {
-	cursor: pointer;
-    padding: 0.5rem; 
+  cursor: pointer;
+    padding: 0.5rem;
     color: #fff;
     width: 100%;
 }
@@ -1284,11 +1288,11 @@ LEXIQA POPUP
           flex-grow: 1;
 -webkit-flex-basis: 0;
     -ms-flex-preferred-size: 0;
-        flex-basis: 0; 
+        flex-basis: 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
-          justify-content: center;     
+          justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
@@ -1296,7 +1300,7 @@ LEXIQA POPUP
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex;        
+  display: flex;
 }
 
 .lexiqa-popup-icon {

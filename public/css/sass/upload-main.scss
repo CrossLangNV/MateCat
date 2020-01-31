@@ -12,14 +12,14 @@
 @import 'popup';
 @import 'commons/tooltip';
 
+@import 'theme-colors';
+
 @import 'upload-page';
 .translate-box {
     h2 {
         margin-left: 11px;
     }
 }
-
-
 
 .translate-box.target,
 .translate-box.source,
@@ -84,7 +84,7 @@
     div#add-tmx-option ,
     div#add-multiple-lang {
         cursor: pointer;
-        color: #D32A3A;
+        color: $theme-color;
         font-size: 14px;
         margin: 0;
         padding: 15px;
@@ -93,7 +93,7 @@
             font-size: 24px;
             margin-top: -3px;
             margin-right: 1px;
-            color: #D32A3A;
+            color: $theme-color;
         }
     }
     div.item {
@@ -195,7 +195,7 @@
         text-align: left;
     }
     .tm-info-icon {
-        float: left;   
+        float: left;
     }
     .tm-info-title {
         line-height: 19px;
@@ -245,7 +245,7 @@
         div#add-tmx-option ,
         div#add-multiple-lang {
             cursor: pointer;
-            color: #D32A3A;
+            color: $theme-color;
             font-size: 14px;
             margin: 0;
             padding: 15px;
@@ -254,7 +254,7 @@
                 font-size: 24px;
                 margin-top: -3px;
                 margin-right: 1px;
-                color: #D32A3A;
+                color: $theme-color;
             }
         }
         div.item {

@@ -1,3 +1,8 @@
+@import '../../theme-colors';
+
+
+
+
 .bulk-approve-bar {
     position: relative;
     z-index: 2;
@@ -54,8 +59,8 @@
                 box-shadow: 0 0 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24) !important;
             }
             &.translated-all-bulked {
-                border: 1px solid #D32A3A;
-                color: #D32A3A;
+                border: 1px solid $theme-color;
+                color: $theme-color;
             }
             &.approved-all-bulked {
                 border: 1px solid #7cc576;

@@ -1,3 +1,7 @@
+@import '../../theme-colors';
+
+
+
 body section.muted {
     background: #f2f4f7;
     width: 99%;
@@ -168,7 +172,7 @@ section.muted .segment-side-buttons {
                     border-color: rgba(34, 36, 38, 0.35) !important;
                 }
                 &:focus {
-                    border-color: #D32A3A !important;
+                    border-color: $theme-color !important;
                     background: #FFFFFF !important;
                     color: rgba(0, 0, 0, 0.8) !important;
                     outline: none;
@@ -222,8 +226,8 @@ section.muted .segment-side-buttons {
                             &.not-filtered {
                                 .ui.basic.button {
                                     &:hover {
-                                        box-shadow: 0px 0px 0px 1px #D32A3A inset;
-                                        color: #D32A3A !important;
+                                        box-shadow: 0px 0px 0px 1px $theme-color inset;
+                                        color: $theme-color !important;
                                     }
                                     &.disabled {
                                         box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.25) inset !important;
@@ -267,7 +271,7 @@ section.muted .segment-side-buttons {
                                     background: #E8E8E8;;
                                 }
                                 &.translated-color, &.post-edited-color {
-                                    background: #D32A3A;
+                                    background: $theme-color;
                                 }
                                 &.approved-color {
                                     background: #7cc576;

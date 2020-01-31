@@ -41,19 +41,26 @@
             <h1 style="padding-top: 30px;">Custom Branding</h1>
         </div>
 
-        <form id="branding" method="post" enctype="multipart/form-data" style="width: 500px; margin: auto;">
-            <h2 style="text-align: left; margin: 20px 0 10px 0;">Logo</h2>
-            <input type="file" name="new-logo" class="multiple-button" id="inputGroupFile01" style="width: 500px;"/>
+        <p style="color: green; width: 500px; margin: auto;">${success}</p>
+        <p style="color: red; width: 500px; margin: auto;">${error}</p>
+
+        <form id="branding" method="post" enctype="multipart/form-data" style="padding-bottom: 150px; width: 500px; margin: auto;">
+            <h2 style="text-align: left; margin: 40px 0 20px 0;">Logo</h2>
+            <input type="file" name="new-logo" accept="image/*" class="multiple-button" id="inputGroupFile01" style="width: 500px;"/>
             <h2 style="margin: 30px 0 5px 0; text-align: left;">Title</h2>
             <input type="text" value="${title}" name="title" class="upload-input" style="width: 500px;"/>
             <br/>
             <h2 style="margin: 30px 0 5px 0; text-align: left;">Subtitle</h2>
             <input type="text" value="${subtitle}" name="subtitle" class="upload-input" style="width: 500px;"/>
             <br/>
+            <br/>
+            <h2 style="margin: 20px 0 5px 0; text-align: left;">Theme color</h2>
+            <input type="color" value="${color}" name="theme-color" class="upload-input" style="width: 500px;"/>
+            <br/>
             <h2 style="margin: 30px 0 5px 0; text-align: left;">Password</h2>
             <input type="password" name="password" class="upload-input" style="width: 500px;"/>
             <br/>
-            <input type="submit" value="submit" style="float: right; cursor: pointer; background-color: #D32A3A; height: 44px; width: 140px; color: #fff; margin-top: 30px; font-weight: bold; border: 1px solid #848689;"/>
+            <input type="submit" value="submit" style="float: right; cursor: pointer; background-color: ${color}; height: 44px; width: 140px; color: #fff; margin: 30px 0 50px 0; font-weight: bold; border: 1px solid #848689;"/>
         </form>
 
         <footer>

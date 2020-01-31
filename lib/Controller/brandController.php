@@ -40,7 +40,13 @@ class brandController extends viewController {
 
         $this->subjectArray = $this->subject_handler->getEnabledDomains();
 
-        if (isset($_POST["password"]) && $_POST["password"] == "admin") {
+        $this->template->success = "";
+        $error = "";
+
+        if (isset($_POST["password"]) && $_POST["password"] != "admin") {
+            $error = "Please provide the correct admin password.";
+        }
+        else if (isset($_POST["password"]) && $_POST["password"] == "admin") {
             $updatedBrandingSettings = json_encode($_POST);
             $settingsPath = realpath(__DIR__ . '/../../branding/settings.json');
             file_put_contents($settingsPath, $updatedBrandingSettings);
@@ -49,8 +55,27 @@ class brandController extends viewController {
                 $logoLocation = "/var/www/matecat/public/img/logo.png";
                 move_uploaded_file($_FILES['new-logo']['tmp_name'], $logoLocation);
             }
+            else if (isset($_FILES['new-logo']) && $_FILES['new-logo']['error'] != 0) {
+                $error = "Something went wrong. Please try again later, or contact your administrator.";
+            }
+
+            if (isset($_POST['theme-color'])) {
+
+                $fileContents = '$theme-color:' . $_POST['theme-color'] . ';';
+                file_put_contents('/var/www/matecat/public/css/sass/theme-colors.scss', $fileContents);
+
+                $old_path = getcwd();
+                chdir('/var/www/matecat/support_scripts/grunt');
+                $output = shell_exec('grunt development');
+                chdir($old_path);
+            }
+
+            if ($error === "") {
+                $this->template->success = "The branding has been adjusted successfully. If the result isn't visible immediatelly, please clear the browser cache.";
+            }
         }
 
+        $this->template->error = $error;
         $this->template->title = "MateCat";
         $this->template->subtitle = "";
         $settingsPath = realpath(__DIR__ . '/../../branding/settings.json');
@@ -58,6 +83,11 @@ class brandController extends viewController {
         $settings = json_decode($settingsContent, true);
         $this->template->title = $settings['title'];
         $this->template->subtitle = $settings['subtitle'];
+
+        $themeColorSettingsPath = realpath('/var/www/matecat/public/css/sass/theme-colors.scss');
+        $themeColorContent = file_get_contents($themeColorSettingsPath);
+        $color = substr($themeColorContent, 13, 7);
+        $this->template->color = $color;
     }
 
     public function doAction() {
