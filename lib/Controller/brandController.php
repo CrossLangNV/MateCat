@@ -29,7 +29,7 @@ class brandController extends viewController {
 
 
         $filterArgs = [
-                'project_name' => [ 'filter' => FILTER_SANITIZE_STRING ]
+            'project_name' => [ 'filter' => FILTER_SANITIZE_STRING ]
         ];
 
         $__postInput        = filter_input_array( INPUT_GET, $filterArgs );
@@ -43,10 +43,15 @@ class brandController extends viewController {
         $this->template->success = "";
         $error = "";
 
-        if (isset($_POST["password"]) && $_POST["password"] != "admin") {
+        $configPath = realpath(__DIR__ . '/../../branding/config.json');
+        $configContent = file_get_contents($configPath);
+        $config = json_decode($configContent, true);
+        $correctPassword = $config['password'];
+
+        if (isset($_POST["password"]) && $_POST["password"] != $correctPassword) {
             $error = "Please provide the correct admin password.";
         }
-        else if (isset($_POST["password"]) && $_POST["password"] == "admin") {
+        else if (isset($_POST["password"]) && $_POST["password"] == $correctPassword) {
             $updatedBrandingSettings = json_encode($_POST);
             $settingsPath = realpath(__DIR__ . '/../../branding/settings.json');
             file_put_contents($settingsPath, $updatedBrandingSettings);
@@ -55,7 +60,7 @@ class brandController extends viewController {
                 $logoLocation = "/var/www/matecat/public/img/logo.png";
                 move_uploaded_file($_FILES['new-logo']['tmp_name'], $logoLocation);
             }
-            else if (isset($_FILES['new-logo']) && $_FILES['new-logo']['error'] != 0) {
+            else if ((isset($_FILES['new-logo']) == 1) && $_FILES['new-logo']['error'] != 0 && $_FILES['new-logo']['error'] != 4) {
                 $error = "Something went wrong. Please try again later, or contact your administrator.";
             }
 

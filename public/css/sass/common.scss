@@ -72,22 +72,20 @@ ul
 {
     float: left;
     border: 0;
-    height: 31px;
-    margin-top: 5px;
     position: relative;
 
     img {
-        height: 30px;
-        margin-right: 15px;
+        max-height: 66px;
+        margin-left: 10px;
+        margin-right: 5px;
     }
-
 }
 
 .logo-matecat {
     position: relative;
     float: left;
     border: 0;
-    margin-top: 10px;
+    margin-top: 36px;
     background: url(../../img/logo-matecat.png) 0px 2px no-repeat;
     width: 132px;
     height: 31px;
@@ -4138,7 +4136,7 @@ body.side-popup {
     text-decoration: none;
     -webkit-font-smoothing: antialiased;
     line-height: 22px;
-    padding: 10px 15px;
+    padding: 25px 15px;
     font-weight: 200;
     font-size: 18px;
 }
