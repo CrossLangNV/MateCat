@@ -109,3 +109,9 @@ $klein->with('/api/v2/languages', function() {
     route( '', 'GET', '\API\V2\SupportedLanguagesController', 'index' );
 
 });
+
+$klein->with('/api/v2/languages/pairs', function() {
+
+    route( '', 'GET', '\API\V2\SupportedLanguagesController', 'pairs' );
+
+});

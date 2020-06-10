@@ -15,4 +15,12 @@ class SupportedLanguagesController extends KleinController {
         );
     }
 
+    public function pairs() {
+        $lang_handler = \Langs_Languages::getInstance();
+        $pairs = $lang_handler->getEnabledLanguagePairs() ;
+        $this->response->json(
+                $pairs
+        );
+    }
+
 }

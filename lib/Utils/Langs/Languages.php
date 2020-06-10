@@ -181,6 +181,34 @@ class Langs_Languages {
     }
 
     /**
+     * get list of enabled language pairs
+     *
+     * @param string $localizationLang
+     *
+     * @return array
+     */
+    public function getEnabledLanguagePairs( $localizationLang = 'en' ) {
+
+        $enabled_pairs_rfc = array(
+            array('nl-NL', 'fr-FR'), array('fr-FR', 'nl-NL'), 
+            array('en-GB', 'nl-NL'), array('en-GB', 'fr-FR')
+        );
+
+        foreach ( $enabled_pairs_rfc as $p_key => $pair ) {
+            foreach ( $pair as $rfc ) {
+                $lang = self::$map_rfc2obj[ $rfc ];
+                $enabled_pairs[ $p_key ][] = array(
+                    'code'      => $rfc,
+                    'name'      => $lang[ 'localized' ][ $localizationLang ],
+                    'direction' => ( $lang[ 'rtl' ] ) ? 'rtl' : 'ltr'
+                );
+            }
+        }
+
+        return $enabled_pairs;
+    }
+
+    /**
      * 
      * Get corresponding ISO 639-1 code given a localized name
      *
