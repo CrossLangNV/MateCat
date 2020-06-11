@@ -115,7 +115,24 @@
         <input name="project-name" tal:attributes="value project_name|nothing" type="text" class="upload-input" id="project-name" autofocus="autofocus"/>
     </div>
 
-    <div class="translate-box source">
+    <div class="translate-box pairs">
+        <h2>Language pair</h2>
+        <div class="ui fluid selection dropdown" id="lang-pair">
+            <i class="dropdown icon"></i>
+            <span class="text">Select language pair</span>
+            <div class="menu menu-dropdown">
+                <div class="scrolling menu">
+                    <tal:block tal:repeat="pair language_pairs">
+                        <div class="item" data-value="${php: pair[0]['code']}${php: pair[1]['code']}">
+                            ${php: pair[0]['name']} -> ${php: pair[1]['name']}
+                        </div>
+                    </tal:block>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="translate-box source" style="display: none;">
         <h2>From</h2>
         <div class="ui fluid selection dropdown" id="source-lang">
             <i class="dropdown icon"></i>
@@ -149,9 +166,7 @@
         </div>
     </div>
 
-    <a id="swaplang" title="Swap languages" href="#"><span>Swap languages</span></a>
-
-    <div class="translate-box target">
+    <div class="translate-box target" style="display: none;">
         <h2>To</h2>
         <div class="ui fluid selection dropdown" id="target-lang">
             <i class="dropdown icon"></i>

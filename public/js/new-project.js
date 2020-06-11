@@ -410,6 +410,10 @@ $.extend(UI.UPLOAD_PAGE, {
             fullTextSearch: 'exact',
         });
 
+        $('#lang-pair').dropdown({
+            selectOnKeydown: false
+        });
+
         $('#project-subject').dropdown({
             selectOnKeydown: false,
             fullTextSearch: 'exact'
@@ -548,6 +552,13 @@ $.extend(UI.UPLOAD_PAGE, {
                 UI.UPLOAD_PAGE.sourceLangChangedCallback();
                 APP.checkForLexiQALangs();
                 APP.checkForTagProjectionLangs();
+            }
+        });
+
+        $('#lang-pair').dropdown({
+            selectOnKeydown: false,
+            onChange: function () {
+                UI.UPLOAD_PAGE.languagePairChangedCallback();
             }
         });
 
@@ -693,7 +704,14 @@ $.extend(UI.UPLOAD_PAGE, {
             UI.delTMXLangFailure();
         }
         APP.changeTargetLang( $('#target-lang').dropdown('get value') );
-    }
+    },
+    languagePairChangedCallback: function () {
+        var pair = $('#lang-pair').dropdown('get value');
+        var source = pair.slice(0, 5);
+        var target = pair.slice(5);
+        $('#source-lang').dropdown('set selected', source);
+        $('#target-lang').dropdown('set selected', target);
+    },
 });
 APP.handleCreationStatus = function( id_project, password ){
 

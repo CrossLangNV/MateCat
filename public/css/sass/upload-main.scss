@@ -53,7 +53,8 @@
 
     #project-subject,
     #source-lang,
-    #target-lang {
+    #target-lang,
+    #lang-pair {
         width: 210px ;
     }
     #target-lang {
@@ -214,7 +215,8 @@
 
         #project-subject,
         #source-lang,
-        #target-lang {
+        #target-lang,
+        #lang-pair {
             width: 155px ;
             .ui.icon.search.input {
                 min-width: unset;

@@ -260,6 +260,7 @@ class newProjectController extends viewController {
     public function setTemplateVars() {
         $source_languages = $this->lang_handler->getEnabledLanguages( 'en' );
         $target_languages = $this->lang_handler->getEnabledLanguages( 'en' );
+        $language_pairs = $this->lang_handler->getEnabledLanguagePairs( 'en' );
 
         $this->template->languages_array = json_encode(  $this->lang_handler->getEnabledLanguages( 'en' ) ) ;
         $this->template->languages_array_obj = $this->lang_handler->getEnabledLanguages( 'en' ) ;
@@ -270,6 +271,7 @@ class newProjectController extends viewController {
         $this->template->page             = 'home';
         $this->template->source_languages = $source_languages;
         $this->template->target_languages = $target_languages;
+        $this->template->language_pairs   = $language_pairs;
         $this->template->subjects         = $this->subjectArray;
 
         $this->template->mt_engines         = $this->mt_engines;
