@@ -111,7 +111,7 @@ class Header extends React.Component {
                         <div className="ui grid">
                             <div className="six wide column">
                                 <a href="/" className="logo"><img src="/public/img/logo.png"/></a>
-                                <a href="https://www.matecat.com/" className="logo-matecat"/>
+                                {/* <a href="https://www.matecat.com/" className="logo-matecat"/> */}
                             </div>
 
                             {componentToShow}
@@ -131,12 +131,13 @@ class Header extends React.Component {
 
                                 { (this.props.showLinks ) ? (
                                         <ul id="menu-site">
-                                            <li><a href="https://www.matecat.com/benefits/">Benefits</a></li>
+                                            {/* <li><a href="https://www.matecat.com/benefits/">Benefits</a></li>
                                             <li><a href="https://www.matecat.com/outsourcing/">Outsource</a></li>
                                             <li><a href="https://www.matecat.com/support-plans/">Plans</a></li>
                                             <li><a href="https://www.matecat.com/about/">About</a></li>
                                             <li><a href="https://www.matecat.com/faq/">FAQ</a></li>
-                                            <li><a href="https://www.matecat.com/support/">Support</a></li>
+                                            <li><a href="https://www.matecat.com/support/">Support</a></li> */}
+                                            <li><a class="link-manage-page" href="/manage/">My Projects</a></li>
                                             {/*<li><a className="bigred" href="https://www.matecat.com/webinar" target="_blank">Webinar</a></li>*/}
                                         </ul>
 

@@ -211,10 +211,10 @@
 
 
     <div class="translate-box project-subject">
-        <h2>Select subject</h2>
+        <h2>Choose label</h2>
         <div class="ui fluid selection dropdown" id="project-subject">
             <i class="dropdown icon"></i>
-            <span class="text">Select Subject</span>
+            <span class="text">Choose label</span>
             <div class="menu menu-dropdown">
                 <div class="divider"></div>
                 <div class="ui icon search input">
@@ -246,7 +246,7 @@
         <div class="ui fluid multiple search selection dropdown" id="tmx-select">
             <i class="dropdown icon"></i>
             <span class="text">
-                <span class="item-key-name">Mouse PoC TM</span>
+                <span class="item-key-name">Mouse TM</span>
             </span>
             <div class="menu menu-dropdown">
                 <div class="divider"></div>
@@ -307,9 +307,9 @@
 
     <div metal:use-macro="upload_partials.html/gdrive_files"/>
 
-    <p tal:condition="true:conversion_enabled" class="supported-files">MateCat supports
+    <p tal:condition="true:conversion_enabled" class="supported-files">The following
         <a class="supported-file-formats" href="#">${formats_number} file formats</a>
-        <span style="float: right;">.</span>
+        <span style="float: right;">&nbsp;are supported.</span>
         <tal:block tal:condition="php: Bootstrap::areOauthKeysPresent() AND Bootstrap::isGDriveConfigured()">
             <span class="gdrive-addlink-container">
                 and
@@ -918,21 +918,17 @@
     <div class="wrapper">
 
         <ul class="external-links">
-            <li><a href="https://www.matecat.com/open-source/" target="_blank">Open source</a></li>
             <li><a tal:attributes="href string:${basepath}api/docs" target="_blank">API</a></li>
-            <li><a href="https://www.matecat.com/terms/" target="_blank">Terms</a></li>
-            <li><a href="https://blog.matecat.com" target="_blank">Blog</a></li>
         </ul>
 
         <nav>
             <ul>
-                <li><a class="link-manage-page" href="/manage/">Manage</a></li>
-                <li><a href="https://www.matecat.com/support/" target="_blank">Support</a></li>
+                <li>Powered by <a class="link" href="https://www.matecat.com/" target="_blank">MateCat</a> & <a class="link" href="http://www.crosslang.com/" target="_blank">CrossLang</a></li>
+                <li>Contact: info@crosslang.com</li>
             </ul>
 
             <!--<div metal:use-macro="common.html/login_includes" />-->
         </nav>
-
     </div>
 </footer>
 
