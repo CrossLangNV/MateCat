@@ -283,20 +283,17 @@ class engineController extends ajaxController {
                 $newEngineStruct->extra_parameters['providercategory'] = $this->engineData['providercategory'];
                 break;
 
-            case strtolower( Constants_Engines::JUDICIO ):
+            case strtolower( Constants_Engines::NBN ):
 
                 /**
-                 * Create a record of type Judicio
+                 * Create a record of type NBN
                  */
-                $newEngineStruct = EnginesModel_JudicioStruct::getStruct();
+                $newEngineStruct = EnginesModel_NBNStruct::getStruct();
 
                 $newEngineStruct->name                                = $this->name;
                 $newEngineStruct->uid                                 = $this->user->uid;
                 $newEngineStruct->type                                = Constants_Engines::MT;
-                $newEngineStruct->extra_parameters[ 'engine' ]        = $this->engineData[ 'engine' ];
-                $newEngineStruct->extra_parameters[ 'wso2app' ]       = $this->engineData[ 'wso2app' ];
                 $newEngineStruct->extra_parameters[ 'projectname' ]   = $this->engineData[ 'projectname' ];
-                $newEngineStruct->extra_parameters[ 'auth' ]          = $this->engineData[ 'auth' ];
 
                 break;
 
@@ -395,7 +392,7 @@ class engineController extends ajaxController {
 
                 return;
             }
-        } elseif ( $newEngineStruct instanceof EnginesModel_JudicioStruct ) {
+        } elseif ( $newEngineStruct instanceof EnginesModel_NBNStruct ) {
 
             $newTestCreatedMT    = Engine::getInstance( $newCreatedDbRowStruct->id );
             $config              = $newTestCreatedMT->getConfigStruct();

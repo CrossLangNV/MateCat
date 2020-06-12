@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Class Engine_JudicioStruct
+ * Class Engine_NBNStruct
  *
- * This class contains the default parameters for a Judicio Engine CREATION
+ * This class contains the default parameters for a NBN Engine CREATION
  *
  */
-class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
+class EnginesModel_NBNStruct extends EnginesModel_EngineStruct {
 
     /**
      * @var string
      */
-    public $description = "Judicio";
+    public $description = "NBN";
 
     /**
      * @var string
      */
-    public $base_url = "https://portal.staging.judic.io/translations";
+    public $base_url = "http://translations";
 
     /**
      * @var string
@@ -32,16 +32,15 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
      * @var array
      */
     public $extra_parameters = array(
-        'engine' => "",
-        'wso2app'=> "",
-        'projectname' => "",
-        'auth' => ""
+        'engine' => "nbn",
+        'wso2app'=> "nbn",
+        'projectname' => ""
     );
 
     /**
      * @var string
      */
-    public $class_load = Constants_Engines::JUDICIO;
+    public $class_load = Constants_Engines::NBN;
 
 
     /**
@@ -54,7 +53,7 @@ class EnginesModel_JudicioStruct extends EnginesModel_EngineStruct {
      * @return EnginesModel_EngineStruct
      */
     public static function getStruct() {
-        return new EnginesModel_JudicioStruct();
+        return new EnginesModel_NBNStruct();
     }
 
 }

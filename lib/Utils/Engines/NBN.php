@@ -2,9 +2,9 @@
 
 use RedisHandler;
 
-class Engines_Judicio extends Engines_AbstractEngine {
+class Engines_NBN extends Engines_AbstractEngine {
 
-    const Judicio_USER_AGENT = 'Judicio.MatecatPlugin/1.0.0';
+    const NBN_USER_AGENT = 'NBN.MatecatPlugin/1.0.0';
 
     protected $_config = array(
             'segment'       => null,
@@ -78,7 +78,7 @@ class Engines_Judicio extends Engines_AbstractEngine {
         $_config['source'] = $this->_fixLangCode($_config['source']);
         $_config['target'] = $this->_fixLangCode($_config['target']);
 
-        $_headers = array('wso2-app: ' . $this->wso2app, 'Authorization: Basic ' . base64_encode($this->auth), 'Content-Type: application/x-www-form-urlencoded');
+        $_headers = array('wso2-app: ' . $this->wso2app, 'Content-Type: application/x-www-form-urlencoded');
 
         $parameters = array(
             'lp'            => $_config['source'] . '-' . $_config['target'],
@@ -87,7 +87,7 @@ class Engines_Judicio extends Engines_AbstractEngine {
             'projectname'   => $this->projectname
         );
 
-        $this->_setJudicioUserAgent(); //Set Judicio User Agent
+        $this->_setNBNUserAgent(); //Set NBN User Agent
 
         $this->_setAdditionalCurlParams(
             array(
@@ -145,7 +145,7 @@ class Engines_Judicio extends Engines_AbstractEngine {
             $parameters[ 'key' ] = implode( ",", $_config[ 'keys' ] );
         }
 
-        $this->_setJudicioUserAgent(); //Set Judicio User Agent
+        $this->_setNBNUserAgent(); //Set NBN User Agent
 
         $this->_setAdditionalCurlParams(
             array(
@@ -185,9 +185,9 @@ class Engines_Judicio extends Engines_AbstractEngine {
     }
 
     /**
-     *  Set Matecat + Judicio user agent
+     *  Set Matecat + NBN user agent
      */
-    private function _setJudicioUserAgent() {
-        $this->curl_additional_params[CURLOPT_USERAGENT] = self::Judicio_USER_AGENT . ' ' . INIT::MATECAT_USER_AGENT . INIT::$BUILD_NUMBER;
+    private function _setNBNUserAgent() {
+        $this->curl_additional_params[CURLOPT_USERAGENT] = self::NBN_USER_AGENT . ' ' . INIT::MATECAT_USER_AGENT . INIT::$BUILD_NUMBER;
     }
 }
