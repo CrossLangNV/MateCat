@@ -463,7 +463,7 @@ $.extend(UI.UPLOAD_PAGE, {
     checkMailDropDownValueSelected: function () {
         var values = $('#tmx-select').dropdown('get value');
         if (values.length === 0) {
-            $('#tmx-select').dropdown('set text', 'Mouse TM');
+            $('#tmx-select').dropdown('set text', 'NBN TM');
         }
     },
 
@@ -477,7 +477,7 @@ $.extend(UI.UPLOAD_PAGE, {
     checkTmKeys: function (event, desc, key) {
         var activeTm = $('#activetm .mine');
         if (activeTm.length ===  0) {
-            $('#tmx-select').dropdown('set text', 'Mouse TM');
+            $('#tmx-select').dropdown('set text', 'NBN TM');
             $('#tmx-select').dropdown('remove selected', key);
         } else {
             var existingKey = $('#tmx-select').find('div.item[data-value='+ key +']');
@@ -514,7 +514,7 @@ $.extend(UI.UPLOAD_PAGE, {
 	    if ($('#tmx-select').find('div.item[data-value='+ key +']').length > 0) {
             $('#tmx-select').find('div.item[data-value='+ key +']').remove();
             if ( $('#tmx-select').dropdown('get value') == key) {
-                $('#tmx-select').dropdown('set text', 'Mouse TM');
+                $('#tmx-select').dropdown('set text', 'NBN TM');
             }
         }
     },
