@@ -112,7 +112,7 @@ class Header extends React.Component {
                             <div className="six wide column">
                                 <a href="/" className="logo"><img src="/public/img/logo.png"/></a>
                                 {/* <a href="https://www.matecat.com/" className="logo-matecat"/> */}
-                                <a href="http://www.crosslang.com" className="logo-cl"><img src="/public/img/logo-CL.png"/></a>
+                                <a href="http://www.crosslang.com" className="logo-cl"></a>
                             </div>
 
                             {componentToShow}
