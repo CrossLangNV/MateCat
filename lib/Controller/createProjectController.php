@@ -153,7 +153,7 @@ class createProjectController extends ajaxController {
 
         $this->__validateSourceLang( Langs_Languages::getInstance() );
         $this->__validateTargetLangs( Langs_Languages::getInstance() );
-        $this->__validateUserMTEngine();
+        // $this->__validateUserMTEngine();
         $this->__appendFeaturesToProject();
         $this->__generateTargetEngineAssociation();
         if ( $this->userIsLogged ) {
