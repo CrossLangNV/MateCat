@@ -233,7 +233,7 @@ APP.getCreateProjectParams = function() {
 		target_lang 				: $('#target-lang').dropdown('get value'),
 		job_subject         		: $('#project-subject').dropdown('get value'),
 		disable_tms_engine			: ( $('#disable_tms_engine').prop('checked') ) ? $('#disable_tms_engine').val() : false,
-		mt_engine					: $('.mgmt-mt .activemt').data("id"),
+		mt_engine					: 40,
 		private_keys_list			: UI.extractTMdataFromTable(),
 		lang_detect_files  			: UI.skipLangDetectArr,
 		pretranslate_100    		: ($("#pretranslate100" ).is(':checked')) ? 1 : 0,

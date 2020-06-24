@@ -265,11 +265,6 @@ class NewController extends ajaxController {
         if ( $this->postInput[ 'mt_engine'] != 0 && $this->postInput[ 'mt_engine'] != 1 ) {
             if( !$this->userIsLogged ){
                 throw new Exception( "Invalid MT Engine.", -2 );
-            } else {
-                $testEngine = Engine::getInstance( $this->postInput[ 'mt_engine'] );
-                if( $testEngine->getEngineRow()->uid != $this->getUser()->uid ){
-                    throw new Exception( "Invalid MT Engine.", -21 );
-                }
             }
         }
 
