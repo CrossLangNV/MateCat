@@ -23,7 +23,7 @@
             <div class="mgmt-panel mgmt-panel-tm">
                 <div class="mgmt-wrapper">
                     <ul class="nav nav-tabs hide" role="tablist">
-                        <li class="mgmt-tm active"><a href="#tm">Translation Memory and Glossary</a></li>
+                        <li class="mgmt-tm active"><a href="#tm">Translation Memory</a></li>
                         <li class="mgmt-mt" style="display: none;"><a href="#mt">Machine Translation</a></li>
                         <li class="mgmt-opt" style="display: none;"><a href="#options">Advanced Options</a></li>
                     </ul>
@@ -39,7 +39,7 @@
                             </div>
                             </tal:block>
 
-                            <div class="block pull-right ">
+                            <div class="block pull-right" style="display: none;">
                                 <a class="btn-ok clear add-tm">New resource</a>
                                 <h3 class="pull-left">Active Resources</h3>
                             </div>
@@ -52,8 +52,8 @@
                                     <tr>
                                         <th class="dragrow"></th>
                                        <!-- <th class="activate">Enabled</th>-->
-                                        <th class="check">Lookup</th>
-                                        <th class="check">Update</th>
+                                        <th class="check" style="display: none;">Lookup</th>
+                                        <th class="check" style="display: none;">Update</th>
                                         <th class="description"><!--Description--></th>
                                         <th class="privatekey">Private Key</th>
                                         <th class="owner"></th>
@@ -68,16 +68,16 @@
                                         <td class="dragrow">
                                             <div class="status"></div>
                                         </td>
-                                        <td class="activate text-center check"><div><input type="checkbox" disabled="true" checked="true"/></div></td>
+                                        <td class="activate text-center check"><div style="visibility: hidden"><input type="checkbox" disabled="true" checked="true"/></div></td>
 
                                         <tal:block tal:condition="php: page == 'cattool'">
-                                            <td class="lookup text-center check"><div><input type="checkbox" tal:attributes="disabled php: !jobOwnerIsMe; checked php: get_public_matches "/></div></td>
+                                            <td class="lookup text-center check"><div style="visibility: hidden"><input type="checkbox" tal:attributes="disabled php: !jobOwnerIsMe; checked php: get_public_matches "/></div></td>
                                         </tal:block>
                                         <tal:block tal:condition="php: page == 'home'">
-                                            <td class="lookup text-center check"><div><input type="checkbox" tal:attributes="checked php: get_public_matches " /></div></td>
+                                            <td class="lookup text-center check"><div style="visibility: hidden"><input type="checkbox" tal:attributes="checked php: get_public_matches " /></div></td>
                                         </tal:block>
 
-                                        <td class="update text-center check"><div><input type="checkbox" disabled="true" checked="true"/></div></td>
+                                        <td class="update text-center check"><div style="visibility: hidden"><input type="checkbox" disabled="true" checked="true"/></div></td>
                                         <td class="description">
                                             <div class="mymemory-descr" data-descr="NBN TM">NBN TM</div>
                                         </td>
@@ -178,7 +178,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="inactive-tm-container">
+                            <div class="inactive-tm-container" style="display: none;">
                                 <h3 class="pull-left" style="position: relative; margin-top: 5px;">Inactive Resources</h3>
 
                                 <tal:block tal:condition="php: empty(logged_user)">
