@@ -201,7 +201,7 @@ APP.checkForTagProjectionLangs = function(){
 		tpCheck.addClass('option-unavailable');
 		$('.options-box #tagp_check').prop( "disabled", disableTP );
 	}
-	$('.options-box #tagp_check').attr('checked', !disableTP);
+	// $('.options-box #tagp_check').attr('checked', !disableTP);
 };
 
 APP.getDQFParameters = function () {

@@ -2546,7 +2546,7 @@ UI = {
         if ($(".popup-tm").hasClass('open') ) {
             return false;
         }
-        var tab = 'opt';
+        var tab = 'tm';
         $('body').addClass('side-popup');
         $(".popup-tm").addClass('open').show().animate({ right: '0px' }, 400);
         $(".outer-tm").show();
