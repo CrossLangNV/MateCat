@@ -17,12 +17,7 @@ class SegmentFooter extends React.Component {
     constructor(props) {
         super(props);
         let tMLabel;
-        if ( config.mt_enabled ) {
-            tMLabel =  'Translation Matches';
-        }
-        else {
-            tMLabel = 'Translation Matches' + " (No MT) ";
-        }
+        tMLabel = 'Translation Matches + MT'
         this.tabs = {
             matches: {
                 label: tMLabel,
@@ -397,9 +392,9 @@ class SegmentFooter extends React.Component {
                     {labels}
                 </ul>
                 {containers}
-                <div className="addtmx-tr white-tx">
+                {/* <div className="addtmx-tr white-tx">
                     <a className="open-popup-addtm-tr">Add private resources</a>
-                </div>
+                </div> */}
             </div>
         )
     }
