@@ -154,6 +154,10 @@ class createProjectController extends ajaxController {
         $this->__validateSourceLang( Langs_Languages::getInstance() );
         $this->__validateTargetLangs( Langs_Languages::getInstance() );
         // $this->__validateUserMTEngine();
+        // require user to be logged in to use MT
+        if ( !$this->userIsLogged ) {
+            $this->mt_engine = 0;
+        }
         $this->__appendFeaturesToProject();
         $this->__generateTargetEngineAssociation();
         if ( $this->userIsLogged ) {
