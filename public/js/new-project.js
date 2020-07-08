@@ -711,6 +711,22 @@ $.extend(UI.UPLOAD_PAGE, {
         var target = pair.slice(5);
         $('#source-lang').dropdown('set selected', source);
         $('#target-lang').dropdown('set selected', target);
+        if($('.template-download').length) { //.template-download is present when jquery file upload is used and a file is found
+            if (UI.conversionsAreToRestart()) {
+                APP.confirm({msg: 'Source language has been changed.<br/>The files will be reimported.', callback: 'confirmRestartConversions'});
+            }
+            if( UI.checkTMXLangFailure() ){
+                UI.delTMXLangFailure();
+            }
+        }
+        else if ($('.template-gdrive').length) {
+            APP.confirm({
+                msg: 'Source language has been changed.<br/>The files will be reimported.',
+                callback: 'confirmGDriveRestartConversions'
+            });
+        } else {
+            return;
+        }
     },
 });
 APP.handleCreationStatus = function( id_project, password ){
