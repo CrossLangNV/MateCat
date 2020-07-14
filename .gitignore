@@ -62,3 +62,6 @@ inc/dqf/dqf_test_secret.ini
 package-lock.json
 
 mmt_fallback_key.ini
+
+# vs code
+.vscode/
