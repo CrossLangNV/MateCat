@@ -68,6 +68,8 @@ class INIT {
     public static $SMTP_PORT;
     public static $SMTP_SENDER;
     public static $SMTP_HOSTNAME;
+    public static $SMTP_USERNAME;
+    public static $SMTP_PASSWORD;
 
     public static $MAILER_FROM        = 'cattool@matecat.com';
     public static $MAILER_FROM_NAME   = 'MateCat';
