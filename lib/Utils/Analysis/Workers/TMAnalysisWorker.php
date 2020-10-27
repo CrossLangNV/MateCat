@@ -500,34 +500,34 @@ class TMAnalysisWorker extends AbstractWorker {
     protected function _getMT( \Engines_AbstractEngine $mtEngine, $_config, QueueElement $queueElement ) {
 
         // never get external MT during analysis phase
-        return null;
+        // return null;
 
-        // $mt_result = null;
+        $mt_result = null;
 
-        // try {
+        try {
 
-        //     $mtEngine->setFeatureSet( $this->featureSet );
+            $mtEngine->setFeatureSet( $this->featureSet );
 
-        //     //tell to the engine that this is the analysis phase ( some engines want to skip the analysis )
-        //     $mtEngine->setAnalysis();
+            //tell to the engine that this is the analysis phase ( some engines want to skip the analysis )
+            $mtEngine->setAnalysis();
 
-        //     $config = $mtEngine->getConfigStruct();
-        //     $config = array_merge( $config, $_config );
+            $config = $mtEngine->getConfigStruct();
+            $config = array_merge( $config, $_config );
 
-        //     //if a callback is not set only the first argument is returned, get the config params from the callback
-        //     $config = $this->featureSet->filter( 'analysisBeforeMTGetContribution', $config, $mtEngine, $queueElement );
+            //if a callback is not set only the first argument is returned, get the config params from the callback
+            $config = $this->featureSet->filter( 'analysisBeforeMTGetContribution', $config, $mtEngine, $queueElement );
 
-        //     $mt_result = $mtEngine->get( $config );
+            $mt_result = $mtEngine->get( $config );
 
-        //     if ( isset( $mt_result[ 'error' ][ 'code' ] ) ) {
-        //         $mt_result = false;
-        //     }
+            if ( isset( $mt_result[ 'error' ][ 'code' ] ) ) {
+                $mt_result = false;
+            }
 
-        // } catch ( \Exception $e ) {
-        //     $this->_doLog( $e->getMessage() );
-        // }
+        } catch ( \Exception $e ) {
+            $this->_doLog( $e->getMessage() );
+        }
 
-        // return $mt_result;
+        return $mt_result;
 
     }
 
