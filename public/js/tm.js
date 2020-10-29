@@ -1017,6 +1017,22 @@
                 urlReq = glossaryUrl;
                 data = {};
                 typeReq = 'GET';
+                var tr = $(TRcaller).parents('tr');
+                UI.showSuccessUpload(tr);
+
+                if( !tr.find('td.description .edit-desc').text() ){
+                    tr.find('td.description .edit-desc').text(fileName);
+                }
+
+                setTimeout(function() {
+                    $(TRcaller).slideToggle(function () {
+                        this.remove();
+                    });
+                }, 3000);
+
+                UI.UploadIframeId.remove();
+
+                return false;
             } else {
                 data = {
                     action: 'loadTMX',

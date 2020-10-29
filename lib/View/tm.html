@@ -85,17 +85,19 @@
                                         <td class="owner text-center">
                                             <a class="icon-owner icon-earth icon-owner-public"></a>
                                         </td>
-                                        <!-- <td class="action">
+                                        <td class="action">
                                             <a class="btn pull-left addtmx"><span class="text">Import TMX</span></a>
                                             <div  class="wrapper-dropdown-5 pull-left" tabindex="1">&nbsp;
                                                 <ul class="dropdown pull-left">
                                                     <li><a class="downloadtmx" title="Export TMX" alt="Export TMX"><span class="icon-download"></span>Export TMX</a></li>
+                                                    <li><a class="addGlossary" title="Import Glossary" alt="Import Glossary"><span class="icon-upload"></span>Import Glossary</a></li>
+                                                    <li><a class="downloadGlossary" title="Export Glossary" alt="Export Glossary"><span class="icon-download"></span>Export Glossary</a></li>
                                                 </ul>
                                             </div>
-                                        </td> -->
-                                        <td class="action">
-                                            <a class="btn pull-left downloadtmx">Export TMX</a>
                                         </td>
+                                        <!-- <td class="action">
+                                            <a class="btn pull-left downloadtmx">Export TMX</a>
+                                        </td> -->
                                     </tr>
                                     <tal:block tal:condition="php: page == 'cattool'" tal:repeat="key user_keys/job_keys">
                                         <tr tal:condition="php: key.edit || key.owner" tal:attributes="class php: key.owner ? ( jobOwnerIsMe ? 'mine' : 'ownergroup' ) : 'mine'" data-tm="${key/tm}" data-glos="${key/glos}" data-editable="${key/edit}" data-key="${key/key}" data-owner="${key/owner}">
