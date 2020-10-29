@@ -139,24 +139,27 @@ class glossaryController extends ajaxController {
 
     protected function _get( $config ){
 
-        $tm_keys = $this->jobData['tm_keys'];
+        // $tm_keys = $this->jobData['tm_keys'];
 
         if ( self::isRevision() ) {
             $this->userRole = TmKeyManagement_Filter::ROLE_REVISOR;
         }
 
         //get TM keys with read grants
-        $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'r', 'glos', $this->user->uid, $this->userRole );
+        // $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'r', 'glos', $this->user->uid, $this->userRole );
 
-        if ( count( $tm_keys ) ) {
-            $config[ 'id_user' ] = array();
-            /**
-             * @var $tm_key TmKeyManagement_TmKeyStruct
-             */
-            foreach ( $tm_keys as $tm_key ) {
-                $config[ 'id_user' ][ ] = $tm_key->key;
-            }
-        }
+        // if ( count( $tm_keys ) ) {
+        //     $config[ 'id_user' ] = array();
+        //     /**
+        //      * @var $tm_key TmKeyManagement_TmKeyStruct
+        //      */
+        //     foreach ( $tm_keys as $tm_key ) {
+        //         $config[ 'id_user' ][ ] = $tm_key->key;
+        //     }
+        // }
+
+        // use public TM
+        $config[ 'id_user' ] = '';
 
         $TMS_RESULT = $this->_TMS->get( $config )->get_glossary_matches_as_array();
 
@@ -203,7 +206,8 @@ class glossaryController extends ajaxController {
 
             $TMS_RESULT[$k][0]['last_updated_by'] = Utils::changeMemorySuggestionSource(
                     $glossaryMatch[0],
-                    $this->jobData['tm_keys'],
+                    //$this->jobData['tm_keys'],
+                    '',
                     $this->jobData['owner'],
                     $uid);
 
@@ -217,67 +221,67 @@ class glossaryController extends ajaxController {
 
         $this->result[ 'errors' ] = array();
 
-        $tm_keys = $this->jobData['tm_keys'];
+        // $tm_keys = $this->jobData['tm_keys'];
 
         if ( self::isRevision() ) {
             $this->userRole = TmKeyManagement_Filter::ROLE_REVISOR;
         }
 
         //get TM keys with read grants
-        $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
+        // $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
 
-        if ( empty( $tm_keys ) ) {
+        // if ( empty( $tm_keys ) ) {
 
-            $APIKeySrv = new TMSService();
-            $newUser   = (object)$APIKeySrv->createMyMemoryKey(); //throws exception
+        //     $APIKeySrv = new TMSService();
+        //     $newUser   = (object)$APIKeySrv->createMyMemoryKey(); //throws exception
 
-            //fallback
-            $config[ 'id_user' ] = $newUser->id;
+        //     //fallback
+        //     $config[ 'id_user' ] = $newUser->id;
             
-            $new_key        = TmKeyManagement_TmKeyManagement::getTmKeyStructure();
-            $new_key->tm    = 1;
-            $new_key->glos  = 1;
-            $new_key->key   = $newUser->key;
-            $new_key->owner = ( $this->user->email == $this->jobData['owner'] );
+        //     $new_key        = TmKeyManagement_TmKeyManagement::getTmKeyStructure();
+        //     $new_key->tm    = 1;
+        //     $new_key->glos  = 1;
+        //     $new_key->key   = $newUser->key;
+        //     $new_key->owner = ( $this->user->email == $this->jobData['owner'] );
 
-            if( !$new_key->owner ){
-                $new_key->{TmKeyManagement_Filter::$GRANTS_MAP[ $this->userRole ][ 'r' ]} = 1;
-                $new_key->{TmKeyManagement_Filter::$GRANTS_MAP[ $this->userRole ][ 'w' ]} = 1;
-            } else {
-                $new_key->r     = 1;
-                $new_key->w     = 1;
-            }
+        //     if( !$new_key->owner ){
+        //         $new_key->{TmKeyManagement_Filter::$GRANTS_MAP[ $this->userRole ][ 'r' ]} = 1;
+        //         $new_key->{TmKeyManagement_Filter::$GRANTS_MAP[ $this->userRole ][ 'w' ]} = 1;
+        //     } else {
+        //         $new_key->r     = 1;
+        //         $new_key->w     = 1;
+        //     }
 
-            if( $new_key->owner ){
-                //do nothing, this is a greedy if
-            } elseif ( $this->userRole == TmKeyManagement_Filter::ROLE_TRANSLATOR ) {
-                $new_key->uid_transl = $this->user->uid;
-            } elseif ( $this->userRole == TmKeyManagement_Filter::ROLE_REVISOR ) {
-                $new_key->uid_rev = $this->user->uid;
-            }
+        //     if( $new_key->owner ){
+        //         //do nothing, this is a greedy if
+        //     } elseif ( $this->userRole == TmKeyManagement_Filter::ROLE_TRANSLATOR ) {
+        //         $new_key->uid_transl = $this->user->uid;
+        //     } elseif ( $this->userRole == TmKeyManagement_Filter::ROLE_REVISOR ) {
+        //         $new_key->uid_rev = $this->user->uid;
+        //     }
 
-            //create an empty array
-            $tm_keys   = array();
-            //append new key
-            $tm_keys[] = $new_key;
+        //     //create an empty array
+        //     $tm_keys   = array();
+        //     //append new key
+        //     $tm_keys[] = $new_key;
 
-            //put the key in the job
-            TmKeyManagement_TmKeyManagement::setJobTmKeys( $this->id_job, $this->password, $tm_keys );
+        //     //put the key in the job
+        //     TmKeyManagement_TmKeyManagement::setJobTmKeys( $this->id_job, $this->password, $tm_keys );
 
-            //put the key in the user keiring
-            if( $this->userIsLogged  ){
+        //     //put the key in the user keiring
+        //     if( $this->userIsLogged  ){
 
-                $newMemoryKey         = new TmKeyManagement_MemoryKeyStruct();
-                $newMemoryKey->tm_key = $new_key;
-                $newMemoryKey->uid    = $this->user->uid;
+        //         $newMemoryKey         = new TmKeyManagement_MemoryKeyStruct();
+        //         $newMemoryKey->tm_key = $new_key;
+        //         $newMemoryKey->uid    = $this->user->uid;
 
-                $mkDao = new TmKeyManagement_MemoryKeyDao( Database::obtain() );
+        //         $mkDao = new TmKeyManagement_MemoryKeyDao( Database::obtain() );
 
-                $mkDao->create( $newMemoryKey );
+        //         $mkDao->create( $newMemoryKey );
 
-            }
+        //     }
 
-        }
+        // }
 
         $config[ 'segment' ]     = htmlspecialchars( $config[ 'segment' ], ENT_XML1 | ENT_QUOTES, 'UTF-8', false ); //no XML sanitization is needed because those requests are plain text from UI
         $config[ 'translation' ] = htmlspecialchars( $config[ 'translation' ], ENT_XML1 | ENT_QUOTES, 'UTF-8', false  ); //no XML sanitization is needed because those requests are plain text from UI
@@ -289,18 +293,23 @@ class glossaryController extends ajaxController {
         //prepare the error report
         $set_code = array();
         //set the glossary entry for each key with write grants
-        if ( count( $tm_keys ) ) {
+        // if ( count( $tm_keys ) ) {
 
-            /**
-             * @var $tm_keys TmKeyManagement_TmKeyStruct[]
-             */
-            foreach ( $tm_keys as $tm_key ) {
-                $config[ 'id_user' ] = $tm_key->key;
-                $TMS_RESULT = $this->_TMS->set( $config );
-                $set_code[ ] = $TMS_RESULT;
-            }
+        //     /**
+        //      * @var $tm_keys TmKeyManagement_TmKeyStruct[]
+        //      */
+        //     foreach ( $tm_keys as $tm_key ) {
+        //         $config[ 'id_user' ] = $tm_key->key;
+        //         $TMS_RESULT = $this->_TMS->set( $config );
+        //         $set_code[ ] = $TMS_RESULT;
+        //     }
 
-        }
+        // }
+
+        // set glossary entry for public key
+        $config[ 'id_user' ] = '';
+        $TMS_RESULT = $this->_TMS->set( $config );
+        $set_code[ ] = $TMS_RESULT;
 
         $set_successful = true;
         if( array_search( false, $set_code, true ) ){
@@ -325,9 +334,12 @@ class glossaryController extends ajaxController {
                     )
             );
 
-            if( isset($new_key) ){
-                $this->result[ 'data' ][ 'created_tm_key' ] = true;
-            }
+            // if( isset($new_key) ){
+            //     $this->result[ 'data' ][ 'created_tm_key' ] = true;
+            // }
+            
+            // no private key created
+            $this->result[ 'data' ][ 'created_tm_key' ] = false;
 
         } else {
             $this->result[ 'errors' ][ ] = array( "code" => -1, "message" => "We got an error, please try again." );
@@ -337,14 +349,14 @@ class glossaryController extends ajaxController {
 
     protected function _update( $config ){
 
-        $tm_keys = $this->jobData['tm_keys'];
+        // $tm_keys = $this->jobData['tm_keys'];
 
         if ( self::isRevision() ) {
             $this->userRole = TmKeyManagement_Filter::ROLE_REVISOR;
         }
 
         //get TM keys with read grants
-        $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
+        // $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
 
         $config[ 'segment' ]     = htmlspecialchars( $config[ 'segment' ], ENT_XML1 | ENT_QUOTES, 'UTF-8', false ); //no XML sanitization is needed because those requests are plain text from UI
         $config[ 'translation' ] = htmlspecialchars( $config[ 'translation' ], ENT_XML1 | ENT_QUOTES, 'UTF-8', false  ); //no XML sanitization is needed because those requests are plain text from UI
@@ -361,18 +373,23 @@ class glossaryController extends ajaxController {
         //prepare the error report
         $set_code = array();
         //set the glossary entry for each key with write grants
-        if ( count( $tm_keys ) ) {
+        // if ( count( $tm_keys ) ) {
 
-            /**
-             * @var $tm_key TmKeyManagement_TmKeyStruct
-             */
-            foreach ( $tm_keys as $tm_key ) {
-                $config[ 'id_user' ] = $tm_key->key;
-                $TMS_RESULT = $this->_TMS->updateGlossary( $config );
-                $set_code[ ] = $TMS_RESULT;
-            }
+        //     /**
+        //      * @var $tm_key TmKeyManagement_TmKeyStruct
+        //      */
+        //     foreach ( $tm_keys as $tm_key ) {
+        //         $config[ 'id_user' ] = $tm_key->key;
+        //         $TMS_RESULT = $this->_TMS->updateGlossary( $config );
+        //         $set_code[ ] = $TMS_RESULT;
+        //     }
 
-        }
+        // }
+
+        // set the glossary entry for public key
+        $config[ 'id_user' ] = '';
+        $TMS_RESULT = $this->_TMS->updateGlossary( $config );
+        $set_code[ ] = $TMS_RESULT;
 
         $set_successful = true;
         if( array_search( false, $set_code, true ) ){
@@ -380,10 +397,10 @@ class glossaryController extends ajaxController {
         }
 
         //reset key list
-        $config[ 'id_user' ] = array();
-        foreach ( $tm_keys as $tm_key ) {
-            $config[ 'id_user' ][ ] = $tm_key->key;
-        }
+        // $config[ 'id_user' ] = array();
+        // foreach ( $tm_keys as $tm_key ) {
+        //     $config[ 'id_user' ][ ] = $tm_key->key;
+        // }
 
         if ( $set_successful ) {
             $TMS_GET_RESULT = $this->_TMS->get( $config )->get_glossary_matches_as_array();
@@ -394,14 +411,14 @@ class glossaryController extends ajaxController {
 
     protected function _delete( $config ){
 
-        $tm_keys = $this->jobData['tm_keys'];
+        // $tm_keys = $this->jobData['tm_keys'];
 
         if ( self::isRevision() ) {
             $this->userRole = TmKeyManagement_Filter::ROLE_REVISOR;
         }
 
         //get TM keys with read grants
-        $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
+        // $tm_keys = TmKeyManagement_TmKeyManagement::getJobTmKeys( $tm_keys, 'w', 'glos', $this->user->uid, $this->userRole );
 
         $Filter = \SubFiltering\Filter::getInstance( $this->featureSet );
         $config[ 'segment' ]     = $Filter->fromLayer2ToLayer0( $config[ 'segment' ] );
@@ -410,19 +427,24 @@ class glossaryController extends ajaxController {
         //prepare the error report
         $set_code = array();
         //set the glossary entry for each key with write grants
-        if ( count( $tm_keys ) ) {
+        // if ( count( $tm_keys ) ) {
 
-            /**
-             * @var $tm_key TmKeyManagement_TmKeyStruct
-             */
-            foreach ( $tm_keys as $tm_key ) {
-                $config[ 'id_user' ] = $tm_key->key;
-                $config['id_match'] = $this->id_match;
-                $TMS_RESULT = $this->_TMS->delete( $config );
-                $set_code[ ] = $TMS_RESULT;
-            }
+        //     /**
+        //      * @var $tm_key TmKeyManagement_TmKeyStruct
+        //      */
+        //     foreach ( $tm_keys as $tm_key ) {
+        //         $config[ 'id_user' ] = $tm_key->key;
+        //         $config['id_match'] = $this->id_match;
+        //         $TMS_RESULT = $this->_TMS->delete( $config );
+        //         $set_code[ ] = $TMS_RESULT;
+        //     }
 
-        }
+        // }
+
+        $config[ 'id_user' ] = '';
+        $config['id_match'] = $this->id_match;
+        $TMS_RESULT = $this->_TMS->delete( $config );
+        $set_code[ ] = $TMS_RESULT;
 
         $set_successful = true;
         if( array_search( false, $set_code, true ) ){

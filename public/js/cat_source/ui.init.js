@@ -153,7 +153,7 @@ $.extend(UI, {
             SegmentActions.registerTab('matches', true, true);
         }
 
-        //SegmentActions.registerTab('glossary', true, false);
+        SegmentActions.registerTab('glossary', true, false);
         SegmentActions.registerTab('alternatives', false, false);
         // SegmentActions.registerTab('messages', false, false);
         if ( ReviewSimple.enabled() ) {

@@ -16,7 +16,7 @@ class EnginesModel_NBNStruct extends EnginesModel_EngineStruct {
     /**
      * @var string
      */
-    public $base_url = "http://translations";
+    public $base_url = "https://mtapi.mice.crosslang.com";
 
     /**
      * @var string
