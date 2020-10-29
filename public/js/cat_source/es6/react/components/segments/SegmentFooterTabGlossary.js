@@ -251,7 +251,9 @@ class SegmentFooterTabGlossary extends React.Component {
                 if ( (match.segment === '') || (match.translation === '') )
                     return;
                 let cb = match.created_by;
-                let disabled = (match.id == '0') ? true : false;
+                // let disabled = (match.id == '0') ? true : false;
+                // don't disable for any match
+                let disabled = false;
                 let sourceNoteEmpty = (_.isUndefined(match.source_note) || match.source_note === '');
                 let targetNoteEmpty = (_.isUndefined(match.target_note) || match.target_note === '');
 
