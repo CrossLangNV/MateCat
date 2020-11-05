@@ -1366,7 +1366,7 @@
             //create the html form and append a token for download
             var iFrameForm = $( document.createElement( 'form' ) ).attr( {
                 'id': formID,
-                'action': '/api/v2/glossaries/export/'+ tm_key + '/' + downloadToken,
+                'action': '/api/v2/glossaries/export/1/' + downloadToken,
                 'method': 'GET'
             } );
 
