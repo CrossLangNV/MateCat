@@ -31,6 +31,20 @@ class Translations_SegmentTranslationDao extends DataAccess_AbstractDao {
         ] )[ 0 ];
     }
 
+    public static function findBySegment( $id_segment, $ttl = 0 ) {
+        $conn = Database::obtain()->getConnection();
+
+        $sql = "SELECT * FROM segment_translations WHERE " .
+            " id_segment = :id_segment" ;
+
+        $stmt = $conn->prepare( $sql );
+
+        $thisDao = new self();
+        return $thisDao->setCacheTTL( $ttl )->_fetchObject( $stmt, new Translations_SegmentTranslationStruct(), [
+                'id_segment' => $id_segment
+        ] )[ 0 ];
+    }
+
     /**
      * @param $chunk
      *

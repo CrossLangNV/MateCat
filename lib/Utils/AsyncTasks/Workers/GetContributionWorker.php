@@ -27,6 +27,8 @@ use INIT;
 use PostProcess;
 use Stomp;
 use Utils;
+use Translations_SegmentTranslationDao;
+use Engines_Results_MyMemory_Matches;
 
 class GetContributionWorker extends AbstractWorker {
 
@@ -471,7 +473,21 @@ class GetContributionWorker extends AbstractWorker {
                 $config[ 'email' ]   = INIT::$MYMEMORY_API_KEY;
                 $config[ 'segid' ]   = $contributionStruct->segmentId;
 
-                $mt_result = $mt_engine->get( $config );
+                $segTranslationStruct = Translations_SegmentTranslationDao::findBySegment($config[ 'segid' ]);
+                if ( $segTranslationStruct->match_type == 'MT') {
+                    $existing_mt_translation = $segTranslationStruct->translation;
+                    $mt_match_res = new Engines_Results_MyMemory_Matches(
+                        $config[ 'segment' ],
+                        $existing_mt_translation,
+                        "86%",
+                        "MT",
+                        date("Y-m-d")
+                    );
+                    $mt_result = $mt_match_res->getMatches();
+                }
+                else {
+                    $mt_result = $mt_engine->get( $config );
+                }
             }
         }
 
