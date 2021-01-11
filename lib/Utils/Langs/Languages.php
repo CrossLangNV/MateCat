@@ -190,8 +190,7 @@ class Langs_Languages {
     public function getEnabledLanguagePairs( $localizationLang = 'en' ) {
 
         $enabled_pairs_rfc = array(
-            array('nl-NL', 'fr-FR'), array('fr-FR', 'nl-NL'), 
-            array('en-GB', 'nl-NL'), array('en-GB', 'fr-FR')
+            array('nl-NL', 'fr-FR'), array('fr-FR', 'nl-NL')
         );
 
         foreach ( $enabled_pairs_rfc as $p_key => $pair ) {
