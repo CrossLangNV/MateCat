@@ -1940,9 +1940,7 @@
                     return;
                 }
             } else if (type == 'glossary') {
-                label = '<p class="pull-left">Select glossary in XLSX format ' +
-                        '   <a href="http://www.matecat.com/support/managing-language-resources/add-glossary/" target="_blank">(How-to)</a>' +
-                        '</p>';
+                label = '<p class="pull-left">Select glossary in XLSX format</p>';
                 format = '.xlsx,.xls';
             }
             $(elem).closest("tr").find('.action a').addClass('disabled');
