@@ -69,9 +69,9 @@ class INIT {
     public static $SMTP_USERNAME;
     public static $SMTP_PASSWORD;
 
-    public static $MAILER_FROM = 'info@matecat.crosslang.com' ;
+    public static $MAILER_FROM = 'support@crosslang.com' ;
     public static $MAILER_FROM_NAME = 'MateCat';
-    public static $MAILER_RETURN_PATH = 'info@matecat.crosslang.com';
+    public static $MAILER_RETURN_PATH = 'support@crosslang.com';
 
     public static $LOG_REPOSITORY;
     public static $STORAGE_DIR;
