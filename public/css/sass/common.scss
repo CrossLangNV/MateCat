@@ -6,7 +6,7 @@ Description:      Common CSS rules.
  */
 
 
-@import 'theme-colors';
+ @import 'theme-colors';
 
 
  html, body {
@@ -2813,10 +2813,10 @@ td.action .btn {
   cursor: pointer;
   height: 22px;
   color: #333!important;
-  width: 84px!important;
+  width: 120px!important;
   background: #dcdedf!important;
   border-radius: 2px 0 0 2px;
-    padding: 5px 20px 0 20px !important;
+    padding: 5px 5px 0 5px !important;
     box-sizing: content-box;
     text-align: center;
 }
@@ -2824,7 +2824,7 @@ td.action .btn {
 td.action .btn:hover {  -moz-box-shadow: 0 1px 2px #ccc;
   -webkit-box-shadow: 0 1px 2px #ccc;
   box-shadow: 0 1px 2px #ccc;box-sizing: content-box;
-    padding: 5px 20px 0 20px !important;
+    padding: 5px 5px 0 5px !important;
     text-align: center;
 }
 
