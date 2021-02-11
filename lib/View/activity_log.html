@@ -44,25 +44,25 @@
         <table id="activity-log" class="activitylog tablesorter" width="100%" border="0" cellspacing="0" cellpadding="0">
             <thead>
             <tr>
-                <th><div class="th-inner"><span>User IP</span></div></th>
+                <!-- <th><div class="th-inner"><span>User IP</span></div></th> -->
                 <th><div class="th-inner"><span>Event Date</span></div></th>
                 <th><div class="th-inner"><span>Project ID</span></div></th>
                 <th><div class="th-inner"><span>Job ID</span></div></th>
                 <th><div class="th-inner"><span>Language Pair</span></div></th>
                 <th><div class="th-inner"><span>User Name</span></div></th>
-                <th><div class="th-inner"><span>User Email</span></div></th>
+                <!-- <th><div class="th-inner"><span>User Email</span></div></th> -->
                 <th><div class="th-inner"><span>Action</span></div></th>
             </tr>
             </thead>
             <tbody>
             <tr tal:define="activity php:array()" tal:repeat="activity jobActivity">
-                <td tal:content="activity/ip | default">Unknown</td>
+                <!-- <td tal:content="activity/ip | default">Unknown</td> -->
                 <td tal:content="activity/event_date | default">Unkwnown</td>
                 <td tal:content="activity/id_project | default">-</td>
                 <td tal:content="activity/id_job | default">-</td>
                 <td tal:content="activity/lang_pairs | default">-</td>
                 <td tal:content="activity/name | default">Unknown</td>
-                <td tal:content="activity/email | default">Unkwnown</td>
+                <!-- <td tal:content="activity/email | default">Unkwnown</td> -->
                 <td tal:content="activity/action | default">Unkwnown</td>
             </tr>
             </tbody>
