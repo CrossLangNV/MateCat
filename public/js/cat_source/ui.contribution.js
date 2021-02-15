@@ -274,7 +274,7 @@ $.extend(UI, {
             $('.sub-editor.matches .engine-errors', segment).html('<ul class="engine-error-item graysmall"><li class="engine-error">' +
                 '<div class="warning-img"></div><span class="engine-error-message warning">' +
                 'Oops we got an Error. Please, contact <a' +
-                ' href="mailto:support@matecat.com">support@matecat.com</a>.</span></li></ul>');
+                ' href="mailto:support@crosslang.com">support@crosslang.com</a>.</span></li></ul>');
         }
         SegmentActions.setSegmentContributions(UI.getSegmentId(segment), UI.getSegmentFileId(segment), [], [{}]);
 
@@ -316,7 +316,7 @@ $.extend(UI, {
                 imgClass = 'warning-img';
                 messageTypeText = 'Warning: ';
                 this.message = 'Oops we got an Error. Please, contact <a' +
-                ' href="mailto:support@matecat.com">support@matecat.com</a>.'
+                ' href="mailto:support@crosslang.com">support@crosslang.com</a>.'
             }
             else {
                 return;
