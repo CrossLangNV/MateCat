@@ -57,7 +57,7 @@ if ( ProjectCompletion.enabled() ) {
             if ( data.errors.length > 0 ) {
                 APP.alert({
                     msg: 'An error occurred while marking this job as complete. Please contact support at ' +
-                    '<a href="support@matecat.com">support@matecat.com</a>.'
+                    '<a href="support@crosslang.com">support@crosslang.com</a>.'
                 });
                 console.log( data.errors );
                 revertButtonState();

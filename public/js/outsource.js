@@ -110,7 +110,7 @@ $.extend(UI, {
         APP.ModalWindow.onCloseModal();
         var notification = {
             title: 'Problems sending the job',
-            text: 'Please try later or contact <a href="mailto:support@matecat.com">support@matecat.com</a>',
+            text: 'Please try later or contact <a href="mailto:support@crosslang.com">support@crosslang.com</a>',
             type: 'error',
             position: 'bl',
             allowHtml: true,
