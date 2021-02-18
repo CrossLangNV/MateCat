@@ -311,7 +311,7 @@ class SplitJobModal extends React.Component {
                     </div>
                     {this.state.showError ? (
                             <div className="error-message">
-                                <p>{this.errorMsg? (this.errorMsg) : ('Error, please try again or contact support@matecat.com')}</p>
+                                <p>{this.errorMsg? (this.errorMsg) : ('Error, please try again or contact support@crosslang.com')}</p>
                             </div>
                     ) :('')}
 

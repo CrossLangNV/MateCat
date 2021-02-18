@@ -159,7 +159,7 @@ class SegmentFooterMultiMatches extends React.Component {
         } else if (this.state.matches && this.state.matches.length === 0 ){
             if((config.mt_enabled)&&(!config.id_translator)) {
                 matches.push( <ul key={0} className="graysmall message">
-                    <li>There are no matches for this segment in the languages you have selected. Please, contact <a href="mailto:support@matecat.com">support@matecat.com</a> if you think this is an error.</li>
+                    <li>There are no matches for this segment in the languages you have selected. Please, contact <a href="mailto:support@crosslang.com">support@crosslang.com</a> if you think this is an error.</li>
                 </ul>);
             } else {
                 matches.push( <ul key={0} className="graysmall message">
