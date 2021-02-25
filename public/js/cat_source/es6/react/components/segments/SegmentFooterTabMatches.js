@@ -37,8 +37,11 @@ class SegmentFooterTabMatches extends React.Component {
             if ( _.isUndefined(this.segment) || (this.segment === '') || (this.translation === '') ) return true;
             var item = {};
             item.id = this.id;
-            item.disabled = (this.id == '0') ? true : false;
+            item.disabled = true;
             item.cb = this.created_by;
+            if (this.match != 'MT') {
+                item.disabled = false;
+            }
             item.segment = this.segment;
             if ("sentence_confidence" in this &&
                 (
@@ -116,22 +119,25 @@ class SegmentFooterTabMatches extends React.Component {
     }
 
     deleteSuggestion(match, index) {
-        var source, target;
-        var matches = this.state.matches;
-        source = htmlDecode( match.segment );
-        var ul = $('.suggestion-item[data-id="'+ match.id +'"]');
-        if( config.brPlaceholdEnabled ){
-            target = UI.postProcessEditarea( ul, '.translation' );
-        } else {
-            target = $('.translation', ul).text();
-        }
-        target = view2rawxliff(target);
-        source = view2rawxliff(source);
-        matches.splice(index, 1);
-        UI.setDeleteSuggestion(source, target, match.id);
-        this.setState({
-            matches: matches
-        });
+        var result = confirm("Do you really want to delete this suggestion from the Translation Memory?");
+        if (result) {
+            var source, target;
+            var matches = this.state.matches;
+            source = htmlDecode( match.segment );
+            var ul = $('.suggestion-item[data-id="'+ match.id +'"]');
+            if( config.brPlaceholdEnabled ){
+                target = UI.postProcessEditarea( ul, '.translation' );
+            } else {
+                target = $('.translation', ul).text();
+            }
+            target = view2rawxliff(target);
+            source = view2rawxliff(source);
+            matches.splice(index, 1);
+            UI.setDeleteSuggestion(source, target, match.id);
+            this.setState({
+                matches: matches
+            });
+        } 
     }
 
     getMatchInfo(match) {
