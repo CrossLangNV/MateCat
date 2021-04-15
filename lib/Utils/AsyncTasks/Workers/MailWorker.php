@@ -43,6 +43,7 @@ class MailWorker extends AbstractWorker {
         $mail->Sender   = $queueElement->params[ 'sender' ];
         $mail->Hostname = $queueElement->params[ 'hostname' ];
         $mail->SMTPAuth = false;
+        $mail->SMTPAutoTLS = false;
         $mail->Username = $queueElement->params[ 'Username' ];
         $mail->Password = $queueElement->params[ 'Password' ];
         //$mail->SMTPSecure = 'tls';
