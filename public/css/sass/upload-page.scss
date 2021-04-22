@@ -2717,6 +2717,13 @@ div.continue-gdrive {
     display: block;
 }
 
+#upload-files-list[disabled] {
+    display: block;
+    pointer-events: none;
+    opacity: 0.5;
+    background: #CCC;
+}
+
 #gdrive-files-list {
     display: none;
 }
