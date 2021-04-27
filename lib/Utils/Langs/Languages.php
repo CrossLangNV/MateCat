@@ -191,7 +191,7 @@ class Langs_Languages {
 
         $enabled_pairs_rfc = array(
             array('nl-NL', 'fr-FR'), array('fr-FR', 'nl-NL'), array('nl-NL', 'en-GB'),
-            array('en-GB', 'nl-NL'), array('en-GB', 'fr-FR')
+            array('en-GB', 'nl-NL'), array('en-GB', 'fr-FR'), array('fr-FR', 'en-GB')
         );
 
         foreach ( $enabled_pairs_rfc as $p_key => $pair ) {
