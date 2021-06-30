@@ -83,6 +83,7 @@ class Engines_NBN extends Engines_AbstractEngine {
         $parameters = array(
             'lp'            => $_config['source'] . '-' . $_config['target'],
             'text'          => $_config['segment'],
+            'fileType'      => 'html',
             'engine'        => $this->engine,
             'projectname'   => $this->projectname
         );

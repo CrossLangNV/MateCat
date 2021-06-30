@@ -474,7 +474,8 @@ class GetContributionWorker extends AbstractWorker {
                 $config[ 'segid' ]   = $contributionStruct->segmentId;
 
                 $segTranslationStruct = Translations_SegmentTranslationDao::findBySegment($config[ 'segid' ]);
-                if ( $segTranslationStruct->match_type == 'MT') {
+                $existing_mt_translation = $segTranslationStruct->translation;
+                if ( $segTranslationStruct->match_type == 'MT' && !empty( $existing_mt_translation ) ) {
                     $existing_mt_translation = $segTranslationStruct->translation;
                     $mt_match_res = new Engines_Results_MyMemory_Matches(
                         $config[ 'segment' ],
